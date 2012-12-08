@@ -6,7 +6,7 @@
 
 Inform users of your package about updates in a non-intrusive way. Mainly targets global CLI apps.
 
-Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. It shouldn't have any impact on your package startup performance.
+Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shouldn't have any impact on your package startup performance.
 
 
 ## Example usage
