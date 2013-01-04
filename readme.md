@@ -101,7 +101,7 @@ How often it should check for updates.
 #### updateCheckTimeout
 
 Type: `number`
-Default: `10000` (10 secs)
+Default: `20000` (20 secs)
 
 How long the update can take. If it takes longer than the timeout, it will be aborted.
 
