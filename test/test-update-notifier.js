@@ -17,7 +17,7 @@ describe('updateNotifier', function() {
 	});
 
 	it('should check for update', function(cb) {
-		updateNotifier(settings).checkNpm(function(update) {
+		updateNotifier(settings).checkNpm(function(error, update) {
 			assert.equal(update.current, '0.9.3');
 			cb();
 		});

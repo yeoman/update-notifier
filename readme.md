@@ -6,7 +6,8 @@
 
 Inform users of your package about updates in a non-intrusive way. Mainly targets global CLI apps.
 
-Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shouldn't have any impact on your package startup performance.
+Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shoulddn't have any impact on your package startup performance.
+The check process is done with [fork](http://nodejs.org/api/child_process.html#child_process_child_fork). This means that if you call `process.exit`, the check will still be performed in its own process.
 
 
 ## Example usage
@@ -97,6 +98,14 @@ Default: `1000 * 60 * 60 * 24` (1 day)
 
 How often it should check for updates.
 
+
+#### updateCheckTimeout
+
+Type: `number`  
+Default: `20000` (20 secs)
+
+How long the update can take.  
+If it takes longer than the timeout, it will be aborted.
 
 #### registryVersion
 
