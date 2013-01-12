@@ -6,8 +6,21 @@
 
 Inform users of your package about updates in a non-intrusive way. Mainly targets global CLI apps.
 
-Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shoulddn't have any impact on your package startup performance.
+Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM in the background if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shouldn't have any impact on your package startup performance.
 The check process is done with [fork](http://nodejs.org/api/child_process.html#child_process_child_fork). This means that if you call `process.exit`, the check will still be performed in its own process.
+
+
+## About
+
+The idea of this module came from wanting to apply the browser update strategy of everyone always being on the latest version to CLI tools. We first tried automatic updating, which we discovered wasn't that popular. This is the second iteration of that idea, but limited to only notify about updates.
+
+There are a few projects using it:
+
+- [Yeoman](http://yeoman.io) - modern workflows for modern webapps
+
+- [Automaton](https://github.com/IndigoUnited/automaton) - task automation tool
+
+- Spoon.js CLI
 
 
 ## Example usage
@@ -31,8 +44,7 @@ console.log(notifier.update);
 	current: '0.9.3',
 	type: 'patch', // possible values: latest, major, minor, patch
 	date: '2012-11-05T14:32:37.603Z',
-	name: 'yeoman',
-	error: null // contains any encountered error
+	name: 'yeoman'
 }
 */
 ```
