@@ -4,15 +4,15 @@
 
 ![screenshot](https://raw.github.com/yeoman/update-notifier/master/screenshot.png)
 
-Inform users of your package about updates in a non-intrusive way. Mainly targets global CLI apps.
+Inform your package users of updates in a non-intrusive way. Mainly targets global CLI apps.
 
-Whenever you initiate the update notifier and it's not inside the interval threshold it will asynchronously check with NPM in the background if there's an available update and then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. Because of this it shouldn't have any impact on your package startup performance.
+Whenever you initiate the update notifier and it's not within the interval threshold, it will asynchronously check with NPM in the background for available updates, then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. This prevents any impact on your package startup performance.
 The check process is done with [fork](http://nodejs.org/api/child_process.html#child_process_child_fork). This means that if you call `process.exit`, the check will still be performed in its own process.
 
 
 ## About
 
-The idea of this module came from wanting to apply the browser update strategy of everyone always being on the latest version to CLI tools. We first tried automatic updating, which we discovered wasn't that popular. This is the second iteration of that idea, but limited to only notify about updates.
+The idea for this module came from the desire to apply the browser update strategy to CLI tools, where everyone is always on the latest version. We first tried automatic updating, which we discovered wasn't popular. This is the second iteration of that idea, but limited to just update notifications.
 
 There are a few projects using it:
 
@@ -20,7 +20,7 @@ There are a few projects using it:
 
 - [Automaton](https://github.com/IndigoUnited/automaton) - task automation tool
 
-- Spoon.js CLI
+- [Spoon.js CLI](https://npmjs.org/package/spoonjs)
 
 
 ## Example usage
@@ -67,11 +67,11 @@ if (notifier.update) {
 
 ### updateNotifier([settings])
 
-Checks if there are is an available update. Accepts some settings defined below. Returns an object with some update info if there is an available update, otherwise `undefined`.
+Checks if there is an available update. Accepts settings defined below. Returns an object with update info if there is an available update, otherwise `undefined`.
 
 ### updateNotifier.notify([message || defer])
 
-A convenience method that will inform the user about an available update, see screenshot. By default it will display the message right away. However if you supply a custom message or `true` it will be displayed right before the process exits.
+A convenience method that will inform the user about an available update (see screenshot). By default it will display the message right away. However, if you supply a custom message or `true` it will be displayed right before the process exits.
 
 
 ### Settings
@@ -132,7 +132,7 @@ Alternative registry mirrors:
 
 ### User settings
 
-Users of your module has the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].yml`. The path is available in `notifier.config.path`.
+Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].yml`. The path is available in `notifier.config.path`.
 
 You could also let the user opt-out on a per run basis:
 
