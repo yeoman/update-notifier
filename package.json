@@ -21,7 +21,7 @@
     "url": "git://github.com/yeoman/update-notifier.git"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --timeout 20000 test/test-*.js"
+    "test": "mocha --timeout 20000"
   },
   "dependencies": {
     "colors": "~0.6.0-1",
