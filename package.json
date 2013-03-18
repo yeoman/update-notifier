@@ -1,6 +1,6 @@
 {
   "name": "update-notifier",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Update notifier for your package",
   "keywords": [
     "npm",
