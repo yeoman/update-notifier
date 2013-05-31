@@ -22,6 +22,8 @@ There are a few projects using it:
 
 - [Spoon.js CLI](https://npmjs.org/package/spoonjs)
 
+- [Node GH](http://nodegh.io) - GitHub command line tool
+
 
 ## Example usage
 
