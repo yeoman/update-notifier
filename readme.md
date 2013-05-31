@@ -18,6 +18,8 @@ There are a few projects using it:
 
 - [Yeoman](http://yeoman.io) - modern workflows for modern webapps
 
+- [Bower](http://bower.io) - a package manager for the web
+
 - [Automaton](https://github.com/IndigoUnited/automaton) - task automation tool
 
 - [Spoon.js CLI](https://npmjs.org/package/spoonjs)
