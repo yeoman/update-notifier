@@ -121,7 +121,7 @@ Default: `20000` (20 secs)
 How long the update can take.  
 If it takes longer than the timeout, it will be aborted.
 
-#### registryVersion
+#### registryUrl
 
 Type: `string`  
 Default: `'http://registry.npmjs.org/%s'`
