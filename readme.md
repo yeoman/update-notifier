@@ -81,6 +81,17 @@ A convenience method that will inform the user about an available update (see sc
 ### Settings
 
 
+#### callback
+
+Type: `function`  
+Default: `null`
+
+If provided, a callback function will be called,
+passed `(error[, update])`
+
+`update` is equal to `notifier.update`
+
+
 #### packagePath
 
 Type: `string`  
