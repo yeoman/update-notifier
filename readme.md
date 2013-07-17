@@ -26,6 +26,7 @@ There are a few projects using it:
 
 - [Node GH](http://nodegh.io) - GitHub command line tool
 
+- [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
 ## Example usage
 
@@ -83,7 +84,7 @@ A convenience method that will inform the user about an available update (see sc
 
 #### callback
 
-Type: `function`  
+Type: `function`
 Default: `null`
 
 If provided, a callback function will be called,
@@ -94,7 +95,7 @@ passed `(error[, update])`
 
 #### packagePath
 
-Type: `string`  
+Type: `string`
 Default: `'package.json'`
 
 Relative path to your module `package.json`.
@@ -102,25 +103,25 @@ Relative path to your module `package.json`.
 
 #### packageName
 
-Type: `string`  
+Type: `string`
 Default: Inferred from `packageFile`
 
-Used instead of inferring it from `packageFile`.  
+Used instead of inferring it from `packageFile`.
 Requires you to also specify `packageVersion`.
 
 
 #### packageVersion
 
-Type: `string`  
+Type: `string`
 Default: Inferred from `packageFile`
 
-Used instead of inferring it from `packageFile`.  
+Used instead of inferring it from `packageFile`.
 Requires you to also specify `packageName`.
 
 
 #### updateCheckInterval
 
-Type: `number`  
+Type: `number`
 Default: `1000 * 60 * 60 * 24` (1 day)
 
 How often it should check for updates.
@@ -128,15 +129,15 @@ How often it should check for updates.
 
 #### updateCheckTimeout
 
-Type: `number`  
+Type: `number`
 Default: `20000` (20 secs)
 
-How long the update can take.  
+How long the update can take.
 If it takes longer than the timeout, it will be aborted.
 
 #### registryUrl
 
-Type: `string`  
+Type: `string`
 Default: `'http://registry.npmjs.org/%s'`
 
 Alternative registry mirrors:
