@@ -26,6 +26,7 @@ There are a few projects using it:
 
 - [Node GH](http://nodegh.io) - GitHub command line tool
 
+- [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
 ## Example usage
 
