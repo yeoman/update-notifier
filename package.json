@@ -24,10 +24,10 @@
     "test": "mocha --timeout 20000"
   },
   "dependencies": {
-    "request": "~2.22.0",
+    "request": "~2.27.0",
     "configstore": "~0.1.0",
-    "semver": "~2.0.0",
-    "chalk": "~0.1.0"
+    "semver": "~2.1.0",
+    "chalk": "~0.2.0"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
