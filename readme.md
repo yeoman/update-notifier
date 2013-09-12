@@ -145,6 +145,12 @@ Alternative registry mirrors:
 - `http://85.10.209.91/%s`
 - `http://165.225.128.50:8000/%s`
 
+#### proxy
+
+Type: `string`  
+Default: Env proxy value if any.
+
+Define a proxy if you are behind a corporate or any other type of proxy server.
 
 ### User settings
 
