@@ -14,7 +14,11 @@ describe('updateNotifier', function() {
 		};
 	};
 
-	var configstorePath = updateNotifier(generateSettings()).config.path;
+	var configstorePath;
+
+	beforeEach(function() {
+		configstorePath = updateNotifier(generateSettings()).config.path;
+	});
 
 	afterEach(function() {
 		fs.unlinkSync(configstorePath);
