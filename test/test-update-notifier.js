@@ -21,7 +21,9 @@ describe('updateNotifier', function() {
 	});
 
 	afterEach(function() {
-		fs.unlinkSync(configstorePath);
+		setTimeout(function () {
+			fs.unlinkSync(configstorePath);
+		}, 10000);
 	});
 
 	it('should check for update', function(cb) {
