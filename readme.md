@@ -20,6 +20,8 @@ There are a few projects using it:
 
 - [Bower](http://bower.io) - a package manager for the web
 
+- [Roots](http://roots.cx) - a toolkit for advanced front-end development
+
 - [Automaton](https://github.com/IndigoUnited/automaton) - task automation tool
 
 - [Spoon.js CLI](https://npmjs.org/package/spoonjs)
