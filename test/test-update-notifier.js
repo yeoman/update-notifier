@@ -8,8 +8,8 @@ describe('updateNotifier', function() {
 	var generateSettings = function (options) {
 		options = options || {};
 		return {
-			packageName: options.packageName || 'generator-backbone',
-			packageVersion: options.packageVersion || '0.1.0',
+			packageName: options.packageName || 'update-notifier-tester',
+			packageVersion: options.packageVersion || '0.0.2',
 			callback: options.callback || null
 		};
 	};
@@ -28,7 +28,7 @@ describe('updateNotifier', function() {
 
 	it('should check for update', function(cb) {
 		updateNotifier(generateSettings()).checkNpm(function(error, update) {
-			assert.equal(update.current, '0.1.0');
+			assert.equal(update.current, '0.0.2');
 			cb();
 		});
 	});
@@ -38,4 +38,5 @@ describe('updateNotifier', function() {
 			callback: cb
 		}));
 	});
+
 });
