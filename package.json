@@ -6,10 +6,10 @@
     "npm",
     "update",
     "notify",
-    "check"
+    "notifier",
+    "check",
+    "checker"
   ],
-  "homepage": "https://github.com/yeoman/update-notifier",
-  "bugs": "https://github.com/yeoman/update-notifier/issues",
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
@@ -27,13 +27,13 @@
     "request": "~2.27.0",
     "configstore": "~0.1.0",
     "semver": "~2.1.0",
-    "chalk": "~0.2.1"
+    "chalk": "~0.4.0"
   },
   "devDependencies": {
-    "mocha": "~1.13.0"
+    "mocha": "*"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   },
   "licenses": [
     {
