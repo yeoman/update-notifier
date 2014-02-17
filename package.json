@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "request": "~2.27.0",
-    "configstore": "~0.1.0",
+    "configstore": "~0.2.2",
     "semver": "~2.1.0",
     "chalk": "~0.4.0"
   },
