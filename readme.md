@@ -30,6 +30,8 @@ There are a few projects using it:
 
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
+- [pullr](https://github.com/mojotech/pullr) - GitHub pull requests from the command line
+
 ## Example usage
 
 ```js
