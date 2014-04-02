@@ -9,6 +9,11 @@ Inform your package users of updates in a non-intrusive way. Mainly targets glob
 Whenever you initiate the update notifier and it's not within the interval threshold, it will asynchronously check with NPM in the background for available updates, then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. This prevents any impact on your package startup performance.
 The check process is done with [fork](http://nodejs.org/api/child_process.html#child_process_child_fork). This means that if you call `process.exit`, the check will still be performed in its own process.
 
+#### Table of Contents
+
+* [Examples](#examples)
+* [Docs](#documentation)
+* [Settings](#settings)
 
 ## About
 
@@ -30,7 +35,11 @@ There are a few projects using it:
 
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
-## Example usage
+- [pullr](https://github.com/mojotech/pullr) - GitHub pull requests from the command line
+
+## Examples
+
+### Example usage
 
 ```js
 var updateNotifier = require('update-notifier');
@@ -56,7 +65,7 @@ console.log(notifier.update);
 */
 ```
 
-## Example with settings and custom message
+### Example with settings and custom message
 
 ```js
 var notifier = updateNotifier({
