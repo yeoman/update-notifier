@@ -1,4 +1,4 @@
-# update-notifier [![Build Status](https://secure.travis-ci.org/yeoman/update-notifier.png?branch=master)](http://travis-ci.org/yeoman/update-notifier)
+# update-notifier [![Build Status](https://secure.travis-ci.org/yeoman/update-notifier.svg?branch=master)](http://travis-ci.org/yeoman/update-notifier)
 
 ##### Update notifier for your Node.js NPM package
 
