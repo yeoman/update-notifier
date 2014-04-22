@@ -1,8 +1,7 @@
-/*global describe, it, afterEach */
 'use strict';
 var assert = require('assert');
 var fs = require('fs');
-var updateNotifier = require('../lib/update-notifier');
+var updateNotifier = require('../index');
 
 describe('updateNotifier', function() {
 	var generateSettings = function (options) {

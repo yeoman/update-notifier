@@ -1,7 +1,24 @@
 {
   "name": "update-notifier",
   "version": "0.1.8",
-  "description": "Update notifier for your package",
+  "description": "Update notifier for your module",
+  "license": "BSD",
+  "repository": "yeoman/update-notifier",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha --timeout 20000"
+  },
+  "files": [
+    "index.js",
+    "check.js"
+  ],
   "keywords": [
     "npm",
     "update",
@@ -10,35 +27,13 @@
     "check",
     "checker"
   ],
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
-  },
-  "main": "lib/update-notifier.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/yeoman/update-notifier.git"
-  },
-  "scripts": {
-    "test": "mocha --timeout 20000"
-  },
   "dependencies": {
-    "chalk": "~0.4.0",
+    "chalk": "^0.4.0",
     "configstore": "^0.3.0",
     "request": "2.27.0",
-    "semver": "^2.2.1",
     "semver-type-diff": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "*"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "licenses": [
-    {
-      "type": "BSD"
-    }
-  ]
+  }
 }

@@ -1,8 +1,8 @@
-# update-notifier [![Build Status](https://secure.travis-ci.org/yeoman/update-notifier.svg?branch=master)](http://travis-ci.org/yeoman/update-notifier)
+# update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=master)](https://travis-ci.org/yeoman/update-notifier)
 
-##### Update notifier for your Node.js NPM package
+> Update notifier for your module
 
-![screenshot](https://raw.github.com/yeoman/update-notifier/master/screenshot.png)
+![](screenshot.png)
 
 Inform your package users of updates in a non-intrusive way. Mainly targets global CLI apps.
 
@@ -78,7 +78,7 @@ if (notifier.update) {
 ```
 
 
-## Documentation
+## API
 
 
 ### updateNotifier([settings])
