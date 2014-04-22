@@ -1,7 +1,7 @@
 'use strict';
 var assert = require('assert');
 var fs = require('fs');
-var updateNotifier = require('../index');
+var updateNotifier = require('./index');
 
 describe('updateNotifier', function() {
 	var generateSettings = function (options) {

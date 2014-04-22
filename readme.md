@@ -43,9 +43,13 @@ There are a few projects using it:
 
 ```js
 var updateNotifier = require('update-notifier');
+var pkg = require('./package.json');
 
 // Checks for available update and returns an instance
-var notifier = updateNotifier();
+var notifier = updateNotifier({
+	packageName: pkg.name,
+	packageVersion: pkg.version
+});
 
 if (notifier.update) {
 	// Notify using the built-in convenience method
@@ -69,6 +73,8 @@ console.log(notifier.update);
 
 ```js
 var notifier = updateNotifier({
+	packageName: pkg.name,
+	packageVersion: pkg.version,
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
 });
 
@@ -102,14 +108,6 @@ If provided, a callback function will be called,
 passed `(error[, update])`
 
 `update` is equal to `notifier.update`
-
-
-#### packagePath
-
-Type: `string`  
-Default: `'package.json'`
-
-Relative path to your module `package.json`.
 
 
 #### packageName

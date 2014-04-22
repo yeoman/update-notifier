@@ -10,16 +10,13 @@ function UpdateNotifier(options) {
 	this.options = options = options || {};
 
 	if (!options.packageName || !options.packageVersion) {
-		this.packageFile = require(path.resolve(path.dirname(module.parent.filename), options.packagePath || 'package'));
+		throw new Error('packageName and packageVersion required');
 	}
 
-	if (options.callback) {
-		this.hasCallback = true;
-	}
-
-	this.packageName = options.packageName || this.packageFile.name;
-	this.packageVersion = options.packageVersion || this.packageFile.version;
+	this.packageName = options.packageName;
+	this.packageVersion = options.packageVersion;
 	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : 1000 * 60 * 60 * 24; // 1 day
+	this.hasCallback = typeof options.callback === 'function';
 	this.callback = options.callback || function () {};
 
 	if (!this.hasCallback) {
@@ -52,11 +49,6 @@ UpdateNotifier.prototype.check = function () {
 
 	this.config.set('lastUpdateCheck', +new Date());
 	this.config.del('update');
-
-	// Set some needed options before forking
-	// This is needed because we can't infer the packagePath in the fork
-	this.options.packageName = this.packageName;
-	this.options.packageVersion = this.packageVersion;
 
 	// Fork, passing the options as an environment property
 	cp = fork(__dirname + '/check.js', [JSON.stringify(this.options)]);
