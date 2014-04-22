@@ -27,7 +27,8 @@
     "chalk": "~0.4.0",
     "configstore": "^0.3.0",
     "request": "2.27.0",
-    "semver": "^2.2.1"
+    "semver": "^2.2.1",
+    "semver-type-diff": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "*"
