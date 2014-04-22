@@ -22,10 +22,15 @@
   "keywords": [
     "npm",
     "update",
+    "updater",
     "notify",
     "notifier",
     "check",
-    "checker"
+    "checker",
+    "cli",
+    "module",
+    "package",
+    "version"
   ],
   "dependencies": {
     "chalk": "^0.4.0",
