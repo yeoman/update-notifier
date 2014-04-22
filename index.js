@@ -1,5 +1,4 @@
 'use strict';
-var util = require('util');
 var path = require('path');
 var fork = require('child_process').fork;
 var Configstore = require('configstore');
@@ -66,8 +65,6 @@ UpdateNotifier.prototype.check = function () {
 };
 
 UpdateNotifier.prototype.checkNpm = function (cb) {
-	var url = util.format(this.registryUrl, this.packageName);
-
 	latestVersion(this.packageName, function (err, latestVersion) {
 		if (err) {
 			return cb(err);
@@ -84,7 +81,7 @@ UpdateNotifier.prototype.checkNpm = function (cb) {
 
 UpdateNotifier.prototype.notify = function (customMessage) {
 	var message =
-	        '\n\n' +
+		'\n\n' +
 		chalk.blue('-----------------------------------------') +
 		'\nUpdate available: ' + chalk.green.bold(this.update.latest) +
 		chalk.gray(' (current: ' + this.update.current + ')') +
@@ -102,9 +99,7 @@ UpdateNotifier.prototype.notify = function (customMessage) {
 
 module.exports = function (options) {
 	var updateNotifier = new UpdateNotifier(options);
-
 	updateNotifier.check();
-
 	return updateNotifier;
 };
 
