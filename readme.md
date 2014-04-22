@@ -138,30 +138,6 @@ Default: `1000 * 60 * 60 * 24` (1 day)
 How often it should check for updates.
 
 
-#### updateCheckTimeout
-
-Type: `number`  
-Default: `20000` (20 secs)
-
-How long the update can take.  
-If it takes longer than the timeout, it will be aborted.
-
-#### registryUrl
-
-Type: `string`  
-Default: `'http://registry.npmjs.org/%s'`
-
-Alternative registry mirrors:
-
-- `http://85.10.209.91/%s`
-- `http://165.225.128.50:8000/%s`
-
-
-### Proxy settings
-
-If you are behind a proxy server the `process.env` property is used to take the proxy server value from `HTTP_PROXY` or `HTTPS_PROXY` in order to make the call to the server. This means that you need to [set](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) those properties as environment variables.
-
-
 ### User settings
 
 Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].yml`. The path is available in `notifier.config.path`.

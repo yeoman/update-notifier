@@ -5,11 +5,7 @@ var fork = require('child_process').fork;
 var Configstore = require('configstore');
 var chalk = require('chalk');
 var semverTypeDiff = require('semver-type-diff');
-
-var proxyServer = process.env.HTTPS_PROXY
-	|| process.env.https_proxy
-	|| process.env.HTTP_PROXY
-	|| process.env.http_proxy;
+var latestVersion = require('latest-version');
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
@@ -25,8 +21,6 @@ function UpdateNotifier(options) {
 	this.packageName = options.packageName || this.packageFile.name;
 	this.packageVersion = options.packageVersion || this.packageFile.version;
 	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : 1000 * 60 * 60 * 24; // 1 day
-	this.updateCheckTimeout = typeof options.updateCheckTimeout === 'number' ? options.updateCheckTimeout : 20000;                  // 20 secs
-	this.registryUrl = options.registryUrl || 'http://registry.npmjs.org/%s';
 	this.callback = options.callback || function () {};
 
 	if (!this.hasCallback) {
@@ -72,28 +66,17 @@ UpdateNotifier.prototype.check = function () {
 };
 
 UpdateNotifier.prototype.checkNpm = function (cb) {
-	var request = require('request');
 	var url = util.format(this.registryUrl, this.packageName);
 
-	request({url: url, json: true, timeout: this.updateCheckTimeout, proxy: proxyServer}, function (error, response, body) {
-		var currentVersion, latestVersion;
-
-		if (error) {
-			return cb(error);
+	latestVersion(this.packageName, function (err, latestVersion) {
+		if (err) {
+			return cb(err);
 		}
-
-		if (body.error) {
-			return cb(new Error('Package not found'));
-		}
-
-		currentVersion = this.packageVersion;
-		latestVersion = body['dist-tags'].latest;
 
 		cb(null, {
 			latest: latestVersion,
-			current: currentVersion,
-			type: semverTypeDiff(currentVersion, latestVersion) || 'latest',
-			date: body.time[latestVersion],
+			current: this.packageVersion,
+			type: semverTypeDiff(this.packageVersion, latestVersion) || 'latest',
 			name: this.packageName
 		});
 	}.bind(this));
