@@ -1,9 +1,8 @@
 'use strict';
-var path = require('path');
 var fork = require('child_process').fork;
 var Configstore = require('configstore');
 var chalk = require('chalk');
-var semverTypeDiff = require('semver-type-diff');
+var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
 
 function UpdateNotifier(options) {
@@ -65,13 +64,17 @@ UpdateNotifier.prototype.checkNpm = function (cb) {
 		cb(null, {
 			latest: latestVersion,
 			current: this.packageVersion,
-			type: semverTypeDiff(this.packageVersion, latestVersion) || 'latest',
+			type: semverDiff(this.packageVersion, latestVersion) || 'latest',
 			name: this.packageName
 		});
 	}.bind(this));
 };
 
 UpdateNotifier.prototype.notify = function (customMessage) {
+	if (!process.stdout.isTTY || !this.update) {
+		return this;
+	}
+
 	var message =
 		'\n\n' +
 		chalk.blue('-----------------------------------------') +
@@ -80,6 +83,7 @@ UpdateNotifier.prototype.notify = function (customMessage) {
 		'\nRun ' + chalk.magenta('npm update -g ' + this.packageName) +
 		' to update\n' +
 		chalk.blue('-----------------------------------------');
+
 	if (customMessage) {
 		process.on('exit', function () {
 			console.log(typeof customMessage === 'string' ? customMessage : message);
@@ -87,6 +91,8 @@ UpdateNotifier.prototype.notify = function (customMessage) {
 	} else {
 		console.log(message);
 	}
+
+	return this;
 };
 
 module.exports = function (options) {

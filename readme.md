@@ -39,7 +39,16 @@ There are a few projects using it:
 
 ## Examples
 
-### Example usage
+## Simple example
+
+```js
+var updateNotifier = require('update-notifier');
+var pkg = require('./package.json');
+
+updateNotifier({packageName: pkg.name, packageVersion: pkg.version}).notify();
+```
+
+### Comprehensive example
 
 ```js
 var updateNotifier = require('update-notifier');
@@ -51,10 +60,8 @@ var notifier = updateNotifier({
 	packageVersion: pkg.version
 });
 
-if (notifier.update) {
-	// Notify using the built-in convenience method
-	notifier.notify();
-}
+// Notify using the built-in convenience method
+notifier.notify();
 
 // `notifier.update` contains some useful info about the update
 console.log(notifier.update);
@@ -62,8 +69,7 @@ console.log(notifier.update);
 {
 	latest: '0.9.5',
 	current: '0.9.3',
-	type: 'patch', // possible values: latest, major, minor, patch
-	date: '2012-11-05T14:32:37.603Z',
+	type: 'patch', // possible values: latest, major, minor, patch, prerelease, build
 	name: 'yeoman'
 }
 */
@@ -78,14 +84,11 @@ var notifier = updateNotifier({
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
 });
 
-if (notifier.update) {
-	notifier.notify('Update available: ' + notifier.update.latest);
-}
+notifier.notify('Update available: ' + notifier.update.latest);
 ```
 
 
 ## API
-
 
 ### updateNotifier([settings])
 
@@ -94,6 +97,8 @@ Checks if there is an available update. Accepts settings defined below. Returns 
 ### updateNotifier.notify([message || defer])
 
 A convenience method that will inform the user about an available update (see screenshot). By default it will display the message right away. However, if you supply a custom message or `true` it will be displayed right before the process exits.
+
+Only notifies if there is an update and the process is TTY.
 
 
 ### Settings
@@ -112,21 +117,13 @@ passed `(error[, update])`
 
 #### packageName
 
-Type: `string`  
-Default: Inferred from `packageFile`
-
-Used instead of inferring it from `packageFile`.  
-Requires you to also specify `packageVersion`.
-
+*Required*  
+Type: `string`
 
 #### packageVersion
 
-Type: `string`  
-Default: Inferred from `packageFile`
-
-Used instead of inferring it from `packageFile`.  
-Requires you to also specify `packageName`.
-
+*Required*  
+Type: `string`
 
 #### updateCheckInterval
 
