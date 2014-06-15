@@ -36,7 +36,6 @@
     "chalk": "^0.4.0",
     "configstore": "^0.3.0",
     "latest-version": "^0.1.1",
-    "request": "2.27.0",
     "semver-diff": "^0.1.0"
   },
   "devDependencies": {
