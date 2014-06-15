@@ -35,7 +35,7 @@
   "dependencies": {
     "chalk": "^0.4.0",
     "configstore": "^0.3.0",
-    "latest-version": "^0.1.1",
+    "latest-version": "^0.2.0",
     "semver-diff": "^0.1.0"
   },
   "devDependencies": {
