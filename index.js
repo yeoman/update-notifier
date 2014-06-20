@@ -1,5 +1,6 @@
 'use strict';
-var fork = require('child_process').fork;
+var spawn = require('child_process').spawn;
+var path = require('path');
 var Configstore = require('configstore');
 var chalk = require('chalk');
 var semverDiff = require('semver-diff');
@@ -49,10 +50,12 @@ UpdateNotifier.prototype.check = function () {
 	this.config.set('lastUpdateCheck', +new Date());
 	this.config.del('update');
 
-	// Fork, passing the options as an environment property
-	cp = fork(__dirname + '/check.js', [JSON.stringify(this.options)]);
+	// Spawn a detached process, passing the options as an environment property
+	cp = spawn(process.execPath, [path.join(__dirname, 'check.js'), JSON.stringify(this.options)], {
+		detached: true,
+		stdio: 'ignore'
+	});
 	cp.unref();
-	cp.disconnect();
 };
 
 UpdateNotifier.prototype.checkNpm = function (cb) {
