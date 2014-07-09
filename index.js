@@ -97,7 +97,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 		top + '\n' +
 		side + line1 + side + '\n' +
 		side + line2 + fill(' ', line2rest) + side + '\n' +
-		bottom + '\n\n';
+		bottom + '\n';
 
 	if (opts.defer) {
 		process.on('exit', function () {
