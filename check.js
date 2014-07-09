@@ -1,5 +1,5 @@
 'use strict';
-var updateNotifier = require('./index');
+var updateNotifier = require('./');
 var options = JSON.parse(process.argv[2]);
 var updateNotifier = new updateNotifier.UpdateNotifier(options);
 
