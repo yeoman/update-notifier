@@ -37,5 +37,4 @@ describe('updateNotifier', function() {
 			callback: cb
 		}));
 	});
-
 });

@@ -15,6 +15,7 @@ The check process is done with [fork](http://nodejs.org/api/child_process.html#c
 * [Docs](#documentation)
 * [Settings](#settings)
 
+
 ## About
 
 The idea for this module came from the desire to apply the browser update strategy to CLI tools, where everyone is always on the latest version. We first tried automatic updating, which we discovered wasn't popular. This is the second iteration of that idea, but limited to just update notifications.
@@ -36,6 +37,7 @@ There are a few projects using it:
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
 - [pullr](https://github.com/mojotech/pullr) - GitHub pull requests from the command line
+
 
 ## Examples
 
@@ -114,7 +116,6 @@ passed `(error[, update])`
 
 `update` is equal to `notifier.update`
 
-
 #### packageName
 
 *Required*  
@@ -136,6 +137,8 @@ How often it should check for updates.
 ### User settings
 
 Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].yml`. The path is available in `notifier.config.path`.
+
+Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value.
 
 You could also let the user opt-out on a per run basis:
 

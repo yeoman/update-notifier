@@ -33,7 +33,7 @@ UpdateNotifier.prototype.check = function () {
 
 	var cp;
 
-	if (this.config.get('optOut')) {
+	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env) {
 		return;
 	}
 
