@@ -36,7 +36,8 @@
     "chalk": "^0.5.0",
     "configstore": "^0.3.0",
     "latest-version": "^0.2.0",
-    "semver-diff": "^0.1.0"
+    "semver-diff": "^0.1.0",
+    "string-length": "^0.1.2"
   },
   "devDependencies": {
     "mocha": "*"

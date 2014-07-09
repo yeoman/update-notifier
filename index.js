@@ -5,6 +5,7 @@ var Configstore = require('configstore');
 var chalk = require('chalk');
 var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
+var stringLength = require('string-length');
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
@@ -74,14 +75,26 @@ UpdateNotifier.prototype.notify = function (customMessage) {
 		return this;
 	}
 
+	var fill = function (str, count) {
+		return Array(count + 1).join(str);
+	};
+
+	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +
+		chalk.dim(' (current: ' + this.update.current + ')') + ' ';
+	var line2 = ' Run ' + chalk.blue('npm update -g ' + this.packageName) +
+		' to update. ';
+	var contentWidth = Math.max(stringLength(line1), stringLength(line2));
+	var line2rest = contentWidth - stringLength(line2);
+	var top = chalk.yellow('┌' + fill('─', contentWidth) + '┐');
+	var bottom = chalk.yellow('└' + fill('─', contentWidth) + '┘');
+	var side = chalk.yellow('│');
+
 	var message =
 		'\n\n' +
-		chalk.blue('-----------------------------------------') +
-		'\nUpdate available: ' + chalk.green.bold(this.update.latest) +
-		chalk.gray(' (current: ' + this.update.current + ')') +
-		'\nRun ' + chalk.magenta('npm update -g ' + this.packageName) +
-		' to update\n' +
-		chalk.blue('-----------------------------------------');
+		top + '\n' +
+		side + line1 + side + '\n' +
+		side + line2 + fill(' ', line2rest) + side + '\n' +
+		bottom + '\n\n';
 
 	if (customMessage) {
 		process.on('exit', function () {
