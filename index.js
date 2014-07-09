@@ -32,8 +32,6 @@ UpdateNotifier.prototype.check = function () {
 		return this.checkNpm(this.callback);
 	}
 
-	var cp;
-
 	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env) {
 		return;
 	}
@@ -50,11 +48,10 @@ UpdateNotifier.prototype.check = function () {
 	}
 
 	// Spawn a detached process, passing the options as an environment property
-	cp = spawn(process.execPath, [path.join(__dirname, 'check.js'), JSON.stringify(this.options)], {
+	spawn(process.execPath, [path.join(__dirname, 'check.js'), JSON.stringify(this.options)], {
 		detached: true,
 		stdio: 'ignore'
-	});
-	cp.unref();
+	}).unref();
 };
 
 UpdateNotifier.prototype.checkNpm = function (cb) {
