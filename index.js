@@ -21,7 +21,8 @@ function UpdateNotifier(options) {
 
 	if (!this.hasCallback) {
 		this.config = new Configstore('update-notifier-' + this.packageName, {
-			optOut: false
+			optOut: false,
+			lastUpdateCheck: Date.now()
 		});
 	}
 }
@@ -38,17 +39,15 @@ UpdateNotifier.prototype.check = function () {
 	}
 
 	this.update = this.config.get('update');
+
 	if (this.update) {
 		this.config.del('update');
 	}
 
 	// Only check for updates on a set interval
-	if (new Date() - this.config.get('lastUpdateCheck') < this.updateCheckInterval) {
+	if (Date.now() - this.config.get('lastUpdateCheck') < this.updateCheckInterval) {
 		return;
 	}
-
-	this.config.set('lastUpdateCheck', +new Date());
-	this.config.del('update');
 
 	// Spawn a detached process, passing the options as an environment property
 	cp = spawn(process.execPath, [path.join(__dirname, 'check.js'), JSON.stringify(this.options)], {

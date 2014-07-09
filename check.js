@@ -8,6 +8,9 @@ updateNotifier.checkNpm(function (err, update) {
 		process.exit(1);
 	}
 
+	// only update the last update check time on success
+	updateNotifier.config.set('lastUpdateCheck', Date.now());
+
 	if (update.type && update.type !== 'latest') {
 		updateNotifier.config.set('update', update);
 	}
