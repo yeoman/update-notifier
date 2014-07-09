@@ -101,10 +101,10 @@ UpdateNotifier.prototype.notify = function (opts) {
 
 	if (opts.defer) {
 		process.on('exit', function () {
-			console.log(message);
+			console.error(message);
 		});
 	} else {
-		console.log(message);
+		console.error(message);
 	}
 
 	return this;
