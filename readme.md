@@ -1,10 +1,10 @@
 # update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=master)](https://travis-ci.org/yeoman/update-notifier)
 
-> Update notifier for your module
+> Update notifications for your CLI app
 
 ![](screenshot.png)
 
-Inform your package users of updates in a non-intrusive way. Mainly targets global CLI apps.
+Inform your package users of updates in a non-intrusive way.
 
 Whenever you initiate the update notifier and it's not within the interval threshold, it will asynchronously check with NPM in the background for available updates, then persist the result. The next time the notifier is initiated the result will be loaded into the `.update` property. This prevents any impact on your package startup performance.
 The check process is done with [fork](http://nodejs.org/api/child_process.html#child_process_child_fork). This means that if you call `process.exit`, the check will still be performed in its own process.

@@ -1,7 +1,7 @@
 {
   "name": "update-notifier",
   "version": "0.1.8",
-  "description": "Update notifier for your module",
+  "description": "Update notifications for your CLI app",
   "license": "BSD",
   "repository": "yeoman/update-notifier",
   "author": {
