@@ -77,12 +77,6 @@ The check process is done in a unref'ed [child process](http://nodejs.org/api/ch
 
 Checks if there is an available update. Accepts settings defined below. Returns an object with update info if there is an available update, otherwise `undefined`.
 
-### updateNotifier.notify([message || defer])
-
-A convenience method that will inform the user about an available update (see screenshot). By default it will display the message right away. However, if you supply a custom message or `true` it will be displayed right before the process exits.
-
-Only notifies if there is an update and the process is [TTY](http://nodejs.org/api/tty.html).
-
 ### options
 
 #### packageName
@@ -109,6 +103,20 @@ Type: `function`
 Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how).
 
 `update` is equal to `notifier.update`
+
+
+### updateNotifier.notify([options])
+
+Convenience method to display a notification message *(see screenshot)*.
+
+Only notifies if there is an update and the process is [TTY](http://nodejs.org/api/tty.html).
+
+#### options.defer
+
+Type: `boolean`  
+Default: `true`
+
+Defer showing the notication to after the process has exited.
 
 
 ### User settings

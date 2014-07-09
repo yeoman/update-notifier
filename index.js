@@ -70,10 +70,13 @@ UpdateNotifier.prototype.checkNpm = function (cb) {
 	}.bind(this));
 };
 
-UpdateNotifier.prototype.notify = function (customMessage) {
+UpdateNotifier.prototype.notify = function (opts) {
 	if (!process.stdout.isTTY || !this.update) {
 		return this;
 	}
+
+	opts = opts || {};
+	opts.defer = opts.defer === undefined ? true : false;
 
 	var fill = function (str, count) {
 		return Array(count + 1).join(str);
@@ -96,9 +99,9 @@ UpdateNotifier.prototype.notify = function (customMessage) {
 		side + line2 + fill(' ', line2rest) + side + '\n' +
 		bottom + '\n\n';
 
-	if (customMessage) {
+	if (opts.defer) {
 		process.on('exit', function () {
-			console.log(typeof customMessage === 'string' ? customMessage : message);
+			console.log(message);
 		});
 	} else {
 		console.log(message);
