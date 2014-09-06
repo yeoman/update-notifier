@@ -61,7 +61,7 @@ var notifier = updateNotifier({
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
 });
 
-notifier.notify('Update available: ' + notifier.update.latest);
+console.log('Update available: ' + notifier.update.latest);
 ```
 
 
