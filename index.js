@@ -23,6 +23,8 @@ function UpdateNotifier(options) {
 	if (!this.hasCallback) {
 		this.config = new Configstore('update-notifier-' + this.packageName, {
 			optOut: false,
+			// init with the current time so the first check is only
+			// after the set interval, so not to bother users right away
 			lastUpdateCheck: Date.now()
 		});
 	}
