@@ -89,6 +89,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 	var line2 = ' Run ' + chalk.blue('npm update -g ' + this.packageName) +
 		' to update. ';
 	var contentWidth = Math.max(stringLength(line1), stringLength(line2));
+	var line1rest = contentWidth - stringLength(line1);
 	var line2rest = contentWidth - stringLength(line2);
 	var top = chalk.yellow('┌' + fill('─', contentWidth) + '┐');
 	var bottom = chalk.yellow('└' + fill('─', contentWidth) + '┘');
@@ -97,7 +98,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 	var message =
 		'\n\n' +
 		top + '\n' +
-		side + line1 + side + '\n' +
+		side + line1 + fill(' ', line1rest) + side + '\n' +
 		side + line2 + fill(' ', line2rest) + side + '\n' +
 		bottom + '\n';
 
