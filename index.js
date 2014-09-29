@@ -6,6 +6,7 @@ var chalk = require('chalk');
 var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
 var stringLength = require('string-length');
+var isNpm = require('is-npm');
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
@@ -73,7 +74,7 @@ UpdateNotifier.prototype.checkNpm = function (cb) {
 };
 
 UpdateNotifier.prototype.notify = function (opts) {
-	if (!process.stdout.isTTY || !this.update) {
+	if (!process.stdout.isTTY || isNpm || !this.update) {
 		return this;
 	}
 
