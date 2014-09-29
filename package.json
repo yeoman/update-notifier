@@ -37,7 +37,7 @@
     "configstore": "^0.3.1",
     "is-npm": "^1.0.0",
     "latest-version": "^1.0.0",
-    "semver-diff": "^1.0.0",
+    "semver-diff": "^2.0.0",
     "string-length": "^1.0.0"
   },
   "devDependencies": {
