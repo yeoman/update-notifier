@@ -7,8 +7,10 @@ describe('updateNotifier', function() {
 	var generateSettings = function (options) {
 		options = options || {};
 		return {
-			packageName: options.packageName || 'update-notifier-tester',
-			packageVersion: options.packageVersion || '0.0.2',
+			pkg: {
+				name: 'update-notifier-tester',
+				version: '0.0.2'
+			},
 			callback: options.callback || null
 		};
 	};

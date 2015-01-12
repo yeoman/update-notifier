@@ -10,13 +10,21 @@ var isNpm = require('is-npm');
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
+	options.pkg = options.pkg || {};
 
-	if (!options.packageName || !options.packageVersion) {
-		throw new Error('packageName and packageVersion required');
+	// deprecated options
+	// TODO: remove this at some point far into the future
+	if (options.packageName && options.packageVersion) {
+		options.pkg.name = options.packageName;
+		options.pkg.version = options.packageVersion;
 	}
 
-	this.packageName = options.packageName;
-	this.packageVersion = options.packageVersion;
+	if (!options.pkg.name || !options.pkg.version) {
+		throw new Error('pkg.name and pkg.version required');
+	}
+
+	this.packageName = options.pkg.name;
+	this.packageVersion = options.pkg.version;
 	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : 1000 * 60 * 60 * 24; // 1 day
 	this.hasCallback = typeof options.callback === 'function';
 	this.callback = options.callback || function () {};

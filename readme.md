@@ -22,7 +22,7 @@ Inform users of your package of updates in a non-intrusive way.
 var updateNotifier = require('update-notifier');
 var pkg = require('./package.json');
 
-updateNotifier({packageName: pkg.name, packageVersion: pkg.version}).notify();
+updateNotifier({pkg: pkg}).notify();
 ```
 
 ### Comprehensive example
@@ -32,10 +32,7 @@ var updateNotifier = require('update-notifier');
 var pkg = require('./package.json');
 
 // Checks for available update and returns an instance
-var notifier = updateNotifier({
-	packageName: pkg.name,
-	packageVersion: pkg.version
-});
+var notifier = updateNotifier({pkg: pkg});
 
 // Notify using the built-in convenience method
 notifier.notify();
@@ -56,8 +53,7 @@ console.log(notifier.update);
 
 ```js
 var notifier = updateNotifier({
-	packageName: pkg.name,
-	packageVersion: pkg.version,
+	pkg: pkg,
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
 });
 
@@ -79,12 +75,16 @@ Checks if there is an available update. Accepts settings defined below. Returns 
 
 ### options
 
-#### packageName
+#### pkg
+
+Type: `object`
+
+##### name
 
 *Required*  
 Type: `string`
 
-#### packageVersion
+##### version
 
 *Required*  
 Type: `string`
@@ -150,13 +150,7 @@ There are a bunch projects using it:
 
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 
-- [pullr](https://github.com/mojotech/pullr) - GitHub pull requests from the command line
-
 - [Roots](http://roots.cx) - a toolkit for advanced front-end development
-
-- [Automaton](https://github.com/IndigoUnited/automaton) - task automation tool
-
-- [Spoon.js CLI](https://npmjs.org/package/spoonjs)
 
 [And 100+ more...](https://www.npmjs.org/browse/depended/update-notifier)
 
