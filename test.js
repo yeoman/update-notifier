@@ -3,7 +3,7 @@ var assert = require('assert');
 var fs = require('fs');
 var updateNotifier = require('./');
 
-describe('updateNotifier', function() {
+describe('updateNotifier', function () {
 	var generateSettings = function (options) {
 		options = options || {};
 		return {
@@ -17,24 +17,24 @@ describe('updateNotifier', function() {
 
 	var configstorePath;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		configstorePath = updateNotifier(generateSettings()).config.path;
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		setTimeout(function () {
 			fs.unlinkSync(configstorePath);
 		}, 10000);
 	});
 
-	it('should check for update', function(cb) {
-		updateNotifier(generateSettings()).checkNpm(function(error, update) {
+	it('should check for update', function (cb) {
+		updateNotifier(generateSettings()).checkNpm(function (err, update) {
 			assert.equal(update.current, '0.0.2');
 			cb();
 		});
 	});
 
-	it('should check for update with callback', function(cb) {
+	it('should check for update with callback', function (cb) {
 		updateNotifier(generateSettings({
 			callback: cb
 		}));
