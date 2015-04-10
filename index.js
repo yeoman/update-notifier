@@ -95,7 +95,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 
 	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +
 		chalk.dim(' (current: ' + this.update.current + ')') + ' ';
-	var line2 = ' Run ' + chalk.blue('npm update -g ' + this.packageName) +
+	var line2 = ' Run ' + chalk.blue('npm install -g ' + this.packageName) +
 		' to update. ';
 	var contentWidth = Math.max(stringLength(line1), stringLength(line2));
 	var line1rest = contentWidth - stringLength(line1);
