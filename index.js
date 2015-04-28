@@ -44,7 +44,7 @@ UpdateNotifier.prototype.check = function () {
 		return this.checkNpm(this.callback);
 	}
 
-	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env) {
+	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env || process.argv.indexOf('--no-update-notifier') !== -1) {
 		return;
 	}
 
@@ -90,7 +90,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 	opts.defer = opts.defer === undefined ? true : false;
 
 	var fill = function (str, count) {
-		return Array(count + 1).join(str);
+		return new Array(count + 1).join(str);
 	};
 
 	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +

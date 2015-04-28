@@ -123,15 +123,7 @@ Defer showing the notication to after the process has exited.
 
 Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].yml`. The path is available in `notifier.config.path`.
 
-Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value.
-
-You could also let the user opt-out on a per run basis:
-
-```js
-if (process.argv.indexOf('--no-update-notifier') === -1) {
-	// run updateNotifier()
-}
-```
+Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value or by using the `--no-update-notifier` flag on a per run basis.
 
 
 ## About
