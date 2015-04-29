@@ -7,6 +7,7 @@ var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
 var stringLength = require('string-length');
 var isNpm = require('is-npm');
+var repeating = require('repeating');
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
@@ -89,10 +90,6 @@ UpdateNotifier.prototype.notify = function (opts) {
 	opts = opts || {};
 	opts.defer = opts.defer === undefined ? true : false;
 
-	var fill = function (str, count) {
-		return new Array(count + 1).join(str);
-	};
-
 	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +
 		chalk.dim(' (current: ' + this.update.current + ')') + ' ';
 	var line2 = ' Run ' + chalk.blue('npm install -g ' + this.packageName) +
@@ -100,15 +97,15 @@ UpdateNotifier.prototype.notify = function (opts) {
 	var contentWidth = Math.max(stringLength(line1), stringLength(line2));
 	var line1rest = contentWidth - stringLength(line1);
 	var line2rest = contentWidth - stringLength(line2);
-	var top = chalk.yellow('┌' + fill('─', contentWidth) + '┐');
-	var bottom = chalk.yellow('└' + fill('─', contentWidth) + '┘');
+	var top = chalk.yellow('┌' + repeating('─', contentWidth) + '┐');
+	var bottom = chalk.yellow('└' + repeating('─', contentWidth) + '┘');
 	var side = chalk.yellow('│');
 
 	var message =
 		'\n\n' +
 		top + '\n' +
-		side + line1 + fill(' ', line1rest) + side + '\n' +
-		side + line2 + fill(' ', line2rest) + side + '\n' +
+		side + line1 + repeating(' ', line1rest) + side + '\n' +
+		side + line2 + repeating(' ', line2rest) + side + '\n' +
 		bottom + '\n';
 
 	if (opts.defer) {
