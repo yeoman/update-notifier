@@ -2,7 +2,7 @@
   "name": "update-notifier",
   "version": "0.4.0",
   "description": "Update notifications for your CLI app",
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "repository": "yeoman/update-notifier",
   "author": {
     "name": "Sindre Sorhus",
