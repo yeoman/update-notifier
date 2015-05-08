@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
-    "configstore": "^0.3.1",
+    "configstore": "^1.0.0",
     "is-npm": "^1.0.0",
     "latest-version": "^1.0.0",
     "repeating": "^1.1.2",
