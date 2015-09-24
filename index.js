@@ -12,12 +12,11 @@ var repeating = require('repeating');
 function UpdateNotifier(options) {
 	this.options = options = options || {};
 	options.pkg = options.pkg || {};
-
-	// deprecated options
-	// TODO: remove this at some point far into the future
-	if (options.packageName && options.packageVersion) {
-		options.pkg.name = options.packageName;
-		options.pkg.version = options.packageVersion;
+	// reduce pkg to the essential keys. with fallback to deprecated options
+	// TODO: remove deprecated options at some point far into the future
+	options.pkg = {
+		name: options.pkg.name || options.packageName,
+		version: options.pkg.version || options.packageName
 	}
 
 	if (!options.pkg.name || !options.pkg.version) {
