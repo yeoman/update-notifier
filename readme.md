@@ -19,20 +19,20 @@ Inform users of your package of updates in a non-intrusive way.
 ### Simple example
 
 ```js
-var updateNotifier = require('update-notifier');
-var pkg = require('./package.json');
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
 
-updateNotifier({pkg: pkg}).notify();
+updateNotifier({pkg}).notify();
 ```
 
 ### Comprehensive example
 
 ```js
-var updateNotifier = require('update-notifier');
-var pkg = require('./package.json');
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
 
 // Checks for available update and returns an instance
-var notifier = updateNotifier({pkg: pkg});
+const notifier = updateNotifier({pkg});
 
 // Notify using the built-in convenience method
 notifier.notify();
@@ -52,12 +52,12 @@ console.log(notifier.update);
 ### Example with settings and custom message
 
 ```js
-var notifier = updateNotifier({
-	pkg: pkg,
+const notifier = updateNotifier({
+	pkg,
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
 });
 
-console.log('Update available: ' + notifier.update.latest);
+console.log(`Update available: ${notifier.update.latest}`);
 ```
 
 
@@ -92,7 +92,7 @@ Type: `string`
 #### updateCheckInterval
 
 Type: `number`  
-Default: `1000 * 60 * 60 * 24` (1 day)
+Default: 1000 * 60 * 60 * 24 (1 day)
 
 How often to check for updates.
 
@@ -116,7 +116,7 @@ Only notifies if there is an update and the process is [TTY](http://nodejs.org/a
 Type: `boolean`  
 Default: `true`
 
-Defer showing the notication to after the process has exited.
+Defer showing the notification to after the process has exited.
 
 
 ### User settings
@@ -132,17 +132,14 @@ The idea for this module came from the desire to apply the browser update strate
 
 There are a bunch projects using it:
 
-- [Yeoman](http://yeoman.io) - modern workflows for modern webapps
-
-- [Bower](http://bower.io) - a package manager for the web
-
-- [Pageres](https://github.com/sindresorhus/pageres) - responsive website screenshots
-
+- [Yeoman](http://yeoman.io) - Modern workflows for modern webapps
+- [AVA](https://github.com/sindresorhus/ava) - Simple concurrent test runner
+- [XO](https://github.com/sindresorhus/xo) - JavaScript happiness style linter
+- [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
 - [Node GH](http://nodegh.io) - GitHub command line tool
-
+- [Bower](http://bower.io) - A package manager for the web
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
-
-- [Roots](http://roots.cx) - a toolkit for advanced front-end development
+- [Roots](http://roots.cx) - A toolkit for advanced front-end development
 
 [And 100+ more...](https://www.npmjs.org/browse/depended/update-notifier)
 
