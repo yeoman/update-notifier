@@ -8,6 +8,7 @@ var latestVersion = require('latest-version');
 var stringLength = require('string-length');
 var isNpm = require('is-npm');
 var repeating = require('repeating');
+var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
 	this.options = options = options || {};
@@ -17,7 +18,7 @@ function UpdateNotifier(options) {
 	options.pkg = {
 		name: options.pkg.name || options.packageName,
 		version: options.pkg.version || options.packageName
-	}
+	};
 
 	if (!options.pkg.name || !options.pkg.version) {
 		throw new Error('pkg.name and pkg.version required');
@@ -25,7 +26,7 @@ function UpdateNotifier(options) {
 
 	this.packageName = options.pkg.name;
 	this.packageVersion = options.pkg.version;
-	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : 1000 * 60 * 60 * 24; // 1 day
+	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 	this.hasCallback = typeof options.callback === 'function';
 	this.callback = options.callback || function () {};
 
@@ -41,7 +42,8 @@ function UpdateNotifier(options) {
 
 UpdateNotifier.prototype.check = function () {
 	if (this.hasCallback) {
-		return this.checkNpm(this.callback);
+		this.checkNpm(this.callback);
+		return;
 	}
 
 	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env || process.argv.indexOf('--no-update-notifier') !== -1) {
@@ -87,7 +89,6 @@ UpdateNotifier.prototype.notify = function (opts) {
 	}
 
 	opts = opts || {};
-	opts.defer = opts.defer === undefined ? true : false;
 
 	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +
 		chalk.dim(' (current: ' + this.update.current + ')') + ' ';
@@ -107,7 +108,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 		side + line2 + repeating(' ', line2rest) + side + '\n' +
 		bottom + '\n';
 
-	if (opts.defer) {
+	if (opts.defer === undefined) {
 		process.on('exit', function () {
 			console.error(message);
 		});

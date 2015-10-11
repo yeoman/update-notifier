@@ -1,7 +1,8 @@
 'use strict';
 var updateNotifier = require('./');
 var options = JSON.parse(process.argv[2]);
-var updateNotifier = new updateNotifier.UpdateNotifier(options);
+
+updateNotifier = new updateNotifier.UpdateNotifier(options);
 
 updateNotifier.checkNpm(function (err, update) {
 	if (err) {

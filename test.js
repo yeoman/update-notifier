@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 'use strict';
 var assert = require('assert');
 var fs = require('fs');
