@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha --timeout 20000"
+    "test": "xo && mocha --timeout 20000"
   },
   "files": [
     "index.js",
@@ -42,6 +42,7 @@
     "string-length": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "xo": "*"
   }
 }
