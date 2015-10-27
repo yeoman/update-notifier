@@ -28,10 +28,9 @@ describe('updateNotifier', function () {
 		}, 10000);
 	});
 
-	it('should check for update', function (cb) {
-		updateNotifier(generateSettings()).checkNpm(function (err, update) {
+	it('should check for update', function () {
+		return updateNotifier(generateSettings()).checkNpm().then(function (update) {
 			assert.equal(update.current, '0.0.2');
-			cb();
 		});
 	});
 

@@ -13,6 +13,7 @@ var ONE_DAY = 1000 * 60 * 60 * 24;
 function UpdateNotifier(options) {
 	this.options = options = options || {};
 	options.pkg = options.pkg || {};
+
 	// reduce pkg to the essential keys. with fallback to deprecated options
 	// TODO: remove deprecated options at some point far into the future
 	options.pkg = {
@@ -42,7 +43,7 @@ function UpdateNotifier(options) {
 
 UpdateNotifier.prototype.check = function () {
 	if (this.hasCallback) {
-		this.checkNpm(this.callback);
+		this.checkNpm().then(this.callback.bind(this, null)).catch(this.callback);
 		return;
 	}
 
@@ -68,18 +69,14 @@ UpdateNotifier.prototype.check = function () {
 	}).unref();
 };
 
-UpdateNotifier.prototype.checkNpm = function (cb) {
-	latestVersion(this.packageName, function (err, latestVersion) {
-		if (err) {
-			return cb(err);
-		}
-
-		cb(null, {
+UpdateNotifier.prototype.checkNpm = function () {
+	return latestVersion(this.packageName).then(function (latestVersion) {
+		return {
 			latest: latestVersion,
 			current: this.packageVersion,
 			type: semverDiff(this.packageVersion, latestVersion) || 'latest',
 			name: this.packageName
-		});
+		};
 	}.bind(this));
 };
 
