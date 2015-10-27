@@ -4,11 +4,7 @@ var options = JSON.parse(process.argv[2]);
 
 updateNotifier = new updateNotifier.UpdateNotifier(options);
 
-updateNotifier.checkNpm(function (err, update) {
-	if (err) {
-		process.exit(1);
-	}
-
+updateNotifier.checkNpm().then(function (update) {
 	// only update the last update check time on success
 	updateNotifier.config.set('lastUpdateCheck', Date.now());
 
@@ -19,4 +15,6 @@ updateNotifier.checkNpm(function (err, update) {
 	// Call process exit explicitly to terminate the child process
 	// Otherwise the child process will run forever (according to nodejs docs)
 	process.exit();
+}).catch(function () {
+	process.exit(1);
 });
