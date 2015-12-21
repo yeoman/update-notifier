@@ -5,9 +5,8 @@ var Configstore = require('configstore');
 var chalk = require('chalk');
 var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
-var stringLength = require('string-length');
 var isNpm = require('is-npm');
-var repeating = require('repeating');
+var boxen = require('boxen');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -87,23 +86,12 @@ UpdateNotifier.prototype.notify = function (opts) {
 
 	opts = opts || {};
 
-	var line1 = ' Update available: ' + chalk.green.bold(this.update.latest) +
-		chalk.dim(' (current: ' + this.update.current + ')') + ' ';
-	var line2 = ' Run ' + chalk.blue('npm install -g ' + this.packageName) +
-		' to update. ';
-	var contentWidth = Math.max(stringLength(line1), stringLength(line2));
-	var line1rest = contentWidth - stringLength(line1);
-	var line2rest = contentWidth - stringLength(line2);
-	var top = chalk.yellow('┌' + repeating('─', contentWidth) + '┐');
-	var bottom = chalk.yellow('└' + repeating('─', contentWidth) + '┘');
-	var side = chalk.yellow('│');
-
-	var message =
-		'\n\n' +
-		top + '\n' +
-		side + line1 + repeating(' ', line1rest) + side + '\n' +
-		side + line2 + repeating(' ', line2rest) + side + '\n' +
-		bottom + '\n';
+	var message = '\n' + boxen('Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') + chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update', {
+		padding: 1,
+		margin: 1,
+		borderColor: 'yellow',
+		borderStyle: 'round'
+	});
 
 	if (opts.defer === undefined) {
 		process.on('exit', function () {
