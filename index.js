@@ -17,7 +17,7 @@ function UpdateNotifier(options) {
 	// TODO: remove deprecated options at some point far into the future
 	options.pkg = {
 		name: options.pkg.name || options.packageName,
-		version: options.pkg.version || options.packageName
+		version: options.pkg.version || options.packageVersion
 	};
 
 	if (!options.pkg.name || !options.pkg.version) {
