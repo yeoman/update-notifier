@@ -141,7 +141,7 @@ There are a bunch projects using it:
 - [Hoodie CLI](http://hood.ie) - Hoodie command line tool
 - [Roots](http://roots.cx) - A toolkit for advanced front-end development
 
-[And 100+ more...](https://www.npmjs.org/browse/depended/update-notifier)
+[And 600+ more...](https://www.npmjs.org/browse/depended/update-notifier)
 
 
 ## License
