@@ -4,7 +4,6 @@
   "description": "Update notifications for your CLI app",
   "license": "BSD-2-Clause",
   "repository": "yeoman/update-notifier",
-  "bugs": "https://github.com/yeoman/update-notifier/issues",
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
