@@ -97,6 +97,10 @@ UpdateNotifier.prototype.notify = function (opts) {
 		process.on('exit', function () {
 			console.error(message);
 		});
+
+		process.on('SIGINT', function () {
+			console.error('\n' + message);
+		});
 	} else {
 		console.error(message);
 	}
