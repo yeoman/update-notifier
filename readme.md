@@ -81,24 +81,24 @@ Type: `object`
 
 ##### name
 
-*Required*  
+*Required*<br>
 Type: `string`
 
 ##### version
 
-*Required*  
+*Required*<br>
 Type: `string`
 
 #### updateCheckInterval
 
-Type: `number`  
+Type: `number`<br>
 Default: 1000 * 60 * 60 * 24 (1 day)
 
 How often to check for updates.
 
 #### callback(error, update)
 
-Type: `function`  
+Type: `function`<br>
 
 Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how).
 
@@ -113,7 +113,7 @@ Only notifies if there is an update and the process is [TTY](http://nodejs.org/a
 
 #### options.defer
 
-Type: `boolean`  
+Type: `boolean`<br>
 Default: `true`
 
 Defer showing the notification to after the process has exited.
@@ -133,7 +133,7 @@ The idea for this module came from the desire to apply the browser update strate
 There are a bunch projects using it:
 
 - [Yeoman](http://yeoman.io) - Modern workflows for modern webapps
-- [AVA](https://github.com/sindresorhus/ava) - Simple concurrent test runner
+- [AVA](https://ava.li) - Simple concurrent test runner
 - [XO](https://github.com/sindresorhus/xo) - JavaScript happiness style linter
 - [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
 - [Node GH](http://nodegh.io) - GitHub command line tool
