@@ -59,10 +59,7 @@ function UpdateNotifier(options) {
 						width: width
 					};
 				}).map(function (obj) {
-					for (var i = 0, pre = Math.floor((maxWidth - obj.width) / 2); i < pre; i++) {
-						obj.str = ' ' + obj.str;
-					}
-					return obj.str;
+					return new Array(Math.floor((maxWidth - obj.width) / 2) + 1).join(' ') + obj.str;
 				}).join('\n');
 
 				console.error('\n' + boxen(msg));
