@@ -9,7 +9,6 @@ var latestVersion = require('latest-version');
 var isNpm = require('is-npm');
 var boxen = require('boxen');
 var xdgBasedir = require('xdg-basedir');
-var stringWidth = require('string-width');
 var ansiAlign = require('ansi-align');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
