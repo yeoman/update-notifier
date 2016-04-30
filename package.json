@@ -33,6 +33,7 @@
     "version"
   ],
   "dependencies": {
+    "ansi-align": "^1.0.0",
     "boxen": "^0.5.1",
     "chalk": "^1.0.0",
     "configstore": "^2.0.0",

@@ -10,6 +10,7 @@ var isNpm = require('is-npm');
 var boxen = require('boxen');
 var xdgBasedir = require('xdg-basedir');
 var stringWidth = require('string-width');
+var ansiAlign = require('ansi-align');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -48,21 +49,7 @@ function UpdateNotifier(options) {
 				msg.push(format(' Try running with %s or get access ', chalk.cyan('sudo')));
 				msg.push(' to the local update config store via ');
 				msg.push(chalk.cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir.config)));
-
-				var width;
-				var maxWidth = 0;
-				msg = msg.map(function (str) {
-					width = stringWidth(str);
-					maxWidth = Math.max(width, maxWidth);
-					return {
-						str: str,
-						width: width
-					};
-				}).map(function (obj) {
-					return new Array(Math.floor((maxWidth - obj.width) / 2) + 1).join(' ') + obj.str;
-				}).join('\n');
-
-				console.error('\n' + boxen(msg));
+				console.error('\n' + boxen(ansiAlign.center(msg).join('\n')));
 			});
 		}
 	}
