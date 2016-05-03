@@ -60,7 +60,12 @@ UpdateNotifier.prototype.check = function () {
 		return;
 	}
 
-	if (!this.config || this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env || process.argv.indexOf('--no-update-notifier') !== -1) {
+	if (
+		!this.config ||
+		this.config.get('optOut') ||
+		'NO_UPDATE_NOTIFIER' in process.env ||
+		process.argv.indexOf('--no-update-notifier') !== -1
+	) {
 		return;
 	}
 
