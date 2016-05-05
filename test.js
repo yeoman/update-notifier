@@ -2,6 +2,7 @@
 'use strict';
 var assert = require('assert');
 var fs = require('fs');
+var clearRequire = require('clear-require');
 var updateNotifier = require('./');
 
 describe('updateNotifier', function () {
@@ -38,5 +39,33 @@ describe('updateNotifier', function () {
 		updateNotifier(generateSettings({
 			callback: cb
 		}));
+	});
+});
+
+describe('updateNotifier with fs error', function () {
+	before(function () {
+		clearRequire('./');
+		clearRequire('configstore');
+		clearRequire('xdg-basedir');
+		// set configstore.config to something
+		// that requires root access
+		process.env.XDG_CONFIG_HOME = '/usr';
+		updateNotifier = require('./');
+	});
+
+	after(function () {
+		clearRequire('./');
+		clearRequire('configstore');
+		clearRequire('xdg-basedir');
+		delete process.env.XDG_CONFIG_HOME;
+		updateNotifier = require('./');
+	});
+
+	it('should fail gracefully', function () {
+		// basically should not blow up, but config should be undefined
+		assert.ifError(updateNotifier({
+			packageName: 'npme',
+			packageVersion: '3.7.0'
+		}).config);
 	});
 });

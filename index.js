@@ -1,12 +1,15 @@
 'use strict';
 var spawn = require('child_process').spawn;
 var path = require('path');
+var format = require('util').format;
 var Configstore = require('configstore');
 var chalk = require('chalk');
 var semverDiff = require('semver-diff');
 var latestVersion = require('latest-version');
 var isNpm = require('is-npm');
 var boxen = require('boxen');
+var xdgBasedir = require('xdg-basedir');
+var ansiAlign = require('ansi-align');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -31,12 +34,23 @@ function UpdateNotifier(options) {
 	this.callback = options.callback || function () {};
 
 	if (!this.hasCallback) {
-		this.config = new Configstore('update-notifier-' + this.packageName, {
-			optOut: false,
-			// init with the current time so the first check is only
-			// after the set interval, so not to bother users right away
-			lastUpdateCheck: Date.now()
-		});
+		try {
+			this.config = new Configstore('update-notifier-' + this.packageName, {
+				optOut: false,
+				// init with the current time so the first check is only
+				// after the set interval, so not to bother users right away
+				lastUpdateCheck: Date.now()
+			});
+		} catch (_) {
+			// expecting error code EACCES or EPERM
+			process.on('exit', function () {
+				var msg = [chalk.yellow(format(' %s update check failed ', options.pkg.name))];
+				msg.push(format(' Try running with %s or get access ', chalk.cyan('sudo')));
+				msg.push(' to the local update config store via ');
+				msg.push(chalk.cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir.config)));
+				console.error('\n' + boxen(ansiAlign.center(msg).join('\n')));
+			});
+		}
 	}
 }
 
@@ -46,7 +60,12 @@ UpdateNotifier.prototype.check = function () {
 		return;
 	}
 
-	if (this.config.get('optOut') || 'NO_UPDATE_NOTIFIER' in process.env || process.argv.indexOf('--no-update-notifier') !== -1) {
+	if (
+		!this.config ||
+		this.config.get('optOut') ||
+		'NO_UPDATE_NOTIFIER' in process.env ||
+		process.argv.indexOf('--no-update-notifier') !== -1
+	) {
 		return;
 	}
 

@@ -1,3 +1,4 @@
+/* eslint xo/no-process-exit: "off" */
 'use strict';
 var updateNotifier = require('./');
 var options = JSON.parse(process.argv[2]);
