@@ -33,14 +33,17 @@
     "version"
   ],
   "dependencies": {
+    "ansi-align": "^1.0.0",
     "boxen": "^0.5.1",
     "chalk": "^1.0.0",
     "configstore": "^2.0.0",
     "is-npm": "^1.0.0",
     "latest-version": "^2.0.0",
-    "semver-diff": "^2.0.0"
+    "semver-diff": "^2.0.0",
+    "xdg-basedir": "^2.0.0"
   },
   "devDependencies": {
+    "clear-require": "^1.0.1",
     "mocha": "*",
     "xo": "*"
   }
