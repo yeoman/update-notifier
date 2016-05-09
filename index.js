@@ -3,13 +3,7 @@ var spawn = require('child_process').spawn;
 var path = require('path');
 var format = require('util').format;
 var Configstore = require('configstore');
-var chalk = require('chalk');
-var semverDiff = require('semver-diff');
-var latestVersion = require('latest-version');
 var isNpm = require('is-npm');
-var boxen = require('boxen');
-var xdgBasedir = require('xdg-basedir');
-var ansiAlign = require('ansi-align');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -42,6 +36,11 @@ function UpdateNotifier(options) {
 				lastUpdateCheck: Date.now()
 			});
 		} catch (_) {
+			var boxen = require('boxen');
+			var ansiAlign = require('ansi-align');
+			var xdgBasedir = require('xdg-basedir');
+			var chalk = require('chalk');
+
 			// expecting error code EACCES or EPERM
 			process.on('exit', function () {
 				var msg = [chalk.yellow(format(' %s update check failed ', options.pkg.name))];
@@ -88,6 +87,8 @@ UpdateNotifier.prototype.check = function () {
 };
 
 UpdateNotifier.prototype.checkNpm = function () {
+	var semverDiff = require('semver-diff');
+	var latestVersion = require('latest-version');
 	return latestVersion(this.packageName).then(function (latestVersion) {
 		return {
 			latest: latestVersion,
@@ -104,7 +105,8 @@ UpdateNotifier.prototype.notify = function (opts) {
 	}
 
 	opts = opts || {};
-
+	var chalk = require('chalk');
+	var boxen = require('boxen');
 	var message = '\n' + boxen('Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') + chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update', {
 		padding: 1,
 		margin: 1,
