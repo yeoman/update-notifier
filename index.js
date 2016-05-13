@@ -2,14 +2,15 @@
 var spawn = require('child_process').spawn;
 var path = require('path');
 var format = require('util').format;
-var Configstore = require('configstore');
-var chalk = require('chalk');
-var semverDiff = require('semver-diff');
-var latestVersion = require('latest-version');
-var isNpm = require('is-npm');
-var boxen = require('boxen');
-var xdgBasedir = require('xdg-basedir');
+var lazyRequire = require('lazy-req')(require);
 
+var configstore = lazyRequire('configstore');
+var chalk = lazyRequire('chalk');
+var semverDiff = lazyRequire('semver-diff');
+var latestVersion = lazyRequire('latest-version');
+var isNpm = lazyRequire('is-npm');
+var boxen = lazyRequire('boxen');
+var xdgBasedir = lazyRequire('xdg-basedir');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -35,7 +36,8 @@ function UpdateNotifier(options) {
 
 	if (!this.hasCallback) {
 		try {
-			this.config = new Configstore('update-notifier-' + this.packageName, {
+			var ConfigStore = configstore();
+			this.config = new ConfigStore('update-notifier-' + this.packageName, {
 				optOut: false,
 				// init with the current time so the first check is only
 				// after the set interval, so not to bother users right away
@@ -44,13 +46,13 @@ function UpdateNotifier(options) {
 		} catch (err) {
 			// expecting error code EACCES or EPERM
 			var msg =
-				chalk.yellow(format(' %s update check failed ', options.pkg.name)) +
-				format('\n Try running with %s or get access ', chalk.cyan('sudo')) +
+				chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
+				format('\n Try running with %s or get access ', chalk().cyan('sudo')) +
 				'\n to the local update config store via \n' +
-				chalk.cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir.config));
+				chalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));
 
 			process.on('exit', function () {
-				console.error('\n' + boxen(msg, {align: 'center'}));
+				console.error('\n' + boxen()(msg, {align: 'center'}));
 			});
 		}
 	}
@@ -61,7 +63,6 @@ UpdateNotifier.prototype.check = function () {
 		this.checkNpm().then(this.callback.bind(this, null)).catch(this.callback);
 		return;
 	}
-
 	if (
 		!this.config ||
 		this.config.get('optOut') ||
@@ -90,25 +91,25 @@ UpdateNotifier.prototype.check = function () {
 };
 
 UpdateNotifier.prototype.checkNpm = function () {
-	return latestVersion(this.packageName).then(function (latestVersion) {
+	return latestVersion()(this.packageName).then(function (latestVersion) {
 		return {
 			latest: latestVersion,
 			current: this.packageVersion,
-			type: semverDiff(this.packageVersion, latestVersion) || 'latest',
+			type: semverDiff()(this.packageVersion, latestVersion) || 'latest',
 			name: this.packageName
 		};
 	}.bind(this));
 };
 
 UpdateNotifier.prototype.notify = function (opts) {
-	if (!process.stdout.isTTY || isNpm || !this.update) {
+	if (!process.stdout.isTTY || isNpm() || !this.update) {
 		return this;
 	}
 
 	opts = opts || {};
 
-	opts.message = opts.message || 'Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') +
-		chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update';
+	opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
+		chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i -g ' + this.packageName) + ' to update';
 
 	opts.boxenOpts = opts.boxenOpts || {
 		padding: 1,
@@ -118,7 +119,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 		borderStyle: 'round'
 	};
 
-	var message = '\n' + boxen(opts.message, opts.boxenOpts);
+	var message = '\n' + boxen()(opts.message, opts.boxenOpts);
 
 	if (opts.defer === false) {
 		console.error(message);
