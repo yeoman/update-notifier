@@ -118,6 +118,19 @@ Default: `true`
 
 Defer showing the notification to after the process has exited.
 
+#### options.message
+
+Type: `string`<br>
+Default: [See the screen shot above](https://github.com/yeoman/update-notifier#update-notifier-)
+
+The message that will be shown when an update is available.
+
+### options.boxenOpts
+
+Type: `object`<br>
+Default: `{ padding: 1, margin: 1, borderColor: 'yellow', borderStyle: 'round' }` ([See the screen shot above](https://github.com/yeoman/update-notifier#update-notifier-))
+
+The object that will be passed to [boxen](https://github.com/sindresorhus/boxen).
 
 ### User settings
 

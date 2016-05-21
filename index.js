@@ -105,12 +105,17 @@ UpdateNotifier.prototype.notify = function (opts) {
 
 	opts = opts || {};
 
-	var message = '\n' + boxen('Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') + chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update', {
+	opts.message = opts.message || 'Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') +
+		chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update';
+
+	opts.boxenOpts = opts.boxenOpts || {
 		padding: 1,
 		margin: 1,
 		borderColor: 'yellow',
 		borderStyle: 'round'
-	});
+	};
+
+	var message = '\n' + boxen(opts.message, opts.boxenOpts);
 
 	if (opts.defer === undefined) {
 		process.on('exit', function () {
