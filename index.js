@@ -9,7 +9,6 @@ var latestVersion = require('latest-version');
 var isNpm = require('is-npm');
 var boxen = require('boxen');
 var xdgBasedir = require('xdg-basedir');
-var ansiAlign = require('ansi-align');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -43,12 +42,14 @@ function UpdateNotifier(options) {
 			});
 		} catch (_) {
 			// expecting error code EACCES or EPERM
+			var msg =
+				chalk.yellow(format(' %s update check failed ', options.pkg.name)) +
+				format('\n Try running with %s or get access ', chalk.cyan('sudo')) +
+				'\n to the local update config store via \n' +
+				chalk.cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir.config));
+
 			process.on('exit', function () {
-				var msg = [chalk.yellow(format(' %s update check failed ', options.pkg.name))];
-				msg.push(format(' Try running with %s or get access ', chalk.cyan('sudo')));
-				msg.push(' to the local update config store via ');
-				msg.push(chalk.cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir.config)));
-				console.error('\n' + boxen(ansiAlign.center(msg).join('\n')));
+				console.error('\n' + boxen(msg, {align: 'center'}));
 			});
 		}
 	}
@@ -108,6 +109,7 @@ UpdateNotifier.prototype.notify = function (opts) {
 	var message = '\n' + boxen('Update available ' + chalk.dim(this.update.current) + chalk.reset(' → ') + chalk.green(this.update.latest) + ' \nRun ' + chalk.cyan('npm i -g ' + this.packageName) + ' to update', {
 		padding: 1,
 		margin: 1,
+		align: 'center',
 		borderColor: 'yellow',
 		borderStyle: 'round'
 	});
