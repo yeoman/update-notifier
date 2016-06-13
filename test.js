@@ -2,7 +2,10 @@
 'use strict';
 var assert = require('assert');
 var fs = require('fs');
+var util = require('util');
 var clearRequire = require('clear-require');
+var FixtureStdout = require('fixture-stdout');
+var stripAnsi = require('strip-ansi');
 var updateNotifier = require('./');
 
 describe('updateNotifier', function () {
@@ -44,9 +47,7 @@ describe('updateNotifier', function () {
 
 describe('updateNotifier with fs error', function () {
 	before(function () {
-		clearRequire('./');
-		clearRequire('configstore');
-		clearRequire('xdg-basedir');
+		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
 		// set configstore.config to something
 		// that requires root access
 		process.env.XDG_CONFIG_HOME = '/usr';
@@ -54,9 +55,7 @@ describe('updateNotifier with fs error', function () {
 	});
 
 	after(function () {
-		clearRequire('./');
-		clearRequire('configstore');
-		clearRequire('xdg-basedir');
+		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
 		delete process.env.XDG_CONFIG_HOME;
 		updateNotifier = require('./');
 	});
@@ -67,5 +66,72 @@ describe('updateNotifier with fs error', function () {
 			packageName: 'npme',
 			packageVersion: '3.7.0'
 		}).config);
+	});
+});
+
+describe('notify(opts)', function () {
+	var stderr = new FixtureStdout({
+		stream: process.stderr
+	});
+	var processEnvBefore;
+	var isTTYBefore;
+
+	before(function () {
+		['./', 'is-npm'].forEach(clearRequire);
+		processEnvBefore = JSON.stringify(process.env);
+		isTTYBefore = process.stdout.isTTY;
+		['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(function (name) {
+			delete process.env[name];
+		});
+		process.stdout.isTTY = true;
+		updateNotifier = require('./');
+	});
+
+	after(function () {
+		['./', 'is-npm'].forEach(clearRequire);
+		process.env = JSON.parse(processEnvBefore);
+		process.stdout.isTTY = isTTYBefore;
+		processEnvBefore = undefined;
+		isTTYBefore = undefined;
+		updateNotifier = require('./');
+	});
+
+	var errorLogs = '';
+
+	beforeEach(function () {
+		stderr.capture(function (s) {
+			errorLogs += s;
+			return false;
+		});
+	});
+
+	afterEach(function () {
+		stderr.release();
+		errorLogs = '';
+	});
+
+	it('should use pretty boxen message by default', function () {
+		function Control() {
+			this.packageName = 'update-notifier-tester';
+			this.update = {
+				current: '0.0.2',
+				latest: '1.0.0'
+			};
+		}
+		util.inherits(Control, updateNotifier.UpdateNotifier);
+		var notifier = new Control();
+		notifier.notify({defer: false});
+		assert.equal(stripAnsi(errorLogs), [
+			'',
+			'',
+			'   ╭───────────────────────────────────────────────────╮',
+			'   │                                                   │',
+			'   │          Update available 0.0.2 → 1.0.0           │',
+			'   │   Run npm i -g update-notifier-tester to update   │',
+			'   │                                                   │',
+			'   ╰───────────────────────────────────────────────────╯',
+			'',
+			''
+		].join('\n'));
 	});
 });
