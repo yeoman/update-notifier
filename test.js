@@ -8,11 +8,6 @@ var FixtureStdout = require('fixture-stdout');
 var stripAnsi = require('strip-ansi');
 var updateNotifier = require('./');
 
-function clearRequireAnd(modules, fn) {
-	modules.forEach(clearRequire);
-	fn();
-}
-
 describe('updateNotifier', function () {
 	var generateSettings = function (options) {
 		options = options || {};
@@ -52,19 +47,17 @@ describe('updateNotifier', function () {
 
 describe('updateNotifier with fs error', function () {
 	before(function () {
-		clearRequireAnd(['./', 'configstore', 'xdg-basedir'], function () {
-			// set configstore.config to something
-			// that requires root access
-			process.env.XDG_CONFIG_HOME = '/usr';
-			updateNotifier = require('./');
-		});
+		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
+		// set configstore.config to something
+		// that requires root access
+		process.env.XDG_CONFIG_HOME = '/usr';
+		updateNotifier = require('./');
 	});
 
 	after(function () {
-		clearRequireAnd(['./', 'configstore', 'xdg-basedir'], function () {
-			delete process.env.XDG_CONFIG_HOME;
-			updateNotifier = require('./');
-		});
+		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
+		delete process.env.XDG_CONFIG_HOME;
+		updateNotifier = require('./');
 	});
 
 	it('should fail gracefully', function () {
@@ -84,25 +77,23 @@ describe('notify(opts)', function () {
 	var isTTYBefore;
 
 	before(function () {
-		clearRequireAnd(['./', 'is-npm'], function () {
-			processEnvBefore = JSON.stringify(process.env);
-			isTTYBefore = process.stdout.isTTY;
-			['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(function (name) {
-				delete process.env[name];
-			});
-			process.stdout.isTTY = true;
-			updateNotifier = require('./');
+		['./', 'is-npm'].forEach(clearRequire);
+		processEnvBefore = JSON.stringify(process.env);
+		isTTYBefore = process.stdout.isTTY;
+		['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(function (name) {
+			delete process.env[name];
 		});
+		process.stdout.isTTY = true;
+		updateNotifier = require('./');
 	});
 
 	after(function () {
-		clearRequireAnd(['./', 'is-npm'], function () {
-			process.env = JSON.parse(processEnvBefore);
-			process.stdout.isTTY = isTTYBefore;
-			processEnvBefore = undefined;
-			isTTYBefore = undefined;
-			updateNotifier = require('./');
-		});
+		['./', 'is-npm'].forEach(clearRequire);
+		process.env = JSON.parse(processEnvBefore);
+		process.stdout.isTTY = isTTYBefore;
+		processEnvBefore = undefined;
+		isTTYBefore = undefined;
+		updateNotifier = require('./');
 	});
 
 	var errorLogs = '';
