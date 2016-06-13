@@ -125,7 +125,7 @@ Default: [See the screen shot above](https://github.com/yeoman/update-notifier#u
 
 The message that will be shown when an update is available.
 
-### options.boxenOpts
+#### options.boxenOpts
 
 Type: `object`<br>
 Default: `{ padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round' }` ([See the screen shot above](https://github.com/yeoman/update-notifier#update-notifier-))
