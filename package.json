@@ -33,8 +33,7 @@
     "version"
   ],
   "dependencies": {
-    "ansi-align": "^1.0.0",
-    "boxen": "^0.5.1",
+    "boxen": "^0.6.0",
     "chalk": "^1.0.0",
     "configstore": "^2.0.0",
     "is-npm": "^1.0.0",
@@ -44,7 +43,9 @@
   },
   "devDependencies": {
     "clear-require": "^1.0.1",
+    "fixture-stdout": "^0.2.1",
     "mocha": "*",
+    "strip-ansi": "^3.0.1",
     "xo": "*"
   }
 }
