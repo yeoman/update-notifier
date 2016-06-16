@@ -9,6 +9,7 @@ var latestVersion = require('latest-version');
 var isNpm = require('is-npm');
 var boxen = require('boxen');
 var xdgBasedir = require('xdg-basedir');
+
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
 function UpdateNotifier(options) {
@@ -40,7 +41,7 @@ function UpdateNotifier(options) {
 				// after the set interval, so not to bother users right away
 				lastUpdateCheck: Date.now()
 			});
-		} catch (_) {
+		} catch (err) {
 			// expecting error code EACCES or EPERM
 			var msg =
 				chalk.yellow(format(' %s update check failed ', options.pkg.name)) +
