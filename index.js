@@ -120,7 +120,9 @@ UpdateNotifier.prototype.notify = function (opts) {
 
 	var message = '\n' + boxen(opts.message, opts.boxenOpts);
 
-	if (opts.defer === undefined) {
+	if (opts.defer === false) {
+		console.error(message);
+	} else {
 		process.on('exit', function () {
 			console.error(message);
 		});
@@ -128,8 +130,6 @@ UpdateNotifier.prototype.notify = function (opts) {
 		process.on('SIGINT', function () {
 			console.error('\n' + message);
 		});
-	} else {
-		console.error(message);
 	}
 
 	return this;
