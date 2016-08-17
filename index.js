@@ -102,7 +102,20 @@ UpdateNotifier.prototype.checkNpm = function () {
 };
 
 UpdateNotifier.prototype.notify = function (opts) {
-	if (!process.stdout.isTTY || isNpm() || !this.update) {
+	if (isNpm()) {
+		// is the package local installed ?
+		// if yes, not notify
+		// else, continue
+		if ('_' in process.env) {
+			var binPath = process.env._
+			if (binPath.indexOf(process.cwd()) > -1) {
+				return this
+			}
+		} else {
+			return this
+		}
+	}
+	if (!process.stdout.isTTY || !this.update) {
 		return this;
 	}
 
