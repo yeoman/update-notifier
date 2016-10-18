@@ -1,17 +1,17 @@
-/* eslint-disable xo/no-process-exit */
+/* eslint-disable unicorn/no-process-exit */
 'use strict';
-var updateNotifier = require('./');
+var updateChecker = require('./');
 
 var options = JSON.parse(process.argv[2]);
 
-updateNotifier = new updateNotifier.UpdateNotifier(options);
+updateChecker = new updateChecker.UpdateChecker(options);
 
-updateNotifier.checkNpm().then(function (update) {
+updateChecker.checkLatest().then(function (update) {
 	// only update the last update check time on success
-	updateNotifier.config.set('lastUpdateCheck', Date.now());
+	updateChecker.config.set('lastUpdateCheck', Date.now());
 
 	if (update.type && update.type !== 'latest') {
-		updateNotifier.config.set('update', update);
+		updateChecker.config.set('update', update);
 	}
 
 	// Call process exit explicitly to terminate the child process

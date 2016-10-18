@@ -13,31 +13,68 @@ var boxen = lazyRequire('boxen');
 var xdgBasedir = lazyRequire('xdg-basedir');
 var ONE_DAY = 1000 * 60 * 60 * 24;
 
-function UpdateNotifier(options) {
-	this.options = options = options || {};
-	options.pkg = options.pkg || {};
+function Notifier(options) {
+	options = options || {};
 
-	// reduce pkg to the essential keys. with fallback to deprecated options
-	// TODO: remove deprecated options at some point far into the future
-	options.pkg = {
-		name: options.pkg.name || options.packageName,
-		version: options.pkg.version || options.packageVersion
+	this.boxenOpts = options.boxenOpts || {
+		padding: 1,
+		margin: 1,
+		align: 'center',
+		borderColor: 'yellow',
+		borderStyle: 'round'
 	};
+}
 
-	if (!options.pkg.name || !options.pkg.version) {
-		throw new Error('pkg.name and pkg.version required');
+Notifier.prototype.notify = function (opts) {
+	if (!process.stdout.isTTY || isNpm() || !opts.update) {
+		return this;
 	}
 
-	this.packageName = options.pkg.name;
-	this.packageVersion = options.pkg.version;
+	opts = opts || {};
+
+	opts.message = opts.message || 'Update available';
+
+	var message = '\n' + boxen()(opts.message, this.boxenOpts);
+
+	if (opts.defer === false) {
+		console.error(message);
+	} else {
+		process.on('exit', function () {
+			console.error(message);
+		});
+
+		process.on('SIGINT', function () {
+			console.error('\n' + message);
+		});
+	}
+
+	return this;
+};
+
+function UpdateChecker(options) {
+	this.options = options = options || {};
+
 	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 	this.hasCallback = typeof options.callback === 'function';
 	this.callback = options.callback || function () {};
+	this.getLatest = options.getLatest || function () {
+		return Promise.resolve('');
+	};
+
+	if (!options.currentVersion) {
+		throw new Error('currentVersion required');
+	}
+	this.currentVersion = options.currentVersion;
+
+	if (!options.updaterName) {
+		throw new Error('updaterName required');
+	}
+	this.updaterName = options.updaterName;
 
 	if (!this.hasCallback) {
 		try {
 			var ConfigStore = configstore();
-			this.config = new ConfigStore('update-notifier-' + this.packageName, {
+			this.config = new ConfigStore('update-notifier-' + this.updaterName, {
 				optOut: false,
 				// init with the current time so the first check is only
 				// after the set interval, so not to bother users right away
@@ -46,7 +83,7 @@ function UpdateNotifier(options) {
 		} catch (err) {
 			// expecting error code EACCES or EPERM
 			var msg =
-				chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
+				chalk().yellow(format(' %s update check failed ', this.updaterName)) +
 				format('\n Try running with %s or get access ', chalk().cyan('sudo')) +
 				'\n to the local update config store via \n' +
 				chalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));
@@ -58,9 +95,19 @@ function UpdateNotifier(options) {
 	}
 }
 
-UpdateNotifier.prototype.check = function () {
+UpdateChecker.prototype.checkLatest = function () {
+	return this.getLatest().then(function (latestVersion) {
+		return {
+			latest: latestVersion,
+			current: this.currentVersion,
+			type: semverDiff()(this.currentVersion, latestVersion) || 'latest'
+		};
+	}.bind(this));
+};
+
+UpdateChecker.prototype.check = function () {
 	if (this.hasCallback) {
-		this.checkNpm().then(this.callback.bind(this, null)).catch(this.callback);
+		this.checkLatest().then(this.callback.bind(this, null)).catch(this.callback);
 		return;
 	}
 	if (
@@ -90,56 +137,71 @@ UpdateNotifier.prototype.check = function () {
 	}).unref();
 };
 
-UpdateNotifier.prototype.checkNpm = function () {
-	return latestVersion()(this.packageName).then(function (latestVersion) {
-		return {
-			latest: latestVersion,
-			current: this.packageVersion,
-			type: semverDiff()(this.packageVersion, latestVersion) || 'latest',
-			name: this.packageName
-		};
-	}.bind(this));
+function PackageUpdateNotifier(options) {
+	this.options = options = options || {};
+	options.pkg = options.pkg || {};
+
+	// reduce pkg to the essential keys. with fallback to deprecated options
+	// TODO: remove deprecated options at some point far into the future
+	options.pkg = {
+		name: options.pkg.name || options.packageName,
+		version: options.pkg.version || options.packageVersion
+	};
+
+	if (!options.pkg.name || !options.pkg.version) {
+		throw new Error('pkg.name and pkg.version required');
+	}
+
+	this.packageName = options.pkg.name;
+	this.packageVersion = options.pkg.version;
+	this.updateCheckInterval = typeof options.updateCheckInterval === 'number' && options.updateCheckInterval;
+	this.hasCallback = typeof options.callback === 'function';
+	this.callback = options.callback || function () {};
+
+	this.updateChecker = new UpdateChecker({
+		callback: options.callback,
+		currentVersion: this.packageVersion,
+		getLatest: function () {
+			return latestVersion()(this.packageName);
+		}.bind(this),
+		updaterName: this.packageName,
+		updateCheckInterval: options.updateCheckInterval
+	});
+
+	// TODO: deprecate
+	this.config = this.updateChecker.config;
+}
+
+// TODO: deprecate
+PackageUpdateNotifier.prototype.checkNpm = function () {
+	return this.updateChecker.checkLatest();
 };
 
-UpdateNotifier.prototype.notify = function (opts) {
-	if (!process.stdout.isTTY || isNpm() || !this.update) {
-		return this;
-	}
+PackageUpdateNotifier.prototype.check = function () {
+	return this.updateChecker.check();
+};
+
+PackageUpdateNotifier.prototype.notify = function (opts) {
+	var notifier = new Notifier();
 
 	opts = opts || {};
 
-	opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-		chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i -g ' + this.packageName) + ' to update';
+	opts.update = (this.updateChecker && this.updateChecker.update) || {};
 
-	opts.boxenOpts = opts.boxenOpts || {
-		padding: 1,
-		margin: 1,
-		align: 'center',
-		borderColor: 'yellow',
-		borderStyle: 'round'
-	};
+	opts.message = opts.message || 'Update available ' + chalk().dim(opts.update.current) + chalk().reset(' → ') +
+		chalk().green(opts.update.latest) + ' \nRun ' + chalk().cyan('npm i -g ' + this.packageName) + ' to update';
 
-	var message = '\n' + boxen()(opts.message, opts.boxenOpts);
-
-	if (opts.defer === false) {
-		console.error(message);
-	} else {
-		process.on('exit', function () {
-			console.error(message);
-		});
-
-		process.on('SIGINT', function () {
-			console.error('\n' + message);
-		});
-	}
-
-	return this;
+	return notifier.notify(opts);
 };
 
 module.exports = function (options) {
-	var updateNotifier = new UpdateNotifier(options);
+	var updateNotifier = new PackageUpdateNotifier(options);
 	updateNotifier.check();
 	return updateNotifier;
 };
 
-module.exports.UpdateNotifier = UpdateNotifier;
+module.exports.Notifier = Notifier;
+module.exports.PackageUpdateNotifier = PackageUpdateNotifier;
+module.exports.UpdateChecker = UpdateChecker;
+
+module.exports.UpdateNotifier = PackageUpdateNotifier;
