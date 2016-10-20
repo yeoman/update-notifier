@@ -1,4 +1,4 @@
-/* eslint-disable xo/no-process-exit */
+/* eslint-disable unicorn/no-process-exit */
 'use strict';
 var updateNotifier = require('./');
 
