@@ -8,6 +8,20 @@ var FixtureStdout = require('fixture-stdout');
 var stripAnsi = require('strip-ansi');
 var updateNotifier = require('./');
 
+describe('module', function () {
+	it('should export a function', function () {
+		assert.equal(typeof updateNotifier, 'function');
+	});
+
+	it('should export a Notifier constructor', function () {
+		assert.equal(typeof updateNotifier.Notifier, 'function');
+	});
+
+	it('should export a UpdateChecker constructor', function () {
+		assert.equal(typeof updateNotifier.UpdateChecker, 'function');
+	});
+});
+
 describe('updateNotifier', function () {
 	var generateSettings = function (options) {
 		options = options || {};
@@ -113,9 +127,11 @@ describe('notify(opts)', function () {
 	it('should use pretty boxen message by default', function () {
 		function Control() {
 			this.packageName = 'update-notifier-tester';
-			this.update = {
-				current: '0.0.2',
-				latest: '1.0.0'
+			this.updateChecker = {
+				update: {
+					current: '0.0.2',
+					latest: '1.0.0'
+				}
 			};
 		}
 		util.inherits(Control, updateNotifier.UpdateNotifier);

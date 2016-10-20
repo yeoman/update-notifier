@@ -1,5 +1,5 @@
 'use strict';
-var updateNotifier = require('./');
+var updateNotifier = require('../');
 
 // you have to run this file two times the first time
 
