@@ -129,7 +129,8 @@ UpdateNotifier.prototype.notify = function (opts) {
 		});
 
 		process.on('SIGINT', function () {
-			console.error('\n' + message);
+			console.error('');
+			process.exit();
 		});
 	}
 
