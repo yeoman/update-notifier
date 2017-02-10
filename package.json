@@ -10,10 +10,10 @@
     "url": "sindresorhus.com"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
-    "test": "if-node-version \">=4\" xo && mocha --timeout 20000"
+    "test": "xo && mocha --timeout 20000"
   },
   "files": [
     "index.js",
@@ -33,19 +33,18 @@
     "version"
   ],
   "dependencies": {
-    "boxen": "^0.6.0",
+    "boxen": "^1.0.0",
     "chalk": "^1.0.0",
     "configstore": "^2.0.0",
     "is-npm": "^1.0.0",
     "latest-version": "^2.0.0",
-    "lazy-req": "^1.1.0",
+    "lazy-req": "^2.0.0",
     "semver-diff": "^2.0.0",
     "xdg-basedir": "^2.0.0"
   },
   "devDependencies": {
-    "clear-require": "^1.0.1",
+    "clear-require": "^2.0.0",
     "fixture-stdout": "^0.2.1",
-    "if-node-version": "^1.1.0",
     "mocha": "*",
     "strip-ansi": "^3.0.1",
     "xo": "*"
