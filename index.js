@@ -8,7 +8,6 @@ var configstore = lazyRequire('configstore');
 var chalk = lazyRequire('chalk');
 var semverDiff = lazyRequire('semver-diff');
 var latestVersion = lazyRequire('latest-version');
-var isNpm = lazyRequire('is-npm');
 var boxen = lazyRequire('boxen');
 var xdgBasedir = lazyRequire('xdg-basedir');
 var ONE_DAY = 1000 * 60 * 60 * 24;
@@ -102,7 +101,7 @@ UpdateNotifier.prototype.checkNpm = function () {
 };
 
 UpdateNotifier.prototype.notify = function (opts) {
-	if (!process.stdout.isTTY || isNpm() || !this.update) {
+	if (!process.stdout.isTTY || !this.update) {
 		return this;
 	}
 
