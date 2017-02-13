@@ -75,7 +75,7 @@ UpdateNotifier.prototype.check = function () {
 	this.update = this.config.get('update');
 
 	if (this.update) {
-		this.config.del('update');
+		this.config.delete('update');
 	}
 
 	// Only check for updates on a set interval

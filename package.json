@@ -35,12 +35,12 @@
   "dependencies": {
     "boxen": "^1.0.0",
     "chalk": "^1.0.0",
-    "configstore": "^2.0.0",
+    "configstore": "^3.0.0",
     "is-npm": "^1.0.0",
-    "latest-version": "^2.0.0",
+    "latest-version": "^3.0.0",
     "lazy-req": "^2.0.0",
     "semver-diff": "^2.0.0",
-    "xdg-basedir": "^2.0.0"
+    "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
     "clear-require": "^2.0.0",
