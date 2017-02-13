@@ -61,11 +61,12 @@ describe('updateNotifier with fs error', function () {
 	});
 
 	it('should fail gracefully', function () {
-		// basically should not blow up, but config should be undefined
-		assert.ifError(updateNotifier({
-			packageName: 'npme',
-			packageVersion: '3.7.0'
-		}).config);
+		assert.doesNotThrow(function () {
+			updateNotifier({
+				packageName: 'npme',
+				packageVersion: '3.7.0'
+			});
+		});
 	});
 });
 
