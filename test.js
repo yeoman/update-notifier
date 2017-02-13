@@ -1,15 +1,15 @@
 /* eslint-env mocha */
 'use strict';
-var assert = require('assert');
-var fs = require('fs');
-var util = require('util');
-var clearRequire = require('clear-require');
-var FixtureStdout = require('fixture-stdout');
-var stripAnsi = require('strip-ansi');
-var updateNotifier = require('./');
+const assert = require('assert');
+const fs = require('fs');
+const util = require('util');
+const clearRequire = require('clear-require');
+const FixtureStdout = require('fixture-stdout');
+const stripAnsi = require('strip-ansi');
+let updateNotifier = require('.');
 
-describe('updateNotifier', function () {
-	var generateSettings = function (options) {
+describe('updateNotifier', () => {
+	const generateSettings = options => {
 		options = options || {};
 		return {
 			pkg: {
@@ -20,48 +20,48 @@ describe('updateNotifier', function () {
 		};
 	};
 
-	var configstorePath;
+	let configstorePath;
 
-	beforeEach(function () {
+	beforeEach(() => {
 		configstorePath = updateNotifier(generateSettings()).config.path;
 	});
 
-	afterEach(function () {
-		setTimeout(function () {
+	afterEach(() => {
+		setTimeout(() => {
 			fs.unlinkSync(configstorePath);
 		}, 10000);
 	});
 
-	it('should check for update', function () {
-		return updateNotifier(generateSettings()).checkNpm().then(function (update) {
+	it('should check for update', () => {
+		return updateNotifier(generateSettings()).checkNpm().then(update => {
 			assert.equal(update.current, '0.0.2');
 		});
 	});
 
-	it('should check for update with callback', function (cb) {
+	it('should check for update with callback', cb => {
 		updateNotifier(generateSettings({
 			callback: cb
 		}));
 	});
 });
 
-describe('updateNotifier with fs error', function () {
-	before(function () {
+describe('updateNotifier with fs error', () => {
+	before(() => {
 		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
-		// set configstore.config to something
+		// Set configstore.config to something
 		// that requires root access
 		process.env.XDG_CONFIG_HOME = '/usr';
 		updateNotifier = require('./');
 	});
 
-	after(function () {
+	after(() => {
 		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
 		delete process.env.XDG_CONFIG_HOME;
 		updateNotifier = require('./');
 	});
 
-	it('should fail gracefully', function () {
-		assert.doesNotThrow(function () {
+	it('should fail gracefully', () => {
+		assert.doesNotThrow(() => {
 			updateNotifier({
 				packageName: 'npme',
 				packageVersion: '3.7.0'
@@ -70,25 +70,25 @@ describe('updateNotifier with fs error', function () {
 	});
 });
 
-describe('notify(opts)', function () {
-	var stderr = new FixtureStdout({
+describe('notify(opts)', () => {
+	const stderr = new FixtureStdout({
 		stream: process.stderr
 	});
-	var processEnvBefore;
-	var isTTYBefore;
+	let processEnvBefore;
+	let isTTYBefore;
 
-	before(function () {
+	before(() => {
 		['./', 'is-npm'].forEach(clearRequire);
 		processEnvBefore = JSON.stringify(process.env);
 		isTTYBefore = process.stdout.isTTY;
-		['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(function (name) {
+		['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(name => {
 			delete process.env[name];
 		});
 		process.stdout.isTTY = true;
 		updateNotifier = require('./');
 	});
 
-	after(function () {
+	after(() => {
 		['./', 'is-npm'].forEach(clearRequire);
 		process.env = JSON.parse(processEnvBefore);
 		process.stdout.isTTY = isTTYBefore;
@@ -97,21 +97,21 @@ describe('notify(opts)', function () {
 		updateNotifier = require('./');
 	});
 
-	var errorLogs = '';
+	let errorLogs = '';
 
-	beforeEach(function () {
-		stderr.capture(function (s) {
+	beforeEach(() => {
+		stderr.capture(s => {
 			errorLogs += s;
 			return false;
 		});
 	});
 
-	afterEach(function () {
+	afterEach(() => {
 		stderr.release();
 		errorLogs = '';
 	});
 
-	it('should use pretty boxen message by default', function () {
+	it('should use pretty boxen message by default', () => {
 		function Control() {
 			this.packageName = 'update-notifier-tester';
 			this.update = {
@@ -120,7 +120,7 @@ describe('notify(opts)', function () {
 			};
 		}
 		util.inherits(Control, updateNotifier.UpdateNotifier);
-		var notifier = new Control();
+		const notifier = new Control();
 		notifier.notify({defer: false});
 		assert.equal(stripAnsi(errorLogs), [
 			'',
