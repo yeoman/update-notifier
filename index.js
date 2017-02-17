@@ -109,8 +109,10 @@ class UpdateNotifier {
 
 		opts = opts || {};
 
+		opts.isGlobal = typeof opts.isGlobal === 'boolean' ? opts.global : true;
+
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i -g ' + this.packageName) + ' to update';
+			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
 
 		opts.boxenOpts = opts.boxenOpts || {
 			padding: 1,

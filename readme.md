@@ -131,6 +131,13 @@ Default: [See above screenshot](https://github.com/yeoman/update-notifier#update
 
 Message that will be shown when an update is available.
 
+##### isGlobal
+
+Type: `boolean`<br>
+Default: `true`
+
+Include the `-g` argument in the default message's `npm i` recommendation. This is ignored if you supply your own `message`.
+
 ##### boxenOpts
 
 Type: `Object`<br>
