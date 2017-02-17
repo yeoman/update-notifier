@@ -107,9 +107,7 @@ class UpdateNotifier {
 			return this;
 		}
 
-		opts = opts || {};
-
-		opts.isGlobal = typeof opts.isGlobal === 'boolean' ? opts.global : true;
+		opts = Object.assign({isGlobal: true}, opts);
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
