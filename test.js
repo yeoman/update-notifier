@@ -97,6 +97,15 @@ describe('notify(opts)', () => {
 		updateNotifier = require('./');
 	});
 
+	function Control() {
+		this.packageName = 'update-notifier-tester';
+		this.update = {
+			current: '0.0.2',
+			latest: '1.0.0'
+		};
+	}
+	util.inherits(Control, updateNotifier.UpdateNotifier);
+
 	let errorLogs = '';
 
 	beforeEach(() => {
@@ -112,14 +121,6 @@ describe('notify(opts)', () => {
 	});
 
 	it('should use pretty boxen message by default', () => {
-		function Control() {
-			this.packageName = 'update-notifier-tester';
-			this.update = {
-				current: '0.0.2',
-				latest: '1.0.0'
-			};
-		}
-		util.inherits(Control, updateNotifier.UpdateNotifier);
 		const notifier = new Control();
 		notifier.notify({defer: false});
 		assert.equal(stripAnsi(errorLogs), [
@@ -134,5 +135,12 @@ describe('notify(opts)', () => {
 			'',
 			''
 		].join('\n'));
+	});
+
+	it('should exclude -g argument when `isGlobal` option is `false`', () => {
+		const notifier = new Control();
+		notifier.notify({defer: false, isGlobal: false});
+		assert.notEqual(-1, stripAnsi(errorLogs)
+			.indexOf('Run npm i update-notifier-tester to update'));
 	});
 });
