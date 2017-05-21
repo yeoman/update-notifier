@@ -3,7 +3,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const util = require('util');
-const clearRequire = require('clear-require');
+const clearModule = require('clear-module');
 const FixtureStdout = require('fixture-stdout');
 const stripAnsi = require('strip-ansi');
 let updateNotifier = require('.');
@@ -47,17 +47,17 @@ describe('updateNotifier', () => {
 
 describe('updateNotifier with fs error', () => {
 	before(() => {
-		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
+		['.', 'configstore', 'xdg-basedir'].forEach(clearModule);
 		// Set configstore.config to something
 		// that requires root access
 		process.env.XDG_CONFIG_HOME = '/usr';
-		updateNotifier = require('./');
+		updateNotifier = require('.');
 	});
 
 	after(() => {
-		['./', 'configstore', 'xdg-basedir'].forEach(clearRequire);
+		['.', 'configstore', 'xdg-basedir'].forEach(clearModule);
 		delete process.env.XDG_CONFIG_HOME;
-		updateNotifier = require('./');
+		updateNotifier = require('.');
 	});
 
 	it('should fail gracefully', () => {
@@ -78,23 +78,23 @@ describe('notify(opts)', () => {
 	let isTTYBefore;
 
 	before(() => {
-		['./', 'is-npm'].forEach(clearRequire);
+		['.', 'is-npm'].forEach(clearModule);
 		processEnvBefore = JSON.stringify(process.env);
 		isTTYBefore = process.stdout.isTTY;
 		['npm_config_username', 'npm_package_name', 'npm_config_heading'].forEach(name => {
 			delete process.env[name];
 		});
 		process.stdout.isTTY = true;
-		updateNotifier = require('./');
+		updateNotifier = require('.');
 	});
 
 	after(() => {
-		['./', 'is-npm'].forEach(clearRequire);
+		['.', 'is-npm'].forEach(clearModule);
 		process.env = JSON.parse(processEnvBefore);
 		process.stdout.isTTY = isTTYBefore;
 		processEnvBefore = undefined;
 		isTTYBefore = undefined;
-		updateNotifier = require('./');
+		updateNotifier = require('.');
 	});
 
 	function Control() {

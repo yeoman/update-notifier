@@ -36,17 +36,17 @@
     "boxen": "^1.0.0",
     "chalk": "^1.0.0",
     "configstore": "^3.0.0",
+    "import-lazy": "^2.1.0",
     "is-npm": "^1.0.0",
     "latest-version": "^3.0.0",
-    "lazy-req": "^2.0.0",
     "semver-diff": "^2.0.0",
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
-    "clear-require": "^2.0.0",
+    "clear-module": "^2.1.0",
     "fixture-stdout": "^0.2.1",
     "mocha": "*",
     "strip-ansi": "^3.0.1",
-    "xo": "^0.17.0"
+    "xo": "^0.18.2"
   }
 }
