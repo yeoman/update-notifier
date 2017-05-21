@@ -2,20 +2,21 @@
 const spawn = require('child_process').spawn;
 const path = require('path');
 const format = require('util').format;
-const lazyRequire = require('lazy-req')(require);
+const importLazy = require('import-lazy')(require);
 
-const configstore = lazyRequire('configstore');
-const chalk = lazyRequire('chalk');
-const semverDiff = lazyRequire('semver-diff');
-const latestVersion = lazyRequire('latest-version');
-const isNpm = lazyRequire('is-npm');
-const boxen = lazyRequire('boxen');
-const xdgBasedir = lazyRequire('xdg-basedir');
+const configstore = importLazy('configstore');
+const chalk = importLazy('chalk');
+const semverDiff = importLazy('semver-diff');
+const latestVersion = importLazy('latest-version');
+const isNpm = importLazy('is-npm');
+const boxen = importLazy('boxen');
+const xdgBasedir = importLazy('xdg-basedir');
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 class UpdateNotifier {
 	constructor(options) {
-		this.options = options = options || {};
+		options = options || {};
+		this.options = options;
 		options.pkg = options.pkg || {};
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
