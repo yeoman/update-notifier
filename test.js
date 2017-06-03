@@ -19,6 +19,7 @@ describe('updateNotifier', () => {
 			callback: options.callback || null
 		};
 	};
+	const argv = process.argv.slice(0);
 
 	let configstorePath;
 
@@ -27,6 +28,8 @@ describe('updateNotifier', () => {
 	});
 
 	afterEach(() => {
+		delete process.env.NO_UPDATE_NOTIFIER;
+		process.argv = argv;
 		setTimeout(() => {
 			fs.unlinkSync(configstorePath);
 		}, 10000);
@@ -42,6 +45,18 @@ describe('updateNotifier', () => {
 		updateNotifier(generateSettings({
 			callback: cb
 		}));
+	});
+
+	it('should not initialize configStore when NO_UPDATE_NOTIFIER is set', () => {
+		process.env.NO_UPDATE_NOTIFIER = '1';
+		const notifier = updateNotifier(generateSettings());
+		assert.equal(notifier.config, undefined);
+	});
+
+	it('should not initialize configStore when --no-update-notifier is set', () => {
+		process.argv.push('--no-update-notifier');
+		const notifier = updateNotifier(generateSettings());
+		assert.equal(notifier.config, undefined);
 	});
 });
 
