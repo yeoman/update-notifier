@@ -19,11 +19,12 @@ describe('updateNotifier', () => {
 			callback: options.callback || null
 		};
 	};
-	const argv = process.argv.slice(0);
 
+	let argv;
 	let configstorePath;
 
 	beforeEach(() => {
+		argv = process.argv.slice();
 		configstorePath = updateNotifier(generateSettings()).config.path;
 	});
 
