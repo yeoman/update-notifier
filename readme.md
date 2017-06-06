@@ -1,5 +1,7 @@
 # update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=master)](https://travis-ci.org/yeoman/update-notifier)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yeoman/update-notifier.svg)](https://greenkeeper.io/)
+
 > Update notifications for your CLI app
 
 ![](screenshot.png)
