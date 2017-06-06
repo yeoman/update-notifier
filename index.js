@@ -35,8 +35,10 @@ class UpdateNotifier {
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
+		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
+			process.argv.indexOf('--no-update-notifier') !== -1;
 
-		if (!this.hasCallback) {
+		if (!this.disabled && !this.hasCallback) {
 			try {
 				const ConfigStore = configstore();
 				this.config = new ConfigStore(`update-notifier-${this.packageName}`, {
@@ -70,8 +72,7 @@ class UpdateNotifier {
 		if (
 			!this.config ||
 			this.config.get('optOut') ||
-			'NO_UPDATE_NOTIFIER' in process.env ||
-			process.argv.indexOf('--no-update-notifier') !== -1
+			this.disabled
 		) {
 			return;
 		}
