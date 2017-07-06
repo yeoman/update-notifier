@@ -39,7 +39,7 @@ class UpdateNotifier {
 		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
 			process.argv.indexOf('--no-update-notifier') !== -1 ||
-			isCi;
+			isCi();
 
 		if (!this.disabled && !this.hasCallback) {
 			try {
