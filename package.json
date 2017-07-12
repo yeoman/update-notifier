@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "boxen": "^1.0.0",
-    "chalk": "^1.0.0",
+    "chalk": "^2.0.1",
     "configstore": "^3.0.0",
     "import-lazy": "^2.1.0",
     "is-npm": "^1.0.0",
