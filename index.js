@@ -20,7 +20,7 @@ class UpdateNotifier {
 		options.pkg = options.pkg || {};
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
-		// TODO: Remove deprecated options at some point far into the future
+		// @TODO: Remove deprecated options at some point far into the future
 		options.pkg = {
 			name: options.pkg.name || options.packageName,
 			version: options.pkg.version || options.packageVersion
