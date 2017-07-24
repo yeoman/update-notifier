@@ -5,8 +5,8 @@ let updateNotifier;
 
 test.before(() => {
 	['.', 'configstore', 'xdg-basedir'].forEach(clearModule);
-  // Set configstore.config to something
-  // that requires root access
+	// Set configstore.config to something
+	// that requires root access
 	process.env.XDG_CONFIG_HOME = '/usr';
 	updateNotifier = require('../');
 });
