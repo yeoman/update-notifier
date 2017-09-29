@@ -8,7 +8,7 @@ test.before(() => {
 	// Set configstore.config to something
 	// that requires root access
 	process.env.XDG_CONFIG_HOME = '/usr';
-	updateNotifier = require('../');
+	updateNotifier = require('..');
 });
 
 test('fail gracefully', t => {

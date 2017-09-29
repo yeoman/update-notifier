@@ -7,7 +7,7 @@ import test from 'ava';
 const stderr = new FixtureStdout({
 	stream: process.stderr
 });
-let updateNotifier = require('../');
+let updateNotifier = require('..');
 
 test.before(() => {
 	['.', 'is-npm'].forEach(clearModule);
@@ -15,7 +15,7 @@ test.before(() => {
 		delete process.env[name];
 	});
 	process.stdout.isTTY = true;
-	updateNotifier = require('../');
+	updateNotifier = require('..');
 });
 
 function Control() {
@@ -44,23 +44,21 @@ test.afterEach(() => {
 test('use pretty boxen message by default', t => {
 	const notifier = new Control();
 	notifier.notify({defer: false});
-	t.is(stripAnsi(errorLogs), [
-		'',
-		'',
-		'   ╭───────────────────────────────────────────────────╮',
-		'   │                                                   │',
-		'   │          Update available 0.0.2 → 1.0.0           │',
-		'   │   Run npm i -g update-notifier-tester to update   │',
-		'   │                                                   │',
-		'   ╰───────────────────────────────────────────────────╯',
-		'',
-		''
-	].join('\n'));
+
+	t.is(stripAnsi(errorLogs), `
+
+   ╭───────────────────────────────────────────────────╮
+   │                                                   │
+   │          Update available 0.0.2 → 1.0.0           │
+   │   Run npm i -g update-notifier-tester to update   │
+   │                                                   │
+   ╰───────────────────────────────────────────────────╯
+
+`);
 });
 
 test('exclude -g argument when `isGlobal` option is `false`', t => {
 	const notifier = new Control();
 	notifier.notify({defer: false, isGlobal: false});
-	t.not(-1, stripAnsi(errorLogs)
-    .indexOf('Run npm i update-notifier-tester to update'));
+	t.not(stripAnsi(errorLogs).indexOf('Run npm i update-notifier-tester to update'), -1);
 });
