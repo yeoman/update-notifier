@@ -13,7 +13,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "xo && mocha --timeout 20000"
+    "test": "xo && ava --timeout=20s"
   },
   "files": [
     "index.js",
@@ -43,9 +43,9 @@
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
+    "ava": "*",
     "clear-module": "^2.1.0",
     "fixture-stdout": "^0.2.1",
-    "mocha": "*",
     "strip-ansi": "^3.0.1",
     "xo": "^0.18.2"
   }
