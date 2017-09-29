@@ -1,6 +1,6 @@
 import fs from 'fs';
 import test from 'ava';
-import updateNotifier from '../';
+import updateNotifier from '..';
 
 const generateSettings = options => {
 	options = options || {};
