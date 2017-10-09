@@ -33,7 +33,7 @@
 		"version"
 	],
 	"dependencies": {
-		"boxen": "^1.0.0",
+		"boxen": "^1.2.1",
 		"chalk": "^2.0.1",
 		"configstore": "^3.0.0",
 		"import-lazy": "^2.1.0",
