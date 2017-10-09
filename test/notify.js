@@ -43,7 +43,7 @@ test.afterEach(() => {
 
 test('use pretty boxen message by default', t => {
 	const notifier = new Control();
-	notifier.notify({defer: false});
+	notifier.notify({defer: false, isGlobal: true});
 
 	t.is(stripAnsi(errorLogs), `
 
