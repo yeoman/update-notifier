@@ -23,7 +23,7 @@ $ npm install update-notifier
 ```
 
 
-## Usafe
+## Usage
 
 ### Simple
 
@@ -158,6 +158,8 @@ Options object that will be passed to [`boxen`](https://github.com/sindresorhus/
 Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].json`. The path is available in `notifier.config.path`.
 
 Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value or by using the `--no-update-notifier` flag on a per run basis.
+
+The check is also skipped on CI automatically.
 
 
 ## About
