@@ -158,7 +158,7 @@ Options object that will be passed to [`boxen`](https://github.com/sindresorhus/
 Type: `boolean`<br>
 Default: `false`
 
-Allows notification to be shown when running as an npm script
+Allows notification to be shown when running as an npm script.
 
 ### User settings
 
