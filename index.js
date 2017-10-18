@@ -38,6 +38,7 @@ class UpdateNotifier {
 		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
 			process.argv.indexOf('--no-update-notifier') !== -1;
+		this.skipIsNpmCheck = options.shouldNotifyInNpmScript;
 
 		if (!this.disabled && !this.hasCallback) {
 			try {
@@ -106,7 +107,8 @@ class UpdateNotifier {
 		});
 	}
 	notify(opts) {
-		if (!process.stdout.isTTY || isNpm() || !this.update) {
+		const suppressForNpm = !this.skipIsNpmCheck && isNpm();
+		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
 			return this;
 		}
 
