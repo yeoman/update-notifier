@@ -23,7 +23,7 @@ $ npm install update-notifier
 ```
 
 
-## Usafe
+## Usage
 
 ### Simple
 
