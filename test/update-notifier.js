@@ -1,5 +1,10 @@
 import fs from 'fs';
 import test from 'ava';
+import mockRequire from 'mock-require';
+
+mockRequire('is-ci', false);
+
+// eslint-disable-next-line import/first
 import updateNotifier from '..';
 
 const generateSettings = options => {
