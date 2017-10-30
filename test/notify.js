@@ -9,13 +9,13 @@ const stderr = new FixtureStdout({
 	stream: process.stderr
 });
 
-function Control(skipIsNpmCheck) {
+function Control(shouldNotifyInNpmScript) {
 	this.packageName = 'update-notifier-tester';
 	this.update = {
 		current: '0.0.2',
 		latest: '1.0.0'
 	};
-	this.skipIsNpmCheck = skipIsNpmCheck;
+	this.shouldNotifyInNpmScript = shouldNotifyInNpmScript;
 }
 
 const setupTest = isNpmReturnValue => {
@@ -64,7 +64,7 @@ test('exclude -g argument when `isGlobal` option is `false`', t => {
 	t.not(stripAnsi(errorLogs).indexOf('Run npm i update-notifier-tester to update'), -1);
 });
 
-test('skipIsNpmCheck should default to false', t => {
+test('shouldNotifyInNpmScript should default to false', t => {
 	const notifier = new Control();
 	notifier.notify({defer: false});
 	t.not(stripAnsi(errorLogs).indexOf('Update available'), -1);
@@ -77,7 +77,7 @@ test('suppress output when running as npm script', t => {
 	t.is(stripAnsi(errorLogs).indexOf('Update available'), -1);
 });
 
-test('should ouput if running as npm script and skipIsNpmCheck option set', t => {
+test('should ouput if running as npm script and shouldNotifyInNpmScript option set', t => {
 	setupTest(true);
 	const notifier = new Control(true);
 	notifier.notify({defer: false});
