@@ -113,10 +113,16 @@ class UpdateNotifier {
 		}
 
 		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
-
-		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
+		
+		let defaultMessage = 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
 
+		if (opts.appendMessage) {
+			opts.message = defaultMessage + ' \n' + opts.message;
+		} else {
+			opts.message = opts.message || defaultMessage;	
+		}
+		
 		opts.boxenOpts = opts.boxenOpts || {
 			padding: 1,
 			margin: 1,
