@@ -119,7 +119,7 @@ class UpdateNotifier {
 
 		// make sure the passed in value becomes a true boolean.
 		opts.appendMessage = (opts.appendMessage !== true) ? false : true;
-		if (opts.appendMessage === true) {
+		if (opts.appendMessage === true && typeof opts.message === 'string') {
 			opts.message = defaultMessage + ' \n' + opts.message;
 		} else {
 			opts.message = opts.message || defaultMessage;	
