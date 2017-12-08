@@ -112,6 +112,10 @@ class UpdateNotifier {
 			return this;
 		}
 
+		if (this.options.pkg.version === this.update.latest) {
+			return this;
+		}
+
 		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
