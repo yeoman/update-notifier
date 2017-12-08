@@ -111,8 +111,8 @@ class UpdateNotifier {
 		if (!process.stdout.isTTY || isNpm() || !this.update) {
 			return this;
 		}
-		
-		if(this.options.pkg.version === this.update.latest) {
+
+		if (this.options.pkg.version === this.update.latest) {
 			return this;
 		}
 
