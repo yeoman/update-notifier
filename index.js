@@ -1,5 +1,6 @@
 'use strict';
 const spawn = require('child_process').spawn;
+const fs = require('fs');
 const path = require('path');
 const format = require('util').format;
 const importLazy = require('import-lazy')(require);
@@ -13,6 +14,7 @@ const isInstalledGlobally = importLazy('is-installed-globally');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
+const which = importLazy('which');
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 class UpdateNotifier {
@@ -25,7 +27,8 @@ class UpdateNotifier {
 		// TODO: Remove deprecated options at some point far into the future
 		options.pkg = {
 			name: options.pkg.name || options.packageName,
-			version: options.pkg.version || options.packageVersion
+			version: options.pkg.version || options.packageVersion,
+			bin: options.pkg.bin
 		};
 
 		if (!options.pkg.name || !options.pkg.version) {
@@ -34,6 +37,7 @@ class UpdateNotifier {
 
 		this.packageName = options.pkg.name;
 		this.packageVersion = options.pkg.version;
+		this.packageBin = options.pkg.bin;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
@@ -107,15 +111,42 @@ class UpdateNotifier {
 			};
 		});
 	}
+	isYarn() {
+		const bin = this.packageBin;
+		let cliName = null;
+
+		switch (typeof bin) {
+			case 'string':
+				cliName = this.packageName;
+				break;
+			case 'object':
+				cliName = Object.keys(bin)[0];
+				break;
+			case 'undefined':
+			default:
+				return false;
+		}
+
+		try {
+			const realpath = fs.realpathSync(which().sync(cliName, {nothrow: true}));
+			if (realpath.match(/yarn\/global/)) {
+				return true;
+			}
+			return false;
+		} catch (err) {
+			return false;
+		}
+	}
 	notify(opts) {
 		if (!process.stdout.isTTY || isNpm() || !this.update) {
 			return this;
 		}
 
 		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
+		const installCommand = this.isYarn() ? 'yarn global upgrade ' + this.packageName : 'npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName;
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
+			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
 
 		opts.boxenOpts = opts.boxenOpts || {
 			padding: 1,
