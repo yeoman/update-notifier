@@ -1,6 +1,5 @@
 'use strict';
 const spawn = require('child_process').spawn;
-const fs = require('fs');
 const path = require('path');
 const format = require('util').format;
 const importLazy = require('import-lazy')(require);
@@ -14,7 +13,6 @@ const isInstalledGlobally = importLazy('is-installed-globally');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
-const which = importLazy('which');
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 class UpdateNotifier {
@@ -111,31 +109,13 @@ class UpdateNotifier {
 			};
 		});
 	}
-	isYarn() {
-		const bin = this.packageBin;
-		let cliName = null;
-
-		switch (typeof bin) {
-			case 'string':
-				cliName = this.packageName;
-				break;
-			case 'object':
-				cliName = Object.keys(bin)[0];
-				break;
-			case 'undefined':
-			default:
-				return false;
+	isYarnGlobal() {
+		const isWindows = process.platform === 'win32' || process.env.OSTYPE === 'cygwin' || process.env.OSTYPE === 'msys';
+		const yarnPath = isWindows ? path.join('Yarn', 'config', 'global') : path.join('.config', 'yarn', 'global');
+		if (process.cwd().includes(yarnPath)) {
+			return true;
 		}
-
-		try {
-			const realpath = fs.realpathSync(which().sync(cliName, {nothrow: true}));
-			if (realpath.match(/yarn\/global/)) {
-				return true;
-			}
-			return false;
-		} catch (err) {
-			return false;
-		}
+		return false;
 	}
 	notify(opts) {
 		if (!process.stdout.isTTY || isNpm() || !this.update) {
@@ -143,7 +123,7 @@ class UpdateNotifier {
 		}
 
 		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
-		const installCommand = this.isYarn() ? 'yarn global upgrade ' + this.packageName : 'npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName;
+		const installCommand = this.isYarnGlobal() ? 'yarn global upgrade ' + this.packageName : 'npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName;
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
