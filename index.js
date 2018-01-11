@@ -25,8 +25,7 @@ class UpdateNotifier {
 		// TODO: Remove deprecated options at some point far into the future
 		options.pkg = {
 			name: options.pkg.name || options.packageName,
-			version: options.pkg.version || options.packageVersion,
-			bin: options.pkg.bin
+			version: options.pkg.version || options.packageVersion
 		};
 
 		if (!options.pkg.name || !options.pkg.version) {
@@ -35,7 +34,6 @@ class UpdateNotifier {
 
 		this.packageName = options.pkg.name;
 		this.packageVersion = options.pkg.version;
-		this.packageBin = options.pkg.bin;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
