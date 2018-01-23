@@ -10,6 +10,7 @@ const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');
 const isNpm = importLazy('is-npm');
 const isInstalledGlobally = importLazy('is-installed-globally');
+const isYarnGlobal = importLazy('isYarnGlobal');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
@@ -107,21 +108,13 @@ class UpdateNotifier {
 			};
 		});
 	}
-	isYarnGlobal() {
-		const isWindows = process.platform === 'win32' || process.env.OSTYPE === 'cygwin' || process.env.OSTYPE === 'msys';
-		const yarnPath = isWindows ? path.join('Yarn', 'config', 'global') : path.join('.config', 'yarn', 'global');
-		if (process.cwd().includes(yarnPath)) {
-			return true;
-		}
-		return false;
-	}
 	notify(opts) {
 		if (!process.stdout.isTTY || isNpm() || !this.update) {
 			return this;
 		}
 
-		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
-		const installCommand = this.isYarnGlobal() ? 'yarn global upgrade ' + this.packageName : 'npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName;
+		opts = Object.assign({isGlobal: isInstalledGlobally(), isYarnGlobal: isYarnGlobal()()}, opts);
+		const installCommand = opts.isYarnGlobal ? `yarn global add ${this.packageName}` : `npm i ${opts.isGlobal ? '-g ' : ''}${this.packageName}`;
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
