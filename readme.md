@@ -174,7 +174,7 @@ There are a bunch projects using it:
 - [npm](https://github.com/npm/npm) - Package manager for JavaScript
 - [Yeoman](http://yeoman.io) - Modern workflows for modern webapps
 - [AVA](https://ava.li) - Simple concurrent test runner
-- [XO](https://github.com/sindresorhus/xo) - JavaScript happiness style linter
+- [XO](https://github.com/xojs/xo) - JavaScript happiness style linter
 - [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
 - [Node GH](http://nodegh.io) - GitHub command line tool
 
