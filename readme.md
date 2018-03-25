@@ -183,4 +183,4 @@ There are a bunch projects using it:
 
 ## License
 
-[BSD license](http://opensource.org/licenses/bsd-license.php) and copyright Google
+BSD-2-Clause © Google
