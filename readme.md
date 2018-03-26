@@ -115,7 +115,7 @@ Type: `Function`
 
 Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how). `update` is equal to `notifier.update`.
 
-### notifier.notify([options])
+### notifier.notify(options)
 
 Convenience method to display a notification message. *(See screenshot)*
 
@@ -138,6 +138,13 @@ Type: `string`<br>
 Default: [See above screenshot](https://github.com/yeoman/update-notifier#update-notifier-)
 
 Message that will be shown when an update is available.
+
+##### appendMessage
+
+Type: `boolean`<br>
+Default: `false`
+
+Instead of replacing the default message, append to it with the contents of the message option.
 
 ##### isGlobal
 
