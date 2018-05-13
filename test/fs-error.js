@@ -4,7 +4,7 @@ import test from 'ava';
 let updateNotifier;
 
 test.before(() => {
-	['.', 'configstore', 'xdg-basedir'].forEach(clearModule);
+	['..', 'configstore', 'xdg-basedir'].forEach(clearModule);
 	// Set configstore.config to something
 	// that requires root access
 	process.env.XDG_CONFIG_HOME = '/usr';
