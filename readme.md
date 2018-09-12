@@ -115,6 +115,13 @@ Type: `Function`
 
 Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how). `update` is equal to `notifier.update`.
 
+#### shouldNotifyInNpmScript
+
+Type: `boolean`<br>
+Default: `false`
+
+Allows notification to be shown when running as an npm script.
+
 ### notifier.notify([options])
 
 Convenience method to display a notification message. *(See screenshot)*
@@ -153,12 +160,6 @@ Default: `{padding: 1, margin: 1, align: 'center', borderColor: 'yellow', border
 
 Options object that will be passed to [`boxen`](https://github.com/sindresorhus/boxen).
 
-##### shouldNotifyInNpmScript
-
-Type: `boolean`<br>
-Default: `false`
-
-Allows notification to be shown when running as an npm script.
 
 ### User settings
 
