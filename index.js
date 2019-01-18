@@ -114,10 +114,13 @@ class UpdateNotifier {
 			return this;
 		}
 
+		let npmClient = process.argv.filter(arg => arg.indexOf('--npm-client=') === 0);
+		npmClient = npmClient.length ? npmClient[0].slice(13) : 'npm';
+
 		opts = Object.assign({isGlobal: isInstalledGlobally()}, opts);
 
 		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
+			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(npmClient + ' i ' + (opts.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
 
 		opts.boxenOpts = opts.boxenOpts || {
 			padding: 1,
