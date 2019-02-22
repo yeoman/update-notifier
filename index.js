@@ -20,6 +20,7 @@ class UpdateNotifier {
 		options = options || {};
 		this.options = options;
 		options.pkg = options.pkg || {};
+		options.distTag = options.distTag || 'latest';
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
@@ -36,7 +37,7 @@ class UpdateNotifier {
 		this.packageVersion = options.pkg.version;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.hasCallback = typeof options.callback === 'function';
-		this.callback = options.callback || (() => {});
+		this.callback = options.callback || (() => { });
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
 			process.argv.indexOf('--no-update-notifier') !== -1 ||
 			isCi();
@@ -99,11 +100,12 @@ class UpdateNotifier {
 		}).unref();
 	}
 	checkNpm() {
-		return latestVersion()(this.packageName).then(latestVersion => {
+		const {distTag} = this.options;
+		return latestVersion()(this.packageName, {version: distTag}).then(latestVersion => {
 			return {
 				latest: latestVersion,
 				current: this.packageVersion,
-				type: semverDiff()(this.packageVersion, latestVersion) || 'latest',
+				type: semverDiff()(this.packageVersion, latestVersion) || distTag,
 				name: this.packageName
 			};
 		});
