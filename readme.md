@@ -122,6 +122,13 @@ Default: `false`
 
 Allows notification to be shown when running as an npm script.
 
+#### distTag
+
+Type: `string`<br>
+Default: `latest`
+
+Which [dist-tag](https://docs.npmjs.com/adding-dist-tags-to-packages) to use to find the latest version.
+
 ### notifier.notify([options])
 
 Convenience method to display a notification message. *(See screenshot)*
