@@ -99,7 +99,7 @@ The first time the user runs your app, it will check for an update, and even if 
 
 ### notifier = updateNotifier(options)
 
-Checks if there is an available update. Accepts options defined below. Returns an instance with an `.update` property there is an available update, otherwise `undefined`.
+Checks if there is an available update. Accepts options defined below. Returns an instance with an `.update` property if there is an available update, otherwise `undefined`.
 
 ### options
 
@@ -201,7 +201,7 @@ There are a bunch projects using it:
 - [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
 - [Node GH](http://nodegh.io) - GitHub command line tool
 
-[And 1600+ more…](https://www.npmjs.org/browse/depended/update-notifier)
+[And 2700+ more…](https://www.npmjs.org/browse/depended/update-notifier)
 
 
 ## Security
