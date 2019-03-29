@@ -1,7 +1,7 @@
 'use strict';
-const spawn = require('child_process').spawn;
+const {spawn} = require('child_process');
 const path = require('path');
-const format = require('util').format;
+const {format} = require('util');
 const importLazy = require('import-lazy')(require);
 
 const configstore = importLazy('configstore');
@@ -14,11 +14,11 @@ const isYarnGlobal = importLazy('is-yarn-global');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
+
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 class UpdateNotifier {
-	constructor(options) {
-		options = options || {};
+	constructor(options = {}) {
 		this.options = options;
 		options.pkg = options.pkg || {};
 
@@ -39,8 +39,9 @@ class UpdateNotifier {
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
-			process.argv.indexOf('--no-update-notifier') !== -1 ||
+			process.argv.includes('--no-update-notifier') ||
 			isCi();
+		this.shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
 
 		if (!this.disabled && !this.hasCallback) {
 			try {
@@ -51,25 +52,31 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch (err) {
+			} catch (error) {
 				// Expecting error code EACCES or EPERM
-				const msg =
+				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
 					format('\n Try running with %s or get access ', chalk().cyan('sudo')) +
 					'\n to the local update config store via \n' +
 					chalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));
 
 				process.on('exit', () => {
-					console.error('\n' + boxen()(msg, {align: 'center'}));
+					console.error('\n' + boxen()(message, {align: 'center'}));
 				});
 			}
 		}
 	}
+
 	check() {
 		if (this.hasCallback) {
-			this.checkNpm()
-				.then(update => this.callback(null, update))
-				.catch(err => this.callback(err));
+			(async () => {
+				try {
+					this.callback(null, await this.checkNpm());
+				} catch (error) {
+					this.callback(error);
+				}
+			})();
+
 			return;
 		}
 
@@ -98,28 +105,35 @@ class UpdateNotifier {
 			stdio: 'ignore'
 		}).unref();
 	}
-	checkNpm() {
-		return latestVersion()(this.packageName).then(latestVersion => {
-			return {
-				latest: latestVersion,
-				current: this.packageVersion,
-				type: semverDiff()(this.packageVersion, latestVersion) || 'latest',
-				name: this.packageName
-			};
-		});
+
+	async checkNpm() {
+		const latest = await latestVersion()(this.packageName);
+
+		return {
+			latest,
+			current: this.packageVersion,
+			type: semverDiff()(this.packageVersion, latest) || 'latest',
+			name: this.packageName
+		};
 	}
-	notify(opts) {
-		if (!process.stdout.isTTY || isNpm() || !this.update) {
+
+	notify(options) {
+		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
+		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
 			return this;
 		}
 
-		opts = Object.assign({isGlobal: isInstalledGlobally(), isYarnGlobal: isYarnGlobal()()}, opts);
-		const installCommand = opts.isYarnGlobal ? `yarn global add ${this.packageName}` : `npm i ${opts.isGlobal ? '-g ' : ''}${this.packageName}`;
+		options = {
+			isGlobal: isInstalledGlobally(),
+			isYarnGlobal: isYarnGlobal()(),
+			...options
+		};
+		const installCommand = options.isYarnGlobal ? `yarn global add ${this.packageName}` : `npm i ${options.isGlobal ? '-g ' : ''}${this.packageName}`;
 
-		opts.message = opts.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
+		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
 
-		opts.boxenOpts = opts.boxenOpts || {
+		options.boxenOpts = options.boxenOpts || {
 			padding: 1,
 			margin: 1,
 			align: 'center',
@@ -127,9 +141,9 @@ class UpdateNotifier {
 			borderStyle: 'round'
 		};
 
-		const message = '\n' + boxen()(opts.message, opts.boxenOpts);
+		const message = '\n' + boxen()(options.message, options.boxenOpts);
 
-		if (opts.defer === false) {
+		if (options.defer === false) {
 			console.error(message);
 		} else {
 			process.on('exit', () => {

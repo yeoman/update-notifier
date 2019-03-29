@@ -80,11 +80,26 @@ The update check is done in a unref'ed [child process](https://nodejs.org/api/ch
 The first time the user runs your app, it will check for an update, and even if an update is available, it will wait the specified `updateCheckInterval` before notifying the user. This is done to not be annoying to the user, but might surprise you as an implementer if you're testing whether it works. Check out [`example.js`](example.js) to quickly test out `update-notifier` and see how you can test that it works in your app.
 
 
+---
+
+<div align="center">
+	<b>
+		<a href="https://tidelift.com/subscription/pkg/npm-update_notifier?utm_source=npm-update-notifier&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
+	</b>
+	<br>
+	<sub>
+		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
+	</sub>
+</div>
+
+---
+
+
 ## API
 
 ### notifier = updateNotifier(options)
 
-Checks if there is an available update. Accepts options defined below. Returns an instance with an `.update` property there is an available update, otherwise `undefined`.
+Checks if there is an available update. Accepts options defined below. Returns an instance with an `.update` property if there is an available update, otherwise `undefined`.
 
 ### options
 
@@ -115,6 +130,13 @@ Type: `Function`
 
 Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how). `update` is equal to `notifier.update`.
 
+#### shouldNotifyInNpmScript
+
+Type: `boolean`<br>
+Default: `false`
+
+Allows notification to be shown when running as an npm script.
+
 ### notifier.notify([options])
 
 Convenience method to display a notification message. *(See screenshot)*
@@ -142,7 +164,7 @@ Message that will be shown when an update is available.
 ##### isGlobal
 
 Type: `boolean`<br>
-Default: `true`
+Default: auto-detect
 
 Include the `-g` argument in the default message's `npm i` recommendation. You may want to change this if your CLI package can be installed as a dependency of another project, and don't want to recommend a global installation. This option is ignored if you supply your own `message` (see above).
 
@@ -152,6 +174,7 @@ Type: `Object`<br>
 Default: `{padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}` *(See screenshot)*
 
 Options object that will be passed to [`boxen`](https://github.com/sindresorhus/boxen).
+
 
 ### User settings
 
@@ -174,13 +197,18 @@ There are a bunch projects using it:
 - [npm](https://github.com/npm/npm) - Package manager for JavaScript
 - [Yeoman](http://yeoman.io) - Modern workflows for modern webapps
 - [AVA](https://ava.li) - Simple concurrent test runner
-- [XO](https://github.com/sindresorhus/xo) - JavaScript happiness style linter
+- [XO](https://github.com/xojs/xo) - JavaScript happiness style linter
 - [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
 - [Node GH](http://nodegh.io) - GitHub command line tool
 
-[And 1600+ more…](https://www.npmjs.org/browse/depended/update-notifier)
+[And 2700+ more…](https://www.npmjs.org/browse/depended/update-notifier)
+
+
+## Security
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
 
 
 ## License
 
-[BSD license](http://opensource.org/licenses/bsd-license.php) and copyright Google
+BSD-2-Clause © Google
