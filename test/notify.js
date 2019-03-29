@@ -19,7 +19,7 @@ function Control(shouldNotifyInNpmScript) {
 }
 
 const setupTest = isNpmReturnValue => {
-	['.', 'is-npm'].forEach(clearModule);
+	['..', 'is-npm'].forEach(clearModule);
 	process.stdout.isTTY = true;
 	mock('is-npm', isNpmReturnValue || false);
 	const updateNotifier = require('..');
@@ -74,12 +74,12 @@ test('suppress output when running as npm script', t => {
 	setupTest(true);
 	const notifier = new Control();
 	notifier.notify({defer: false});
-	t.is(stripAnsi(errorLogs).indexOf('Update available'), -1);
+	t.false(stripAnsi(errorLogs).includes('Update available'));
 });
 
 test('should ouput if running as npm script and shouldNotifyInNpmScript option set', t => {
 	setupTest(true);
 	const notifier = new Control(true);
 	notifier.notify({defer: false});
-	t.not(stripAnsi(errorLogs).indexOf('Update available'), -1);
+	t.true(stripAnsi(errorLogs).includes('Update available'));
 });

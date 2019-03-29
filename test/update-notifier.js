@@ -7,14 +7,13 @@ mockRequire('is-ci', false);
 // eslint-disable-next-line import/first
 import updateNotifier from '..';
 
-const generateSettings = options => {
-	options = options || {};
+const generateSettings = (options = {}) => {
 	return {
 		pkg: {
 			name: 'update-notifier-tester',
 			version: '0.0.2'
 		},
-		callback: options.callback || null,
+		callback: options.callback,
 		distTag: options.distTag
 	};
 };
