@@ -20,6 +20,7 @@ class UpdateNotifier {
 	constructor(options = {}) {
 		this.options = options;
 		options.pkg = options.pkg || {};
+		options.distTag = options.distTag || 'latest';
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
@@ -106,12 +107,13 @@ class UpdateNotifier {
 	}
 
 	async checkNpm() {
-		const latest = await latestVersion()(this.packageName);
+		const {distTag} = this.options;
+		const latest = await latestVersion()(this.packageName, {version: distTag});
 
 		return {
 			latest,
 			current: this.packageVersion,
-			type: semverDiff()(this.packageVersion, latest) || 'latest',
+			type: semverDiff()(this.packageVersion, latest) || distTag,
 			name: this.packageName
 		};
 	}
