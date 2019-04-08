@@ -13,7 +13,8 @@ const generateSettings = (options = {}) => {
 			name: 'update-notifier-tester',
 			version: '0.0.2'
 		},
-		callback: options.callback
+		callback: options.callback,
+		distTag: options.distTag
 	};
 };
 
@@ -35,7 +36,12 @@ test.afterEach(() => {
 
 test('check for update', async t => {
 	const update = await updateNotifier(generateSettings()).checkNpm();
-	t.is(update.current, '0.0.2');
+	t.is(update.latest, '0.0.2');
+});
+
+test('check for update with dist-tag', async t => {
+	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).checkNpm();
+	t.is(update.latest, '0.0.3-rc1');
 });
 
 test.cb('check for update with callback', t => {
