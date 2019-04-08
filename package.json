@@ -36,6 +36,7 @@
 		"boxen": "^3.0.0",
 		"chalk": "^2.0.1",
 		"configstore": "^4.0.0",
+		"has-yarn": "^2.1.0",
 		"import-lazy": "^2.1.0",
 		"is-ci": "^2.0.0",
 		"is-installed-globally": "^0.1.0",
