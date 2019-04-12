@@ -21,7 +21,7 @@ function Control(shouldNotifyInNpmScript) {
 const setupTest = isNpmReturnValue => {
 	['..', 'is-npm'].forEach(clearModule);
 	process.stdout.isTTY = true;
-	mock('is-npm', isNpmReturnValue || false);
+	mock('is-npm', {isNpm: isNpmReturnValue || false});
 	const updateNotifier = require('..');
 	util.inherits(Control, updateNotifier.UpdateNotifier);
 };
@@ -70,7 +70,7 @@ test('shouldNotifyInNpmScript should default to false', t => {
 	t.not(stripAnsi(errorLogs).indexOf('Update available'), -1);
 });
 
-test.failing('suppress output when running as npm script', t => {
+test('suppress output when running as npm script', t => {
 	setupTest(true);
 	const notifier = new Control();
 	notifier.notify({defer: false});
