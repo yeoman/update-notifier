@@ -7,6 +7,9 @@ const options = JSON.parse(process.argv[2]);
 updateNotifier = new updateNotifier.UpdateNotifier(options);
 
 (async () => {
+	// Exit process when offline
+	setTimeout(process.exit, 1000 * 30);
+
 	const update = await updateNotifier.checkNpm();
 
 	// Only update the last update check time on success
