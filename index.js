@@ -10,6 +10,8 @@ const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');
 const isNpm = importLazy('is-npm');
 const isInstalledGlobally = importLazy('is-installed-globally');
+const isYarnGlobal = importLazy('is-yarn-global');
+const hasYarn = importLazy('has-yarn');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
@@ -126,11 +128,22 @@ class UpdateNotifier {
 
 		options = {
 			isGlobal: isInstalledGlobally(),
+			isYarnGlobal: isYarnGlobal()(),
 			...options
 		};
 
+		let installCommand;
+
+		if (options.isYarnGlobal) {
+			installCommand = `yarn global add ${this.packageName}`;
+		} else if (hasYarn()()) {
+			installCommand = `yarn add ${this.packageName}`;
+		} else {
+			installCommand = `npm i ${options.isGlobal ? '-g ' : ''}${this.packageName}`;
+		}
+
 		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan('npm i ' + (options.isGlobal ? '-g ' : '') + this.packageName) + ' to update';
+			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
 
 		options.boxenOpts = options.boxenOpts || {
 			padding: 1,
