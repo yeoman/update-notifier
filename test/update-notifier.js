@@ -13,7 +13,6 @@ const generateSettings = (options = {}) => {
 			name: 'update-notifier-tester',
 			version: '0.0.2'
 		},
-		callback: options.callback,
 		distTag: options.distTag
 	};
 };
@@ -42,17 +41,6 @@ test('check for update', async t => {
 test('check for update with dist-tag', async t => {
 	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).checkNpm();
 	t.is(update.latest, '0.0.3-rc1');
-});
-
-test.cb('check for update with callback', t => {
-	t.plan(1);
-
-	updateNotifier(generateSettings({
-		callback: () => {
-			t.pass();
-			t.end();
-		}
-	}));
 });
 
 test('don\'t initialize configStore when NO_UPDATE_NOTIFIER is set', t => {
