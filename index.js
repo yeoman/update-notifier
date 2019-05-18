@@ -121,6 +121,7 @@ class UpdateNotifier {
 	}
 
 	notify(options) {
+		const customMessage = options.message;
 		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
 		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
 			return this;
@@ -142,8 +143,12 @@ class UpdateNotifier {
 			installCommand = `npm i ${options.isGlobal ? '-g ' : ''}${this.packageName}`;
 		}
 
-		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
+		options.message = customMessage || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
+
+		if (customMessage && options.addInstallCommandMessage) {
+			options.message = customMessage + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
+		}
 
 		options.boxenOpts = options.boxenOpts || {
 			padding: 1,

@@ -77,7 +77,7 @@ test('suppress output when running as npm script', t => {
 	t.false(stripAnsi(errorLogs).includes('Update available'));
 });
 
-test('should ouput if running as npm script and shouldNotifyInNpmScript option set', t => {
+test('should output if running as npm script and shouldNotifyInNpmScript option set', t => {
 	setupTest(true);
 	const notifier = new Control(true);
 	notifier.notify({defer: false});
