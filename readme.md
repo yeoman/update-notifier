@@ -124,12 +124,6 @@ Default: `1000 * 60 * 60 * 24` *(1 day)*
 
 How often to check for updates.
 
-#### callback(error, update)
-
-Type: `Function`
-
-Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how). `update` is equal to `notifier.update`.
-
 #### shouldNotifyInNpmScript
 
 Type: `boolean`<br>
@@ -143,6 +137,10 @@ Type: `string`<br>
 Default: `latest`
 
 Which [dist-tag](https://docs.npmjs.com/adding-dist-tags-to-packages) to use to find the latest version.
+
+### notifier.getSemverDiff()
+
+Get semver difference directly. This method will not trigger the checking process.
 
 ### notifier.notify([options])
 
