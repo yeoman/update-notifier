@@ -94,7 +94,7 @@ class UpdateNotifier {
 		}).unref();
 	}
 
-	async checkNpm() {
+	async getSemverDiff() {
 		const {distTag} = this.options;
 		const latest = await latestVersion()(this.packageName, {version: distTag});
 

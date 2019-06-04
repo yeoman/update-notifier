@@ -33,13 +33,13 @@ test.afterEach(() => {
 	}, 10000);
 });
 
-test('check for update', async t => {
-	const update = await updateNotifier(generateSettings()).checkNpm();
+test('get semver diff', async t => {
+	const update = await updateNotifier(generateSettings()).getSemverDiff();
 	t.is(update.latest, '0.0.2');
 });
 
-test('check for update with dist-tag', async t => {
-	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).checkNpm();
+test('get semver diff with dist-tag', async t => {
+	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).getSemverDiff();
 	t.is(update.latest, '0.0.3-rc1');
 });
 
