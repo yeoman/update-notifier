@@ -10,13 +10,13 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 	// Exit process when offline
 	setTimeout(process.exit, 1000 * 30);
 
-	const diff = await updateNotifier.getSemverDiff();
+	const update = await updateNotifier.checkImmediately();
 
 	// Only update the last update check time on success
 	updateNotifier.config.set('lastUpdateCheck', Date.now());
 
-	if (diff.type && diff.type !== 'latest') {
-		updateNotifier.config.set('update', diff);
+	if (update.type && update.type !== 'latest') {
+		updateNotifier.config.set('update', update);
 	}
 
 	// Call process exit explicitly to terminate the child process,

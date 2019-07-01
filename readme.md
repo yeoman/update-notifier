@@ -138,9 +138,16 @@ Default: `latest`
 
 Which [dist-tag](https://docs.npmjs.com/adding-dist-tags-to-packages) to use to find the latest version.
 
-### notifier.getSemverDiff()
+### notifier.checkImmediately()
 
-Get semver difference directly. This method will not trigger the checking process.
+Check update immediately. This method will not trigger the checking process.
+
+Returns an `object` with:
+
+- `latest` _(String)_ - Latest version. 
+- `current` _(String)_ - Current version.
+- `type` _(String)_ - Type of current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
+- `name` _(String)_ - Package name.
 
 ### notifier.notify([options])
 
