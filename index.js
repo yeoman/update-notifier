@@ -126,11 +126,10 @@ class UpdateNotifier {
 			return this;
 		}
 
-		options = {
+		options = Object.assign({
 			isGlobal: isInstalledGlobally(),
-			isYarnGlobal: isYarnGlobal()(),
-			...options
-		};
+			isYarnGlobal: isYarnGlobal()()
+		}, options);
 
 		let installCommand;
 

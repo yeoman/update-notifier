@@ -53,5 +53,10 @@
 		"mock-require": "^3.0.3",
 		"strip-ansi": "^5.2.0",
 		"xo": "^0.24.0"
+	},
+	"xo": {
+		"rules": {
+			"prefer-object-spread": 0
+		}
 	}
 }
