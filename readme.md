@@ -135,7 +135,7 @@ Which [dist-tag](https://docs.npmjs.com/adding-dist-tags-to-packages) to use to 
 
 Convenience method to display a notification message. *(See screenshot)*
 
-Only notifies if there is an update and the process is [TTY](https://nodejs.org/api/process.html#process_tty_terminals_and_process_stdout).
+Only notifies if there is an update and the process is [TTY](https://nodejs.org/api/process.html#process_a_note_on_process_i_o).
 
 #### options
 
