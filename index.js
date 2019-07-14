@@ -135,10 +135,12 @@ class UpdateNotifier {
 
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this.packageName}`;
+		} else if (options.isGlobal) {
+			installCommand = `npm i -g ${this.packageName}`;
 		} else if (hasYarn()()) {
 			installCommand = `yarn add ${this.packageName}`;
 		} else {
-			installCommand = `npm i ${options.isGlobal ? '-g ' : ''}${this.packageName}`;
+			installCommand = `npm i ${this.packageName}`;
 		}
 
 		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
