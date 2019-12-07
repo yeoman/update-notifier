@@ -41,6 +41,7 @@ class UpdateNotifier {
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
+			process.env.NODE_ENV === 'test' ||
 			process.argv.includes('--no-update-notifier') ||
 			isCi();
 		this.shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
