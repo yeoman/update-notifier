@@ -122,7 +122,7 @@ class UpdateNotifier {
 
 	notify(options) {
 		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || this.update.latest === this.packageVersion) {
 			return this;
 		}
 
