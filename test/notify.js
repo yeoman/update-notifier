@@ -83,3 +83,11 @@ test('should ouput if running as npm script and shouldNotifyInNpmScript option s
 	notifier.notify({defer: false});
 	t.true(stripAnsi(errorLogs).includes('Update available'));
 });
+
+test('should not output if current version is the latest', t => {
+	setupTest(true);
+	const notifier = new Control(true);
+	notifier.packageVersion = '1.0.0';
+	notifier.notify({defer: false});
+	t.false(stripAnsi(errorLogs).includes('Update available'));
+});
