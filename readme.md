@@ -158,7 +158,7 @@ Default: Auto-detect
 
 Include the `-g` argument in the default message's `npm i` recommendation. You may want to change this if your CLI package can be installed as a dependency of another project, and don't want to recommend a global installation. This option is ignored if you supply your own `message` (see above).
 
-##### boxenOpts
+##### boxenOptions
 
 Type: `object`\
 Default: `{padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}` *(See screenshot)*
