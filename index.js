@@ -55,7 +55,7 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch (error) {
+			} catch (_) {
 				// Expecting error code EACCES or EPERM
 				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
@@ -122,7 +122,7 @@ class UpdateNotifier {
 	}
 
 	notify(options) {
-		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
+		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
 		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
 			return this;
 		}
