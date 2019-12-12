@@ -94,6 +94,10 @@ class UpdateNotifier {
 		this.update = this.config.get('update');
 
 		if (this.update) {
+			// Use the real latest version instead of the cached one
+			this.update.current = this.packageVersion;
+
+			// Clear cached information
 			this.config.delete('update');
 		}
 
@@ -123,7 +127,7 @@ class UpdateNotifier {
 
 	notify(options) {
 		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || this.update.current === this.update.latest) {
 			return this;
 		}
 
