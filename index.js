@@ -39,6 +39,7 @@ class UpdateNotifier {
 		this.packageVersion = options.pkg.version;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
+			process.env.NODE_ENV === 'test' ||
 			process.argv.includes('--no-update-notifier') ||
 			isCi();
 		this.shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
@@ -52,7 +53,7 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch (error) {
+			} catch (_) {
 				// Expecting error code EACCES or EPERM
 				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
@@ -79,6 +80,10 @@ class UpdateNotifier {
 		this.update = this.config.get('update');
 
 		if (this.update) {
+			// Use the real latest version instead of the cached one
+			this.update.current = this.packageVersion;
+
+			// Clear cached information
 			this.config.delete('update');
 		}
 
@@ -107,31 +112,32 @@ class UpdateNotifier {
 	}
 
 	notify(options) {
-		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update) {
+		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || this.update.current === this.update.latest) {
 			return this;
 		}
 
-		options = {
+		options = Object.assign({
 			isGlobal: isInstalledGlobally(),
-			isYarnGlobal: isYarnGlobal()(),
-			...options
-		};
+			isYarnGlobal: isYarnGlobal()()
+		}, options);
 
 		let installCommand;
 
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this.packageName}`;
+		} else if (options.isGlobal) {
+			installCommand = `npm i -g ${this.packageName}`;
 		} else if (hasYarn()()) {
 			installCommand = `yarn add ${this.packageName}`;
 		} else {
-			installCommand = `npm i ${options.isGlobal ? '-g ' : ''}${this.packageName}`;
+			installCommand = `npm i ${this.packageName}`;
 		}
 
 		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
 			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
 
-		options.boxenOpts = options.boxenOpts || {
+		options.boxenOptions = options.boxenOptions || {
 			padding: 1,
 			margin: 1,
 			align: 'center',
@@ -139,7 +145,7 @@ class UpdateNotifier {
 			borderStyle: 'round'
 		};
 
-		const message = '\n' + boxen()(options.message, options.boxenOpts);
+		const message = '\n' + boxen()(options.message, options.boxenOptions);
 
 		if (options.defer === false) {
 			console.error(message);

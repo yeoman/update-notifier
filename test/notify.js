@@ -21,7 +21,7 @@ function Control(shouldNotifyInNpmScript) {
 const setupTest = isNpmReturnValue => {
 	['..', 'is-npm'].forEach(clearModule);
 	process.stdout.isTTY = true;
-	mock('is-npm', {isNpm: isNpmReturnValue || false});
+	mock('is-npm', {isNpmOrYarn: isNpmReturnValue || false});
 	const updateNotifier = require('..');
 	util.inherits(Control, updateNotifier.UpdateNotifier);
 };
@@ -82,4 +82,12 @@ test('should ouput if running as npm script and shouldNotifyInNpmScript option s
 	const notifier = new Control(true);
 	notifier.notify({defer: false});
 	t.true(stripAnsi(errorLogs).includes('Update available'));
+});
+
+test('should not output if current version is the latest', t => {
+	setupTest(true);
+	const notifier = new Control(true);
+	notifier.update.current = '1.0.0';
+	notifier.notify({defer: false});
+	t.false(stripAnsi(errorLogs).includes('Update available'));
 });
