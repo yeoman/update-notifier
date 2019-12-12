@@ -22,6 +22,9 @@ let argv;
 let configstorePath;
 
 test.beforeEach(() => {
+	// Prevents NODE_ENV 'test' default behavior which disables `update-notifier`
+	process.env.NODE_ENV = 'ava-test';
+
 	argv = process.argv.slice();
 	configstorePath = updateNotifier(generateSettings()).config.path;
 });
@@ -63,6 +66,12 @@ test('don\'t initialize configStore when NO_UPDATE_NOTIFIER is set', t => {
 
 test('don\'t initialize configStore when --no-update-notifier is set', t => {
 	process.argv.push('--no-update-notifier');
+	const notifier = updateNotifier(generateSettings());
+	t.is(notifier.config, undefined);
+});
+
+test('don\'t initialize configStore when NODE_ENV === "test"', t => {
+	process.env.NODE_ENV = 'test';
 	const notifier = updateNotifier(generateSettings());
 	t.is(notifier.config, undefined);
 });
