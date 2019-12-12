@@ -41,6 +41,7 @@ class UpdateNotifier {
 		this.hasCallback = typeof options.callback === 'function';
 		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
+			process.env.NODE_ENV === 'test' ||
 			process.argv.includes('--no-update-notifier') ||
 			isCi();
 		this.shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
@@ -54,7 +55,7 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch (error) {
+			} catch (_) {
 				// Expecting error code EACCES or EPERM
 				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
@@ -125,7 +126,7 @@ class UpdateNotifier {
 	}
 
 	notify(options) {
-		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpm;
+		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
 		if (!process.stdout.isTTY || suppressForNpm || !this.update || this.update.current === this.update.latest) {
 			return this;
 		}
