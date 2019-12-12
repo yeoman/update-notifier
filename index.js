@@ -94,7 +94,7 @@ class UpdateNotifier {
 		}).unref();
 	}
 
-	async checkImmediately() {
+	async fetchInfo() {
 		const {distTag} = this.options;
 		const latest = await latestVersion()(this.packageName, {version: distTag});
 

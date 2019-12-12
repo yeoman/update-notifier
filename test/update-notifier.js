@@ -33,14 +33,14 @@ test.afterEach(() => {
 	}, 10000);
 });
 
-test('check immediately', async t => {
-	const update = await updateNotifier(generateSettings()).checkImmediately();
+test('fetch info', async t => {
+	const update = await updateNotifier(generateSettings()).fetchInfo();
 	console.log(update);
 	t.is(update.latest, '0.0.2');
 });
 
-test('check immeditely with dist-tag', async t => {
-	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).checkImmediately();
+test('fetch info with dist-tag', async t => {
+	const update = await updateNotifier(generateSettings({distTag: '0.0.3-rc1'})).fetchInfo();
 	t.is(update.latest, '0.0.3-rc1');
 });
 
