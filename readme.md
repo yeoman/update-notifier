@@ -107,12 +107,6 @@ Default: `1000 * 60 * 60 * 24` *(1 day)*
 
 How often to check for updates.
 
-#### callback(error, update)
-
-Type: `Function`
-
-Passing a callback here will make it check for an update directly and report right away. Not recommended as you won't get the benefits explained in [`How`](#how). `update` is equal to `notifier.update`.
-
 #### shouldNotifyInNpmScript
 
 Type: `boolean`\
@@ -126,6 +120,17 @@ Type: `string`\
 Default: `'latest'`
 
 Which [dist-tag](https://docs.npmjs.com/adding-dist-tags-to-packages) to use to find the latest version.
+
+### notifier.fetchInfo()
+
+Check update information.
+
+Returns an `object` with:
+
+- `latest` _(String)_ - Latest version.
+- `current` _(String)_ - Current version.
+- `type` _(String)_ - Type of current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
+- `name` _(String)_ - Package name.
 
 ### notifier.notify(options?)
 

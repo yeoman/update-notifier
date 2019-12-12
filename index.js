@@ -38,15 +38,13 @@ class UpdateNotifier {
 		this.packageName = options.pkg.name;
 		this.packageVersion = options.pkg.version;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
-		this.hasCallback = typeof options.callback === 'function';
-		this.callback = options.callback || (() => {});
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
 			process.env.NODE_ENV === 'test' ||
 			process.argv.includes('--no-update-notifier') ||
 			isCi();
 		this.shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
 
-		if (!this.disabled && !this.hasCallback) {
+		if (!this.disabled) {
 			try {
 				const ConfigStore = configstore();
 				this.config = new ConfigStore(`update-notifier-${this.packageName}`, {
@@ -71,18 +69,6 @@ class UpdateNotifier {
 	}
 
 	check() {
-		if (this.hasCallback) {
-			(async () => {
-				try {
-					this.callback(null, await this.checkNpm());
-				} catch (error) {
-					this.callback(error);
-				}
-			})();
-
-			return;
-		}
-
 		if (
 			!this.config ||
 			this.config.get('optOut') ||
@@ -113,7 +99,7 @@ class UpdateNotifier {
 		}).unref();
 	}
 
-	async checkNpm() {
+	async fetchInfo() {
 		const {distTag} = this.options;
 		const latest = await latestVersion()(this.packageName, {version: distTag});
 

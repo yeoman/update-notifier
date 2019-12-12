@@ -10,7 +10,7 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 	// Exit process when offline
 	setTimeout(process.exit, 1000 * 30);
 
-	const update = await updateNotifier.checkNpm();
+	const update = await updateNotifier.fetchInfo();
 
 	// Only update the last update check time on success
 	updateNotifier.config.set('lastUpdateCheck', Date.now());
