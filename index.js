@@ -15,6 +15,7 @@ const hasYarn = importLazy('has-yarn');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
+const pupa = importLazy('pupa');
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -134,8 +135,9 @@ class UpdateNotifier {
 			installCommand = `npm i ${this.packageName}`;
 		}
 
-		options.message = options.message || 'Update available ' + chalk().dim(this.update.current) + chalk().reset(' → ') +
-			chalk().green(this.update.latest) + ' \nRun ' + chalk().cyan(installCommand) + ' to update';
+		const defaultTemplate = 'Update available ' + chalk().dim('{current}') + chalk().reset(' → ') + chalk().green('{latest}') + ' \nRun ' + chalk().cyan('{command}') + ' to update';
+
+		const template = options.message || defaultTemplate;
 
 		options.boxenOptions = options.boxenOptions || {
 			padding: 1,
@@ -145,7 +147,15 @@ class UpdateNotifier {
 			borderStyle: 'round'
 		};
 
-		const message = '\n' + boxen()(options.message, options.boxenOptions);
+		const message = '\n' + boxen()(
+			pupa()(template, {
+				name: this.packageName,
+				current: this.update.current,
+				latest: this.update.latest,
+				command: installCommand
+			}),
+			options.boxenOptions
+		);
 
 		if (options.defer === false) {
 			console.error(message);

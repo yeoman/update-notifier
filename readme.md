@@ -154,7 +154,21 @@ Defer showing the notification to after the process has exited.
 Type: `string`\
 Default: [See above screenshot](https://github.com/yeoman/update-notifier#update-notifier-)
 
-Message that will be shown when an update is available.
+Message that will be shown when an update is available, support [`pupa`](https://github.com/sindresorhus/pupa) template.
+
+Available placeholders:
+
+- `{name}` - Package name.
+- `{current}` - Current version.
+- `{latest}` - Latest version.
+- `{command}` - Install command.
+
+```js
+notifier.notify({message: 'Run `npm install {name}@{latest}` to update.'});
+
+// Run `npm install update-notifier-tester@1.0.0` to update.
+```
+
 
 ##### isGlobal
 

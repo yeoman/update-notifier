@@ -44,6 +44,7 @@
 		"is-npm": "^4.0.0",
 		"is-yarn-global": "^0.3.0",
 		"latest-version": "^5.0.0",
+		"pupa": "^2.0.1",
 		"semver-diff": "^3.1.1",
 		"xdg-basedir": "^4.0.0"
 	},
