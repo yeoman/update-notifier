@@ -4,7 +4,7 @@ const path = require('path');
 const format = require('util').format;
 const importLazy = require('import-lazy')(require);
 
-const configstore = importLazy('configstore');
+const configstore = importLazy('@snyk/configstore');
 const chalk = importLazy('chalk');
 const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');

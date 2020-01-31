@@ -1,19 +1,18 @@
 {
-  "name": "update-notifier",
-  "version": "2.5.0",
+  "name": "@snyk/update-notifier",
+  "version": "2.5.1-rc2",
   "description": "Update notifications for your CLI app",
   "license": "BSD-2-Clause",
-  "repository": "yeoman/update-notifier",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "https://sindresorhus.com"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snyk/update-notifier.git"
   },
+  "author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "scripts": {
-    "test": "xo && ava --timeout=20s"
+    "test": "ava --timeout=20s"
   },
   "files": [
     "index.js",
@@ -35,7 +34,7 @@
   "dependencies": {
     "boxen": "^1.2.1",
     "chalk": "^2.0.1",
-    "configstore": "^3.0.0",
+    "@snyk/configstore": "3.2.0-rc1",
     "import-lazy": "^2.1.0",
     "is-ci": "^1.0.10",
     "is-installed-globally": "^0.1.0",
@@ -45,11 +44,18 @@
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "*",
+    "ava": "0.25.0",
     "clear-module": "^2.1.0",
     "fixture-stdout": "^0.2.1",
     "mock-require": "^2.0.2",
-    "strip-ansi": "^4.0.0",
-    "xo": "^0.18.2"
+    "strip-ansi": "^4.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/snyk/update-notifier/issues"
+  },
+  "homepage": "https://github.com/snyk/update-notifier#readme",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   }
 }
