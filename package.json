@@ -36,6 +36,7 @@
     "boxen": "^1.2.1",
     "chalk": "^2.0.1",
     "configstore": "^3.0.0",
+    "dot-prop": "5.2.0",
     "import-lazy": "^2.1.0",
     "is-ci": "^1.0.10",
     "is-installed-globally": "^0.1.0",
