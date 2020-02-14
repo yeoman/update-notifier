@@ -154,7 +154,7 @@ Defer showing the notification to after the process has exited.
 Type: `string`\
 Default: [See above screenshot](https://github.com/yeoman/update-notifier#update-notifier-)
 
-Message that will be shown when an update is available, placeholders will be replaced.
+Message that will be shown when an update is available.
 
 Available placeholders:
 
