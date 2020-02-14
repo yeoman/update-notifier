@@ -166,9 +166,9 @@ Available placeholders:
 ```js
 notifier.notify({message: 'Run `npm install {name}@{latest}` to update.'});
 
+// Output:
 // Run `npm install update-notifier-tester@1.0.0` to update.
 ```
-
 
 ##### isGlobal
 
