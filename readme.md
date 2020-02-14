@@ -156,6 +156,20 @@ Default: [See above screenshot](https://github.com/yeoman/update-notifier#update
 
 Message that will be shown when an update is available.
 
+Available placeholders:
+
+- `{packageName}` - Package name.
+- `{currentVersion}` - Current version.
+- `{latestVersion}` - Latest version.
+- `{updateCommand}` - Update command.
+
+```js
+notifier.notify({message: 'Run `{updateCommand}` to update.'});
+
+// Output:
+// Run `npm install update-notifier-tester@1.0.0` to update.
+```
+
 ##### isGlobal
 
 Type: `boolean`\

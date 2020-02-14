@@ -58,6 +58,44 @@ test('use pretty boxen message by default', t => {
 `);
 });
 
+test('supports custom message', t => {
+	const notifier = new Control();
+	notifier.notify({
+		defer: false,
+		isGlobal: true,
+		message: 'custom message'
+	});
+
+	t.true(stripAnsi(errorLogs).includes('custom message'));
+});
+
+test('supports message with placeholders', t => {
+	const notifier = new Control();
+	notifier.notify({
+		defer: false,
+		isGlobal: true,
+		message: [
+			'Package Name: {packageName}',
+			'Current Version: {currentVersion}',
+			'Latest Version: {latestVersion}',
+			'Update Command: {updateCommand}'
+		].join('\n')
+	});
+
+	t.is(stripAnsi(errorLogs), `
+
+   ╭─────────────────────────────────────────────────────╮
+   │                                                     │
+   │        Package Name: update-notifier-tester         │
+   │               Current Version: 0.0.2                │
+   │                Latest Version: 1.0.0                │
+   │   Update Command: npm i -g update-notifier-tester   │
+   │                                                     │
+   ╰─────────────────────────────────────────────────────╯
+
+`);
+});
+
 test('exclude -g argument when `isGlobal` option is `false`', t => {
 	const notifier = new Control();
 	notifier.notify({defer: false, isGlobal: false});
@@ -77,7 +115,7 @@ test('suppress output when running as npm script', t => {
 	t.false(stripAnsi(errorLogs).includes('Update available'));
 });
 
-test('should ouput if running as npm script and shouldNotifyInNpmScript option set', t => {
+test('should output if running as npm script and shouldNotifyInNpmScript option set', t => {
 	setupTest(true);
 	const notifier = new Control(true);
 	notifier.notify({defer: false});
