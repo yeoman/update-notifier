@@ -135,7 +135,11 @@ class UpdateNotifier {
 			installCommand = `npm i ${this.packageName}`;
 		}
 
-		const defaultTemplate = 'Update available ' + chalk().dim('{current}') + chalk().reset(' → ') + chalk().green('{latest}') + ' \nRun ' + chalk().cyan('{command}') + ' to update';
+		const defaultTemplate = 'Update available ' +
+			chalk().dim('{currentVersion}') +
+			chalk().reset(' → ') +
+			chalk().green('{latestVersion}') +
+			' \nRun ' + chalk().cyan('{updateCommand}') + ' to update';
 
 		const template = options.message || defaultTemplate;
 
@@ -149,10 +153,10 @@ class UpdateNotifier {
 
 		const message = '\n' + boxen()(
 			pupa()(template, {
-				name: this.packageName,
-				current: this.update.current,
-				latest: this.update.latest,
-				command: installCommand
+				packageName: this.packageName,
+				currentVersion: this.update.current,
+				latestVersion: this.update.latest,
+				updateCommand: installCommand
 			}),
 			options.boxenOptions
 		);

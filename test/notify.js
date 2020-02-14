@@ -75,23 +75,23 @@ test('support message with placeholders', t => {
 		defer: false,
 		isGlobal: true,
 		message: [
-			'Name: {name}',
-			'Current: {current}',
-			'Latest: {latest}',
-			'Command: {command}'
+			'Package Name: {packageName}',
+			'Current Version: {currentVersion}',
+			'Latest Version: {latestVersion}',
+			'Update Command: {updateCommand}'
 		].join('\n')
 	});
 
 	t.is(stripAnsi(errorLogs), `
 
-   ╭──────────────────────────────────────────────╮
-   │                                              │
-   │         Name: update-notifier-tester         │
-   │                Current: 0.0.2                │
-   │                Latest: 1.0.0                 │
-   │   Command: npm i -g update-notifier-tester   │
-   │                                              │
-   ╰──────────────────────────────────────────────╯
+   ╭─────────────────────────────────────────────────────╮
+   │                                                     │
+   │        Package Name: update-notifier-tester         │
+   │               Current Version: 0.0.2                │
+   │                Latest Version: 1.0.0                │
+   │   Update Command: npm i -g update-notifier-tester   │
+   │                                                     │
+   ╰─────────────────────────────────────────────────────╯
 
 `);
 });
