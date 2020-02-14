@@ -69,7 +69,7 @@ test('supports custom message', t => {
 	t.true(stripAnsi(errorLogs).includes('custom message'));
 });
 
-test('support message with placeholders', t => {
+test('supports message with placeholders', t => {
 	const notifier = new Control();
 	notifier.notify({
 		defer: false,
