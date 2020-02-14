@@ -36,7 +36,7 @@
 	"dependencies": {
 		"boxen": "^4.2.0",
 		"chalk": "^3.0.0",
-		"configstore": "^5.0.0",
+		"configstore": "^5.0.1",
 		"has-yarn": "^2.1.0",
 		"import-lazy": "^2.1.0",
 		"is-ci": "^2.0.0",
@@ -54,7 +54,7 @@
 		"fixture-stdout": "^0.2.1",
 		"mock-require": "^3.0.3",
 		"strip-ansi": "^6.0.0",
-		"xo": "^0.25.3"
+		"xo": "^0.26.1"
 	},
 	"xo": {
 		"rules": {
