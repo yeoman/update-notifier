@@ -58,7 +58,7 @@ test('use pretty boxen message by default', t => {
 `);
 });
 
-test('support custom message', t => {
+test('supports custom message', t => {
 	const notifier = new Control();
 	notifier.notify({
 		defer: false,
@@ -66,7 +66,7 @@ test('support custom message', t => {
 		message: 'custom message'
 	});
 
-	t.not(stripAnsi(errorLogs).indexOf('custom message'), -1);
+	t.true(stripAnsi(errorLogs).includes('custom message'));
 });
 
 test('support message with placeholders', t => {

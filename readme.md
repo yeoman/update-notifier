@@ -158,10 +158,10 @@ Message that will be shown when an update is available, support [`pupa`](https:/
 
 Available placeholders:
 
-- `{name}` - Package name.
+- `{packageName}` - Package name.
 - `{current}` - Current version.
 - `{latest}` - Latest version.
-- `{command}` - Install command.
+- `{updateCommand}` - Update command.
 
 ```js
 notifier.notify({message: 'Run `npm install {name}@{latest}` to update.'});
