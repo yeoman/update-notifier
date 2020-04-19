@@ -203,11 +203,11 @@ The idea for this module came from the desire to apply the browser update strate
 There are a bunch projects using it:
 
 - [npm](https://github.com/npm/npm) - Package manager for JavaScript
-- [Yeoman](http://yeoman.io) - Modern workflows for modern webapps
+- [Yeoman](https://yeoman.io) - Modern workflows for modern webapps
 - [AVA](https://ava.li) - Simple concurrent test runner
 - [XO](https://github.com/xojs/xo) - JavaScript happiness style linter
 - [Pageres](https://github.com/sindresorhus/pageres) - Capture website screenshots
-- [Node GH](http://nodegh.io) - GitHub command line tool
+- [Node GH](https://github.com/node-gh/gh) - GitHub command line tool
 
 [And 2700+ more…](https://www.npmjs.org/browse/depended/update-notifier)
 
