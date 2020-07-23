@@ -31,7 +31,7 @@ class UpdateNotifier {
 			name: options.pkg.name || options.packageName,
 			version: options.pkg.version || options.packageVersion,
 			publishConfig: {
-				registry: (options.pkg.publishConfig || '').registry, // customn registry
+				registry: (options.pkg.publishConfig || '').registry // Support customn registry
 			}
 		};
 
@@ -110,6 +110,7 @@ class UpdateNotifier {
 		if (this.packageRegistryUrl) {
 			fetchOptions.registryUrl = this.packageRegistryUrl;
 		}
+
 		const latest = await latestVersion()(this.packageName, fetchOptions);
 
 		return {
