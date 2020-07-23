@@ -29,7 +29,10 @@ class UpdateNotifier {
 		// TODO: Remove deprecated options at some point far into the future
 		options.pkg = {
 			name: options.pkg.name || options.packageName,
-			version: options.pkg.version || options.packageVersion
+			version: options.pkg.version || options.packageVersion,
+			publishConfig: {
+				registry: (options.pkg.publishConfig || '').registry, // customn registry
+			}
 		};
 
 		if (!options.pkg.name || !options.pkg.version) {
@@ -38,6 +41,7 @@ class UpdateNotifier {
 
 		this.packageName = options.pkg.name;
 		this.packageVersion = options.pkg.version;
+		this.packageRegistryUrl = options.pkg.publishConfig.registry;
 		this.updateCheckInterval = typeof options.updateCheckInterval === 'number' ? options.updateCheckInterval : ONE_DAY;
 		this.disabled = 'NO_UPDATE_NOTIFIER' in process.env ||
 			process.env.NODE_ENV === 'test' ||
@@ -102,7 +106,11 @@ class UpdateNotifier {
 
 	async fetchInfo() {
 		const {distTag} = this.options;
-		const latest = await latestVersion()(this.packageName, {version: distTag});
+		const fetchOptions = {version: distTag};
+		if (this.packageRegistryUrl) {
+			fetchOptions.registryUrl = this.packageRegistryUrl;
+		}
+		const latest = await latestVersion()(this.packageName, fetchOptions);
 
 		return {
 			latest,
