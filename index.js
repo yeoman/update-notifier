@@ -143,12 +143,13 @@ class UpdateNotifier {
 
 		const template = options.message || defaultTemplate;
 
-		options.boxenOptions = options.boxenOptions || {
+		options.boxenOptions = {
 			padding: 1,
 			margin: 1,
 			align: 'center',
 			borderColor: 'yellow',
-			borderStyle: 'round'
+			borderStyle: 'round',
+			...(options.boxenOptions || {})
 		};
 
 		const message = '\n' + boxen()(
