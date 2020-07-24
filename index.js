@@ -63,7 +63,7 @@ class UpdateNotifier {
 					chalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));
 
 				process.on('exit', () => {
-					console.error('\n' + boxen()(message, {align: 'center'}));
+					console.error(boxen()(message, {align: 'center'}));
 				});
 			}
 		}
@@ -151,7 +151,7 @@ class UpdateNotifier {
 			borderStyle: 'round'
 		};
 
-		const message = '\n' + boxen()(
+		const message = boxen()(
 			pupa()(template, {
 				packageName: this.packageName,
 				currentVersion: this.update.current,
