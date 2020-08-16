@@ -86,35 +86,35 @@ Checks if there is an available update. Accepts options defined below. Returns a
 
 Type: `object`
 
-#### pkg
+#### options.pkg
 
 Type: `object`
 
-##### name
+##### options.pkg.name
 
 *Required*\
 Type: `string`
 
-##### version
+##### options.pkg.version
 
 *Required*\
 Type: `string`
 
-#### updateCheckInterval
+#### options.updateCheckInterval
 
 Type: `number`\
 Default: `1000 * 60 * 60 * 24` *(1 day)*
 
 How often to check for updates.
 
-#### shouldNotifyInNpmScript
+#### options.shouldNotifyInNpmScript
 
 Type: `boolean`\
 Default: `false`
 
 Allows notification to be shown when running as an npm script.
 
-#### distTag
+#### options.distTag
 
 Type: `string`\
 Default: `'latest'`
@@ -142,14 +142,14 @@ Only notifies if there is an update and the process is [TTY](https://nodejs.org/
 
 Type: `object`
 
-##### defer
+##### options.defer
 
 Type: `boolean`\
 Default: `true`
 
 Defer showing the notification to after the process has exited.
 
-##### message
+##### options.message
 
 Type: `string`\
 Default: [See above screenshot](https://github.com/yeoman/update-notifier#update-notifier-)
@@ -170,19 +170,26 @@ notifier.notify({message: 'Run `{updateCommand}` to update.'});
 // Run `npm install update-notifier-tester@1.0.0` to update.
 ```
 
-##### isGlobal
+##### options.isGlobal
 
 Type: `boolean`\
 Default: Auto-detect
 
 Include the `-g` argument in the default message's `npm i` recommendation. You may want to change this if your CLI package can be installed as a dependency of another project, and don't want to recommend a global installation. This option is ignored if you supply your own `message` (see above).
 
-##### boxenOptions
+##### options.boxenOptions
 
 Type: `object`\
 Default: `{padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}` *(See screenshot)*
 
 Options object that will be passed to [`boxen`](https://github.com/sindresorhus/boxen).
+
+##### options.remoteUrl
+
+Type: `String`\
+Default: `null`
+
+If your package is not published on NPM but instead only resides on a Git repo (e.g. GitHub, Gitlab, Bitbucket).
 
 ### User settings
 
