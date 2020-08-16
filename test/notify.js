@@ -47,7 +47,6 @@ test('use pretty boxen message by default', t => {
 	notifier.notify({defer: false, isGlobal: true});
 
 	t.is(stripAnsi(errorLogs), `
-
    ╭───────────────────────────────────────────────────╮
    │                                                   │
    │          Update available 0.0.2 → 1.0.0           │
@@ -83,7 +82,6 @@ test('supports message with placeholders', t => {
 	});
 
 	t.is(stripAnsi(errorLogs), `
-
    ╭─────────────────────────────────────────────────────╮
    │                                                     │
    │        Package Name: update-notifier-tester         │
