@@ -9,7 +9,6 @@ const chalk = importLazy('chalk');
 const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');
 const isNpm = importLazy('is-npm');
-const isInstalledGlobally = importLazy('is-installed-globally');
 const isYarnGlobal = importLazy('is-yarn-global');
 const hasYarn = importLazy('has-yarn');
 const boxen = importLazy('boxen');
@@ -17,8 +16,14 @@ const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
 const pupa = importLazy('pupa');
 const gitVersionTag = require('git-version-tag');
+const execSync = require('child_process').execSync;
 
+const isNpmGlobal = function () {
+	const globalNpmRepos = execSync('npm root --global').toString().trim();
+	return __dirname.startsWith(globalNpmRepos);
+};
 const ONE_DAY = 1000 * 60 * 60 * 24;
+
 
 class UpdateNotifier {
 	constructor(options = {}) {
@@ -128,7 +133,7 @@ class UpdateNotifier {
 		}
 
 		options = Object.assign({
-			isGlobal: isInstalledGlobally(),
+			isGlobal: isNpmGlobal(),
 			isYarnGlobal: isYarnGlobal()()
 		}, options);
 
