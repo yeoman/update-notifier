@@ -37,7 +37,7 @@
 		"boxen": "^4.2.0",
 		"chalk": "^3.0.0",
 		"configstore": "^5.0.1",
-		"git-version-tag": "^1.0.1",
+		"git-version-tag": "^1.0.2",
 		"has-yarn": "^2.1.0",
 		"import-lazy": "^2.1.0",
 		"is-ci": "^2.0.0",

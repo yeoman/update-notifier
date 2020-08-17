@@ -16,7 +16,7 @@ const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
 const pupa = importLazy('pupa');
-const gitVersionTag = importLazy('git-version-tag');
+const gitVersionTag = require('git-version-tag');
 
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
@@ -26,7 +26,7 @@ class UpdateNotifier {
 		this.options = options;
 		options.pkg = options.pkg || {};
 		options.distTag = options.distTag || 'latest';
-		options.repoUrl = options.repoUrl || null
+		options.remoteUrl = options.remoteUrl || null
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
@@ -106,10 +106,12 @@ class UpdateNotifier {
 	async fetchInfo() {
 		const {distTag} = this.options;
 		let latest;
-		if(this.options.repoUrl) {
+		if(this.options.remoteUrl) {
+			console.log('this.options.remoteUrl',this.options.remoteUrl);
 			// git approach - for packages not published on npm
-			latest = await gitVersionTag(this.options.repoUrl, {getLatest:true})
+			latest = await gitVersionTag(this.options.remoteUrl, {getLatest:true});
 		} else {
+			console.log('latestVersion',this.options.remoteUrl);
 			// npm approach
 			latest = await latestVersion()(this.packageName, {version: distTag});
 		}

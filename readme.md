@@ -17,7 +17,7 @@ Inform users of your package of updates in a non-intrusive way.
 
 ## Install
 
-```
+```bash
 $ npm install update-notifier
 ```
 
