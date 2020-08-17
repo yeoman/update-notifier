@@ -17,5 +17,4 @@ async function test() {
 	// Notify using the built-in convenience method
 	notifier.notify();
 	console.log('test:notifier.update', notifier.update);
-
 }
