@@ -138,11 +138,15 @@ class UpdateNotifier {
 
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this.packageName}`;
+		} else if (options.isGlobal && this.options.remoteUrl) {
+			installCommand = `npm update -g ${this.packageName}`;
 		} else if (options.isGlobal) {
 			installCommand = `npm i -g ${this.packageName}`;
 		} else if (hasYarn()()) {
 			installCommand = `yarn add ${this.packageName}`;
-		} else {
+		} else if(this.options.remoteUrl){
+			installCommand = `npm update ${this.packageName}`;
+		} else{
 			installCommand = `npm i ${this.packageName}`;
 		}
 
