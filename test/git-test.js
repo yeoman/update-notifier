@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const updateNotifier = require('../index.js');
+const updateNotifier = require('..');
 
 test();
 
