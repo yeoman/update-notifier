@@ -127,3 +127,11 @@ test('should not output if current version is the latest', t => {
 	notifier.notify({defer: false});
 	t.false(stripAnsi(errorLogs).includes('Update available'));
 });
+
+test('should not output if current version is more recent than the reported latest', t => {
+	setupTest(true);
+	const notifier = new Control(true);
+	notifier.update.current = '1.0.1';
+	notifier.notify({defer: false});
+	t.false(stripAnsi(errorLogs).includes('Update available'));
+});
