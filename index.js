@@ -6,6 +6,7 @@ const importLazy = require('import-lazy')(require);
 
 const configstore = importLazy('configstore');
 const chalk = importLazy('chalk');
+const semver = importLazy('semver');
 const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');
 const isNpm = importLazy('is-npm');
@@ -114,7 +115,7 @@ class UpdateNotifier {
 
 	notify(options) {
 		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semver.lt(this.update.latest, this.update.current)) {
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semver().lt(this.update.latest, this.update.current)) {
 			return this;
 		}
 
