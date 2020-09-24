@@ -115,7 +115,7 @@ class UpdateNotifier {
 
 	notify(options) {
 		const suppressForNpm = !this.shouldNotifyInNpmScript && isNpm().isNpmOrYarn;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semver().lt(this.update.latest, this.update.current)) {
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semver().gt(this.update.latest, this.update.current)) {
 			return this;
 		}
 
