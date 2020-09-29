@@ -10,21 +10,28 @@ const semver = importLazy('semver');
 const semverDiff = importLazy('semver-diff');
 const latestVersion = importLazy('latest-version');
 const isNpm = importLazy('is-npm');
-const isInstalledGlobally = importLazy('is-installed-globally');
 const isYarnGlobal = importLazy('is-yarn-global');
 const hasYarn = importLazy('has-yarn');
 const boxen = importLazy('boxen');
 const xdgBasedir = importLazy('xdg-basedir');
 const isCi = importLazy('is-ci');
 const pupa = importLazy('pupa');
+const gitVersionTag = require('git-version-tag');
+const execSync = require('child_process').execSync;
 
+const isNpmGlobal = function () {
+	const globalNpmRepos = execSync('npm root --global').toString().trim();
+	return __dirname.startsWith(globalNpmRepos);
+};
 const ONE_DAY = 1000 * 60 * 60 * 24;
+
 
 class UpdateNotifier {
 	constructor(options = {}) {
 		this.options = options;
 		options.pkg = options.pkg || {};
 		options.distTag = options.distTag || 'latest';
+		options.remoteUrl = options.remoteUrl || null;
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
@@ -103,7 +110,14 @@ class UpdateNotifier {
 
 	async fetchInfo() {
 		const {distTag} = this.options;
-		const latest = await latestVersion()(this.packageName, {version: distTag});
+		let latest;
+		if (this.options.remoteUrl) {
+			// Git approach - for packages not published on npm
+			latest = await gitVersionTag(this.options.remoteUrl, {getLatest: true});
+		} else {
+			// Npm approach
+			latest = await latestVersion()(this.packageName, {version: distTag});
+		}
 
 		return {
 			latest,
@@ -120,7 +134,7 @@ class UpdateNotifier {
 		}
 
 		options = Object.assign({
-			isGlobal: isInstalledGlobally(),
+			isGlobal: isNpmGlobal(),
 			isYarnGlobal: isYarnGlobal()()
 		}, options);
 
@@ -128,10 +142,14 @@ class UpdateNotifier {
 
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this.packageName}`;
+		} else if (options.isGlobal && this.options.remoteUrl) {
+			installCommand = `npm update -g ${this.packageName}`;
 		} else if (options.isGlobal) {
 			installCommand = `npm i -g ${this.packageName}`;
 		} else if (hasYarn()()) {
 			installCommand = `yarn add ${this.packageName}`;
+		} else if (this.options.remoteUrl) {
+			installCommand = `npm update ${this.packageName}`;
 		} else {
 			installCommand = `npm i ${this.packageName}`;
 		}
