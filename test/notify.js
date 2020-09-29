@@ -19,7 +19,10 @@ function Control(shouldNotifyInNpmScript) {
 }
 
 const setupTest = isNpmReturnValue => {
-	['..', 'is-npm'].forEach(clearModule);
+	for (const name of ['..', 'is-npm']) {
+		clearModule(name);
+	}
+
 	process.stdout.isTTY = true;
 	mock('is-npm', {isNpmOrYarn: isNpmReturnValue || false});
 	const updateNotifier = require('..');

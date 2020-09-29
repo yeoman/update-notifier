@@ -55,7 +55,7 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch (_) {
+			} catch {
 				// Expecting error code EACCES or EPERM
 				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
@@ -119,13 +119,13 @@ class UpdateNotifier {
 			return this;
 		}
 
-		options = Object.assign({
+		options = {
 			isGlobal: isInstalledGlobally(),
-			isYarnGlobal: isYarnGlobal()()
-		}, options);
+			isYarnGlobal: isYarnGlobal()(),
+			...options
+		};
 
 		let installCommand;
-
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this.packageName}`;
 		} else if (options.isGlobal) {

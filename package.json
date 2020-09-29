@@ -11,10 +11,10 @@
 		"url": "https://sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"scripts": {
-		"test": "xo && ava --timeout=20s -s"
+		"test": "xo && ava --timeout=20s --serial"
 	},
 	"files": [
 		"index.js",
@@ -35,13 +35,13 @@
 	],
 	"dependencies": {
 		"boxen": "^4.2.0",
-		"chalk": "^3.0.0",
+		"chalk": "^4.1.0",
 		"configstore": "^5.0.1",
 		"has-yarn": "^2.1.0",
 		"import-lazy": "^2.1.0",
 		"is-ci": "^2.0.0",
 		"is-installed-globally": "^0.3.1",
-		"is-npm": "^4.0.0",
+		"is-npm": "^5.0.0",
 		"is-yarn-global": "^0.3.0",
 		"latest-version": "^5.0.0",
 		"pupa": "^2.0.1",
@@ -55,11 +55,6 @@
 		"fixture-stdout": "^0.2.1",
 		"mock-require": "^3.0.3",
 		"strip-ansi": "^6.0.0",
-		"xo": "^0.25.0"
-	},
-	"xo": {
-		"rules": {
-			"prefer-object-spread": 0
-		}
+		"xo": "^0.33.1"
 	}
 }
