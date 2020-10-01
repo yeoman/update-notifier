@@ -1,7 +1,7 @@
 'use strict';
-const {spawn} = require('child_process');
+const { spawn } = require('child_process');
 const path = require('path');
-const {format} = require('util');
+const { format } = require('util');
 const importLazy = require('import-lazy')(require);
 
 const configstore = importLazy('configstore');
@@ -55,7 +55,8 @@ class UpdateNotifier {
 					// after the set interval, so not to bother users right away
 					lastUpdateCheck: Date.now()
 				});
-			} catch {
+			} catch (error) {
+				error;
 				// Expecting error code EACCES or EPERM
 				const message =
 					chalk().yellow(format(' %s update check failed ', options.pkg.name)) +
@@ -64,7 +65,7 @@ class UpdateNotifier {
 					chalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));
 
 				process.on('exit', () => {
-					console.error(boxen()(message, {align: 'center'}));
+					console.error(boxen()(message, { align: 'center' }));
 				});
 			}
 		}
@@ -102,8 +103,8 @@ class UpdateNotifier {
 	}
 
 	async fetchInfo() {
-		const {distTag} = this.options;
-		const latest = await latestVersion()(this.packageName, {version: distTag});
+		const { distTag } = this.options;
+		const latest = await latestVersion()(this.packageName, { version: distTag });
 
 		return {
 			latest,
