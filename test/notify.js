@@ -1,4 +1,4 @@
-import util from 'util';
+import {inherits} from 'util';
 import clearModule from 'clear-module';
 import FixtureStdout from 'fixture-stdout';
 import stripAnsi from 'strip-ansi';
@@ -26,7 +26,7 @@ const setupTest = isNpmReturnValue => {
 	process.stdout.isTTY = true;
 	mock('is-npm', {isNpmOrYarn: isNpmReturnValue || false});
 	const updateNotifier = require('..');
-	util.inherits(Control, updateNotifier.UpdateNotifier);
+	inherits(Control, updateNotifier.UpdateNotifier);
 };
 
 let errorLogs = '';
