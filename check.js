@@ -21,6 +21,7 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 
 	// Call process exit explicitly to terminate the child process,
 	// otherwise the child process will run forever, according to the Node.js docs
+	timeout.unref();
 	process.exit();
 })().catch(error => {
 	console.error(error);
