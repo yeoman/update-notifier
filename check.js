@@ -8,7 +8,7 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 
 (async () => {
 	// Exit process when offline
-	setTimeout(process.exit, 1000 * 30);
+	const timer = setTimeout(process.exit, 1000 * 30);
 
 	const update = await updateNotifier.fetchInfo();
 
@@ -21,6 +21,7 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 
 	// Call process exit explicitly to terminate the child process,
 	// otherwise the child process will run forever, according to the Node.js docs
+	timer.unref();
 	process.exit();
 })().catch(error => {
 	console.error(error);
