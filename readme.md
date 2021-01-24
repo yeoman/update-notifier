@@ -1,4 +1,4 @@
-# update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=master)](https://travis-ci.org/yeoman/update-notifier)
+# update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=main)](https://travis-ci.org/yeoman/update-notifier)
 
 > Update notifications for your CLI app
 
@@ -188,7 +188,7 @@ Options object that will be passed to [`boxen`](https://github.com/sindresorhus/
 
 Users of your module have the ability to opt-out of the update notifier by changing the `optOut` property to `true` in `~/.config/configstore/update-notifier-[your-module-name].json`. The path is available in `notifier.config.path`.
 
-Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value or by using the `--no-update-notifier` flag on a per run basis.
+Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/main/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value or by using the `--no-update-notifier` flag on a per run basis.
 
 The check is also skipped automatically:
   - on CI
@@ -204,7 +204,7 @@ There are a bunch projects using it:
 
 - [npm](https://github.com/npm/npm) - Package manager for JavaScript
 - [Yeoman](https://yeoman.io) - Modern workflows for modern webapps
-- [AVA](https://ava.li) - Simple concurrent test runner
+- [AVA](https://avajs.dev) - Simple concurrent test runner
 - [XO](https://github.com/xojs/xo) - JavaScript happiness style linter
 - [Node GH](https://github.com/node-gh/gh) - GitHub command line tool
 
