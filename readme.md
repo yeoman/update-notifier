@@ -1,4 +1,4 @@
-# update-notifier [![Build Status](https://travis-ci.org/yeoman/update-notifier.svg?branch=main)](https://travis-ci.org/yeoman/update-notifier)
+# update-notifier
 
 > Update notifications for your CLI app
 
