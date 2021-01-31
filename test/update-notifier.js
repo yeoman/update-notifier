@@ -4,7 +4,7 @@ import mockRequire from 'mock-require';
 
 mockRequire('is-ci', false);
 
-import updateNotifier from '..';
+import updateNotifier from '../index.js';
 
 const generateSettings = (options = {}) => {
 	return {
