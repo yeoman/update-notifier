@@ -34,7 +34,7 @@
 		"version"
 	],
 	"dependencies": {
-		"boxen": "^5.0.0",
+		"boxen": "^5.1.2",
 		"chalk": "^4.1.0",
 		"configstore": "^5.0.1",
 		"has-yarn": "^2.1.0",
