@@ -17,8 +17,8 @@ Inform users of your package of updates in a non-intrusive way.
 
 ## Install
 
-```
-$ npm install update-notifier
+```sh
+npm install update-notifier
 ```
 
 ## Usage
@@ -26,20 +26,20 @@ $ npm install update-notifier
 ### Simple
 
 ```js
-const updateNotifier = require('update-notifier');
-const pkg = require('./package.json');
+import updateNotifier from 'update-notifier';
+import packageJson from './package.json' assert {type: 'json'};
 
-updateNotifier({pkg}).notify();
+updateNotifier({pkg: packageJson}).notify();
 ```
 
 ### Comprehensive
 
 ```js
-const updateNotifier = require('update-notifier');
-const pkg = require('./package.json');
+import updateNotifier from 'update-notifier';
+import packageJson from './package.json' assert {type: 'json'};
 
 // Checks for available update and returns an instance
-const notifier = updateNotifier({pkg});
+const notifier = updateNotifier({pkg: packageJson});
 
 // Notify using the built-in convenience method
 notifier.notify();
@@ -180,7 +180,7 @@ Include the `-g` argument in the default message's `npm i` recommendation. You m
 ##### boxenOptions
 
 Type: `object`\
-Default: `{padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}` *(See screenshot)*
+Default: `{padding: 1, margin: 1, textAlignment: 'center', borderColor: 'yellow', borderStyle: 'round'}` *(See screenshot)*
 
 Options object that will be passed to [`boxen`](https://github.com/sindresorhus/boxen).
 
