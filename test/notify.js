@@ -57,13 +57,12 @@ test.failing('use pretty boxen message by default', t => {
 	console.log('d', errorLogs);
 
 	t.is(stripAnsi(errorLogs), `
-   ╭───────────────────────────────────────────────────╮
-   │                                                   │
-   │          Update available 0.0.2 → 1.0.0           │
-   │   Run npm i -g update-notifier-tester to update   │
-   │                                                   │
-   ╰───────────────────────────────────────────────────╯
-
+	╭──────────────────────────────────────────────────────────────────╮
+	│                                                                  │
+	│                 Update available 0.0.2 → 1.0.0                   │
+	│   Run npm i --location=global update-notifier-tester to update   │
+	│                                                                  │
+	╰──────────────────────────────────────────────────────────────────╯
 `);
 });
 
@@ -92,15 +91,14 @@ test.failing('supports message with placeholders', t => {
 	});
 
 	t.is(stripAnsi(errorLogs), `
-   ╭─────────────────────────────────────────────────────╮
-   │                                                     │
-   │        Package Name: update-notifier-tester         │
-   │               Current Version: 0.0.2                │
-   │                Latest Version: 1.0.0                │
-   │   Update Command: npm i -g update-notifier-tester   │
-   │                                                     │
-   ╰─────────────────────────────────────────────────────╯
-
+	╭────────────────────────────────────────────────────────────────────╮
+	│                                                                    │
+	│                Package Name: update-notifier-tester                │
+	│                       Current Version: 0.0.2                       │
+	│                       Latest Version: 1.0.0                        │
+	│   Update Command: npm i --location=global update-notifier-tester   │
+	│                                                                    │
+	╰────────────────────────────────────────────────────────────────────╯
 `);
 });
 

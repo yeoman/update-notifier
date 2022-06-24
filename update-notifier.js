@@ -142,7 +142,7 @@ export default class UpdateNotifier {
 		if (options.isYarnGlobal) {
 			installCommand = `yarn global add ${this._packageName}`;
 		} else if (options.isGlobal) {
-			installCommand = `npm i -g ${this._packageName}`;
+			installCommand = `npm i --location=global ${this._packageName}`;
 		} else if (hasYarn()) {
 			installCommand = `yarn add ${this._packageName}`;
 		} else {
