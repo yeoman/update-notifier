@@ -1,20 +1,18 @@
-import fs from 'fs';
+import process from 'node:process';
+import fs from 'node:fs';
 import test from 'ava';
 import mockRequire from 'mock-require';
+import updateNotifier from '../index.js';
 
 mockRequire('is-ci', false);
 
-import updateNotifier from '../index.js';
-
-const generateSettings = (options = {}) => {
-	return {
-		pkg: {
-			name: 'update-notifier-tester',
-			version: '0.0.2'
-		},
-		distTag: options.distTag
-	};
-};
+const generateSettings = (options = {}) => ({
+	pkg: {
+		name: 'update-notifier-tester',
+		version: '0.0.2',
+	},
+	distTag: options.distTag,
+});
 
 let argv;
 let configstorePath;
@@ -23,7 +21,7 @@ test.beforeEach(() => {
 	// Prevents NODE_ENV 'test' default behavior which disables `update-notifier`
 	process.env.NODE_ENV = 'ava-test';
 
-	argv = process.argv.slice();
+	argv = [...process.argv];
 	configstorePath = updateNotifier(generateSettings()).config.path;
 });
 
@@ -32,7 +30,7 @@ test.afterEach(() => {
 	process.argv = argv;
 	setTimeout(() => {
 		fs.unlinkSync(configstorePath);
-	}, 10000);
+	}, 10_000);
 });
 
 test('fetch info', async t => {

@@ -1,12 +1,10 @@
 /* eslint-disable unicorn/no-process-exit */
-'use strict';
-let updateNotifier = require('.');
+import process from 'node:process';
+import UpdateNotifier from './update-notifier.js';
 
-const options = JSON.parse(process.argv[2]);
+const updateNotifier = new UpdateNotifier(JSON.parse(process.argv[2]));
 
-updateNotifier = new updateNotifier.UpdateNotifier(options);
-
-(async () => {
+try {
 	// Exit process when offline
 	setTimeout(process.exit, 1000 * 30);
 
@@ -22,7 +20,7 @@ updateNotifier = new updateNotifier.UpdateNotifier(options);
 	// Call process exit explicitly to terminate the child process,
 	// otherwise the child process will run forever, according to the Node.js docs
 	process.exit();
-})().catch(error => {
+} catch (error) {
 	console.error(error);
 	process.exit(1);
-});
+}

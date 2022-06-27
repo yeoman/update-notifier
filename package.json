@@ -1,6 +1,6 @@
 {
 	"name": "update-notifier",
-	"version": "5.1.0",
+	"version": "6.0.2",
 	"description": "Update notifications for your CLI app",
 	"license": "BSD-2-Clause",
 	"repository": "yeoman/update-notifier",
@@ -10,14 +10,17 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
+	"type": "module",
+	"exports": "./index.js",
 	"engines": {
-		"node": ">=10"
+		"node": ">=14.16"
 	},
 	"scripts": {
-		"test": "xo && ava --timeout=20s --serial"
+		"test": "xo && ava"
 	},
 	"files": [
 		"index.js",
+		"update-notifier.js",
 		"check.js"
 	],
 	"keywords": [
@@ -34,12 +37,12 @@
 		"version"
 	],
 	"dependencies": {
-		"boxen": "^5.0.0",
-		"chalk": "^4.1.0",
-		"configstore": "^5.0.1",
-		"has-yarn": "^2.1.0",
-		"import-lazy": "^2.1.0",
-		"is-ci": "^2.0.0",
+		"boxen": "^7.0.0",
+		"chalk": "^5.0.1",
+		"configstore": "^6.0.0",
+		"has-yarn": "^3.0.0",
+		"import-lazy": "^4.0.0",
+		"is-ci": "^3.0.1",
 		"is-installed-globally": "^0.4.0",
 		"is-npm": "^5.0.0",
 		"is-yarn-global": "^0.3.0",
@@ -50,11 +53,15 @@
 		"xdg-basedir": "^4.0.0"
 	},
 	"devDependencies": {
-		"ava": "^2.4.0",
-		"clear-module": "^4.1.1",
+		"ava": "^4.3.0",
+		"clear-module": "^4.1.2",
 		"fixture-stdout": "^0.2.1",
 		"mock-require": "^3.0.3",
-		"strip-ansi": "^6.0.0",
-		"xo": "^0.37.1"
+		"strip-ansi": "^7.0.1",
+		"xo": "^0.50.0"
+	},
+	"ava": {
+		"timeout": "20s",
+		"serial": true
 	}
 }
