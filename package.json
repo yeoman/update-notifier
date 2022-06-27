@@ -43,7 +43,7 @@
 		"is-installed-globally": "^0.4.0",
 		"is-npm": "^5.0.0",
 		"is-yarn-global": "^0.3.0",
-		"latest-version": "^5.1.0",
+		"latest-version": "^7.0.0",
 		"pupa": "^2.1.1",
 		"semver": "^7.3.4",
 		"semver-diff": "^3.1.1",
