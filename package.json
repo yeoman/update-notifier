@@ -16,7 +16,8 @@
 		"node": ">=14.16"
 	},
 	"scripts": {
-		"test": "xo && ava"
+		"test-old": "xo && NODE_OPTIONS=--loader=esmock ava",
+		"test": "NODE_OPTIONS='--loader=esmock --no-warnings' ava test/notify"
 	},
 	"files": [
 		"index.js",
@@ -54,9 +55,8 @@
 	},
 	"devDependencies": {
 		"ava": "^4.3.0",
-		"clear-module": "^4.1.2",
 		"fixture-stdout": "^0.2.1",
-		"mock-require": "^3.0.3",
+		"esmock": "^1.7.8",
 		"strip-ansi": "^7.0.1",
 		"xo": "^0.50.0"
 	},
