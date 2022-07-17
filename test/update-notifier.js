@@ -33,7 +33,7 @@ test('fetch info', async t => {
 	const updateNotifier = await esmock('../index.js', null, {'is-ci': false});
 	configstorePath = updateNotifier(generateSettings()).config.path;
 	const update = await updateNotifier(generateSettings()).fetchInfo();
-
+	console.log(update);
 	t.is(update.latest, '0.0.2');
 });
 
