@@ -22,7 +22,7 @@ const setupTest = async isNpmReturnValue => {
 	process.stdout.isTTY = true;
 
 	const UpdateNotifier = await esmock('../update-notifier.js', {
-		'is-npm': {isNpmOrYarn: isNpmReturnValue || false}
+		'is-npm': {isNpmOrYarn: isNpmReturnValue || false},
 	});
 
 	inherits(Control, UpdateNotifier);
@@ -44,7 +44,7 @@ test.afterEach(() => {
 	errorLogs = '';
 });
 
-test('use pretty boxen message by default', async t => {
+test('use pretty boxen message by default', t => {
 	const notifier = new Control();
 	notifier.notify({defer: false, isGlobal: true});
 

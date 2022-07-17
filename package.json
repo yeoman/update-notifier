@@ -16,8 +16,7 @@
 		"node": ">=14.16"
 	},
 	"scripts": {
-		"test-old": "xo && NODE_OPTIONS=--loader=esmock ava",
-		"test": "NODE_OPTIONS='--loader=esmock --no-warnings' ava test/notify"
+		"test": "xo && NODE_OPTIONS='--loader=esmock --no-warnings' ava"
 	},
 	"files": [
 		"index.js",
