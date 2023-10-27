@@ -10,8 +10,6 @@ import semverDiff from 'semver-diff';
 import latestVersion from 'latest-version';
 import {isNpmOrYarn} from 'is-npm';
 import isInstalledGlobally from 'is-installed-globally';
-import isYarnGlobal from 'is-yarn-global';
-import hasYarn from 'has-yarn';
 import boxen from 'boxen';
 import {xdgConfig} from 'xdg-basedir';
 import isCi from 'is-ci';
@@ -134,20 +132,10 @@ export default class UpdateNotifier {
 
 		options = {
 			isGlobal: isInstalledGlobally,
-			isYarnGlobal: isYarnGlobal(),
 			...options,
 		};
 
-		let installCommand;
-		if (options.isYarnGlobal) {
-			installCommand = `yarn global add ${this._packageName}`;
-		} else if (options.isGlobal) {
-			installCommand = `npm i -g ${this._packageName}`;
-		} else if (hasYarn()) {
-			installCommand = `yarn add ${this._packageName}`;
-		} else {
-			installCommand = `npm i ${this._packageName}`;
-		}
+		const installCommand = options.isGlobal ? `npm i -g ${this._packageName}` : `npm i ${this._packageName}`;
 
 		const defaultTemplate = 'Update available '
 			+ chalk.dim('{currentVersion}')
