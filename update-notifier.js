@@ -12,7 +12,7 @@ import {isNpmOrYarn} from 'is-npm';
 import isInstalledGlobally from 'is-installed-globally';
 import boxen from 'boxen';
 import {xdgConfig} from 'xdg-basedir';
-import isCi from 'is-ci';
+import isInCi from 'is-in-ci';
 import pupa from 'pupa';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -35,14 +35,14 @@ export default class UpdateNotifier {
 
 	constructor(options = {}) {
 		this.#options = options;
-		options.pkg = options.pkg || {};
-		options.distTag = options.distTag || 'latest';
+		options.pkg = options.pkg ?? {};
+		options.distTag = options.distTag ?? 'latest';
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
 		options.pkg = {
-			name: options.pkg.name || options.packageName,
-			version: options.pkg.version || options.packageVersion,
+			name: options.pkg.name ?? options.packageName,
+			version: options.pkg.version ?? options.packageVersion,
 		};
 
 		if (!options.pkg.name || !options.pkg.version) {
@@ -55,7 +55,7 @@ export default class UpdateNotifier {
 		this.#isDisabled = 'NO_UPDATE_NOTIFIER' in process.env
 			|| process.env.NODE_ENV === 'test'
 			|| process.argv.includes('--no-update-notifier')
-			|| isCi;
+			|| isInCi;
 		this._shouldNotifyInNpmScript = options.shouldNotifyInNpmScript;
 
 		if (!this.#isDisabled) {
@@ -119,7 +119,7 @@ export default class UpdateNotifier {
 		return {
 			latest,
 			current: this.#packageVersion,
-			type: semverDiff(this.#packageVersion, latest) || distTag,
+			type: semverDiff(this.#packageVersion, latest) ?? distTag,
 			name: this._packageName,
 		};
 	}
@@ -145,7 +145,7 @@ export default class UpdateNotifier {
 
 		const template = options.message || defaultTemplate;
 
-		options.boxenOptions = options.boxenOptions || {
+		options.boxenOptions ??= {
 			padding: 1,
 			margin: 1,
 			textAlignment: 'center',

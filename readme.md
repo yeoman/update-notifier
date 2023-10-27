@@ -127,10 +127,10 @@ Check update information.
 
 Returns an `object` with:
 
-- `latest` _(String)_ - Latest version.
-- `current` _(String)_ - Current version.
-- `type` _(String)_ - Type of current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
-- `name` _(String)_ - Package name.
+- `latest` *(string)* - Latest version.
+- `current` *(string)* - Current version.
+- `type` *(string)* - Type of current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
+- `name` *(string)* - Package name.
 
 ### notifier.notify(options?)
 
@@ -191,8 +191,8 @@ Users of your module have the ability to opt-out of the update notifier by chang
 Users can also opt-out by [setting the environment variable](https://github.com/sindresorhus/guides/blob/main/set-environment-variables.md) `NO_UPDATE_NOTIFIER` with any value or by using the `--no-update-notifier` flag on a per run basis.
 
 The check is also skipped automatically:
-  - on CI
-  - in unit tests (when the `NODE_ENV` environment variable is `test`)
+- [in CI](https://github.com/sindresorhus/is-in-ci)
+- in unit tests (when the `NODE_ENV` environment variable is `test`)
 
 ## About
 
@@ -209,15 +209,3 @@ There are a bunch projects using it:
 - [Node GH](https://github.com/node-gh/gh) - GitHub command line tool
 
 [And 2700+ more…](https://www.npmjs.org/browse/depended/update-notifier)
-
----
-
-<div align="center">
-	<b>
-		<a href="https://tidelift.com/subscription/pkg/npm-update_notifier?utm_source=npm-update-notifier&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
-	</b>
-	<br>
-	<sub>
-		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
-	</sub>
-</div>
