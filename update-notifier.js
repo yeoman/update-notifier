@@ -35,8 +35,8 @@ export default class UpdateNotifier {
 
 	constructor(options = {}) {
 		this.#options = options;
-		options.pkg = options.pkg ?? {};
-		options.distTag = options.distTag ?? 'latest';
+		options.pkg ??= {};
+		options.distTag ??= 'latest';
 
 		// Reduce pkg to the essential keys. with fallback to deprecated options
 		// TODO: Remove deprecated options at some point far into the future
