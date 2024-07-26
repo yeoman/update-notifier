@@ -25,10 +25,10 @@ export default class UpdateNotifier {
 	update;
 
 	// Semi-private (used for tests)
-	_packageName;
+	_packageName; // eslint-disable-line lines-between-class-members
 	_shouldNotifyInNpmScript;
 
-	#options;
+	#options; // eslint-disable-line lines-between-class-members
 	#packageVersion;
 	#updateCheckInterval;
 	#isDisabled;

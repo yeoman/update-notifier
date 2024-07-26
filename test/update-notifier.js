@@ -24,8 +24,11 @@ test.beforeEach(() => {
 test.afterEach(() => {
 	delete process.env.NO_UPDATE_NOTIFIER;
 	process.argv = argv;
+
 	setTimeout(() => {
-		fs.unlinkSync(configstorePath);
+		try {
+			fs.unlinkSync(configstorePath);
+		} catch {}
 	}, 10_000);
 });
 
