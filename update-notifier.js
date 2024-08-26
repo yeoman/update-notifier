@@ -5,8 +5,9 @@ import path from 'node:path';
 import {format} from 'node:util';
 import ConfigStore from 'configstore';
 import chalk from 'chalk';
-import semverDiff from 'semver/functions/diff';
-import semverGt from 'semver/functions/gt';
+// Only import what we need for performance
+import semverDiff from 'semver/functions/diff.js';
+import semverGt from 'semver/functions/gt.js';
 import latestVersion from 'latest-version';
 import {isNpmOrYarn} from 'is-npm';
 import isInstalledGlobally from 'is-installed-globally';
