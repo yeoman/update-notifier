@@ -6,7 +6,7 @@ import {format} from 'node:util';
 import ConfigStore from 'configstore';
 import chalk from 'chalk';
 import semverDiff from 'semver/functions/diff';
-import semverGt from 'semver/functions/gt'
+import semverGt from 'semver/functions/gt';
 import latestVersion from 'latest-version';
 import {isNpmOrYarn} from 'is-npm';
 import isInstalledGlobally from 'is-installed-globally';
