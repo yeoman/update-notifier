@@ -47,7 +47,6 @@
 		"latest-version": "^9.0.0",
 		"pupa": "^3.1.0",
 		"semver": "^7.6.3",
-		"semver-diff": "^4.0.0",
 		"xdg-basedir": "^5.1.0"
 	},
 	"devDependencies": {

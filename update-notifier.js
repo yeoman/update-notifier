@@ -5,8 +5,9 @@ import path from 'node:path';
 import {format} from 'node:util';
 import ConfigStore from 'configstore';
 import chalk from 'chalk';
-import semver from 'semver';
-import semverDiff from 'semver-diff';
+// Only import what we need for performance
+import semverDiff from 'semver/functions/diff.js';
+import semverGt from 'semver/functions/gt.js';
 import latestVersion from 'latest-version';
 import {isNpmOrYarn} from 'is-npm';
 import isInstalledGlobally from 'is-installed-globally';
@@ -126,7 +127,7 @@ export default class UpdateNotifier {
 
 	notify(options) {
 		const suppressForNpm = !this._shouldNotifyInNpmScript && isNpmOrYarn;
-		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semver.gt(this.update.latest, this.update.current)) {
+		if (!process.stdout.isTTY || suppressForNpm || !this.update || !semverGt(this.update.latest, this.update.current)) {
 			return this;
 		}
 
