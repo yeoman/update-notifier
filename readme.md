@@ -4,7 +4,7 @@
 
 ![](screenshot.png)
 
-Inform users of your package of updates in a non-intrusive way.
+Inform users of updates for your package in a non-intrusive way.
 
 #### Contents
 
@@ -23,7 +23,7 @@ npm install update-notifier
 
 ## Usage
 
-### Simple
+### Basic
 
 ```js
 import updateNotifier from 'update-notifier';
@@ -32,7 +32,7 @@ import packageJson from './package.json' assert {type: 'json'};
 updateNotifier({pkg: packageJson}).notify();
 ```
 
-### Comprehensive
+### Advanced
 
 ```js
 import updateNotifier from 'update-notifier';
@@ -69,10 +69,10 @@ if (notifier.update) {
 }
 ```
 
-## How
+## How it works
 
 Whenever you initiate the update notifier and it's not within the interval threshold, it will asynchronously check with npm in the background for available updates, then persist the result. The next time the notifier is initiated, the result will be loaded into the `.update` property. This prevents any impact on your package startup performance.
-The update check is done in a unref'ed [child process](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options). This means that if you call `process.exit`, the check will still be performed in its own process.
+The update check is done in an unref'ed [child process](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options). This means that if you call `process.exit`, the check will still be performed in its own process.
 
 The first time the user runs your app, it will check for an update, and even if an update is available, it will wait the specified `updateCheckInterval` before notifying the user. This is done to not be annoying to the user, but might surprise you as an implementer if you're testing whether it works. Check out [`example.js`](example.js) to quickly test out `update-notifier` and see how you can test that it works in your app.
 
@@ -129,7 +129,7 @@ Returns an `object` with:
 
 - `latest` *(string)* - Latest version.
 - `current` *(string)* - Current version.
-- `type` *(string)* - Type of current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
+- `type` *(string)* - Type of the current update. Possible values: `latest`, `major`, `minor`, `patch`, `prerelease`, `build`.
 - `name` *(string)* - Package name.
 
 ### notifier.notify(options?)
@@ -147,7 +147,7 @@ Type: `object`
 Type: `boolean`\
 Default: `true`
 
-Defer showing the notification to after the process has exited.
+Defer showing the notification until after the process has exited.
 
 ##### message
 
@@ -200,7 +200,7 @@ The idea for this module came from the desire to apply the browser update strate
 
 ## Users
 
-There are a bunch projects using it:
+There are a bunch of projects using it:
 
 - [npm](https://github.com/npm/npm) - Package manager for JavaScript
 - [Yeoman](https://yeoman.io) - Modern workflows for modern webapps
@@ -208,4 +208,4 @@ There are a bunch projects using it:
 - [XO](https://github.com/xojs/xo) - JavaScript happiness style linter
 - [Node GH](https://github.com/node-gh/gh) - GitHub command line tool
 
-[And 2700+ more…](https://www.npmjs.org/browse/depended/update-notifier)
+[And 5000+ more…](https://www.npmjs.org/browse/depended/update-notifier)
