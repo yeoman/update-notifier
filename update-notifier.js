@@ -170,11 +170,6 @@ export default class UpdateNotifier {
 			process.on('exit', () => {
 				console.error(message);
 			});
-
-			process.on('SIGINT', () => {
-				console.error('');
-				process.exit();
-			});
 		}
 
 		return this;
