@@ -1,5 +1,7 @@
 import process from 'node:process';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import test from 'ava';
 import esmock from 'esmock';
 
@@ -12,22 +14,34 @@ const generateSettings = (options = {}) => ({
 });
 
 let argv;
+let configHome;
 let configstorePath;
 
 test.beforeEach(() => {
 	// Prevents NODE_ENV 'test' default behavior which disables `update-notifier`
 	process.env.NODE_ENV = 'ava-test';
+	configHome = fs.mkdtempSync(path.join(os.tmpdir(), 'update-notifier-test-'));
+	process.env.XDG_CONFIG_HOME = configHome;
 
 	argv = [...process.argv];
 });
 
 test.afterEach(() => {
 	delete process.env.NO_UPDATE_NOTIFIER;
+	delete process.env.XDG_CONFIG_HOME;
 	process.argv = argv;
 
 	setTimeout(() => {
 		try {
 			fs.unlinkSync(configstorePath);
+		} catch {}
+
+		try {
+			fs.rmdirSync(path.dirname(configstorePath));
+		} catch {}
+
+		try {
+			fs.rmdirSync(configHome);
 		} catch {}
 	}, 10_000);
 });
