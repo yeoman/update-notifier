@@ -5,10 +5,11 @@ import esmock from 'esmock';
 
 const generateSettings = (options = {}) => ({
 	pkg: {
-		name: 'update-notifier-tester',
-		version: '0.0.2',
+		name: options.name ?? 'update-notifier-tester',
+		version: options.version ?? '0.0.2',
 	},
 	distTag: options.distTag,
+	updateCheckInterval: options.updateCheckInterval,
 });
 
 let argv;
@@ -68,4 +69,77 @@ test('don\'t initialize configStore when NODE_ENV === "test"', async t => {
 	const updateNotifier = await esmock('../index.js', undefined, {'is-in-ci': false});
 	const notifier = updateNotifier(generateSettings());
 	t.is(notifier.config, undefined);
+});
+
+test('constructor supports deprecated packageName and packageVersion options', async t => {
+	const {default: UpdateNotifier} = await esmock('../update-notifier.js', {'is-in-ci': false});
+	const notifier = new UpdateNotifier({
+		packageName: 'update-notifier-legacy-tester',
+		packageVersion: '1.2.3',
+	});
+
+	configstorePath = notifier.config.path;
+
+	t.is(notifier._packageName, 'update-notifier-legacy-tester');
+});
+
+test('check uses cached update info and refreshes current version', async t => {
+	const {default: UpdateNotifier} = await esmock('../update-notifier.js', {'is-in-ci': false});
+	const notifier = new UpdateNotifier(generateSettings({
+		name: 'update-notifier-cache-tester',
+		version: '2.0.0',
+	}));
+
+	configstorePath = notifier.config.path;
+	notifier.config.set('update', {
+		latest: '3.0.0',
+		current: '1.0.0',
+		type: 'major',
+		name: 'update-notifier-cache-tester',
+	});
+
+	notifier.check();
+
+	t.deepEqual(notifier.update, {
+		latest: '3.0.0',
+		current: '2.0.0',
+		type: 'major',
+		name: 'update-notifier-cache-tester',
+	});
+	t.is(notifier.config.get('update'), undefined);
+});
+
+test('check spawns detached update process after interval elapses', async t => {
+	let spawnArguments;
+	let unrefCalled = false;
+	const spawn = (...arguments_) => {
+		spawnArguments = arguments_;
+		return {
+			unref() {
+				unrefCalled = true;
+			},
+		};
+	};
+
+	const {default: UpdateNotifier} = await esmock('../update-notifier.js', {
+		'node:child_process': {spawn},
+		'is-in-ci': false,
+	});
+	const notifier = new UpdateNotifier(generateSettings({
+		name: 'update-notifier-spawn-tester',
+		updateCheckInterval: 0,
+	}));
+
+	configstorePath = notifier.config.path;
+	notifier.config.set('lastUpdateCheck', 0);
+
+	notifier.check();
+
+	t.true(spawnArguments[1][0].endsWith('/check.js'));
+	t.is(JSON.parse(spawnArguments[1][1]).pkg.name, 'update-notifier-spawn-tester');
+	t.deepEqual(spawnArguments[2], {
+		detached: true,
+		stdio: 'ignore',
+	});
+	t.true(unrefCalled);
 });
